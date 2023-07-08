@@ -1,13 +1,10 @@
 <script>
 import { ref, onMounted } from 'vue'
 import KakaoMap from '../Kakao_Map_page.vue'
-import WeatherToday from '../weather/Weather_Today_Forecast.vue'
-import WeatherTomorrow from '../weather/Weather_Tomorrow_Forcast.vue'
+
 export default {
   components: {
-    KakaoMap,
-    WeatherToday,
-    WeatherTomorrow
+    KakaoMap
   },
   setup() {
     const RE = 6371.00877 // 지구 반경(km)
@@ -40,8 +37,7 @@ export default {
     const temperature = ref('') //기온
     const windDirection = ref('') // 풍향
     const windPower = ref('') // 풍속
-    const expand = ref(false)
-    const expand2 = ref(false)
+
     function dfs_xy_conv(code, v1, v2) {
       const DEGRAD = Math.PI / 180.0
       const RADDEG = 180.0 / Math.PI
@@ -198,16 +194,14 @@ export default {
       rainfall,
       temperature,
       windDirection,
-      windPower,
-      expand,
-      expand2
+      windPower
     }
   }
 }
 </script>
 
 <template>
-  <v-card class="mx-auto mt-10 mb-10 pa-5" max-width="1000">
+  <v-card class="mx-auto mt-10 mb-10 pa-5" min-width="500">
     <v-container class="now-weather pt-0 pb-10">
       <div class="weather-info">
         <div>
@@ -293,29 +287,6 @@ export default {
         </div>
         <KakaoMap />
       </div>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-btn @click="expand = !expand">
-          {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
-        </v-btn>
-      </v-card-actions>
-
-      <v-expand-transition>
-        <div v-if="!expand">
-          <WeatherToday />
-        </div>
-      </v-expand-transition>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-btn @click="expand2 = !expand2">
-          {{ !expand2 ? '2일간 날씨 보기' : '2일간 날씨 숨기기' }}
-        </v-btn>
-      </v-card-actions>
-      <v-expand-transition>
-        <div v-if="!expand2">
-          <WeatherTomorrow />
-        </div>
-      </v-expand-transition>
     </v-container>
   </v-card>
 </template>
