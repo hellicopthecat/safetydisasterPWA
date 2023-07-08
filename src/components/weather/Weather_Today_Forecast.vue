@@ -15,10 +15,16 @@ export default {
     const MONTH =
       new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
     const DATE = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()
-    const HOUR = new Date().getMinutes() < '29' ? new Date().getHours() - 1 : new Date().getHours()
+    const HOUR =
+      new Date().getHours() < '10'
+        ? '0' + new Date().getHours()
+        : new Date().getHours() || new Date().getMinutes() < '29'
+        ? new Date().getHours() - 1
+        : new Date().getHours()
+
     const MINUTES = new Date().getMinutes() < '29' ? '45' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
-    const DATE_TIME = YEAR + MONTH + DATE
+    const DDAY = YEAR + MONTH + DATE
 
     const fcstTime = reactive([]) //예보시간
     const lightening = reactive([]) //낙뢰
@@ -94,13 +100,15 @@ export default {
       //초단기 예보 조회
       const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
       const URL = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/${FCST}?serviceKey=`
-      const URL_TYPE = `&numOfRows=1000&dataType=json&pageNo=1&base_date=${DATE_TIME}&base_time=${DAYTIME}&nx=${nx.value}&ny=${ny.value}`
-
+      const URL_TYPE = `&numOfRows=1000&dataType=json&pageNo=1&base_date=${DDAY}&base_time=${DAYTIME}&nx=${nx.value}&ny=${ny.value}`
       try {
         const response = await fetch(URL + API_KEY.value + URL_TYPE)
         const data = await response.json()
         const weatherItem = data.response.body
+
         weatherItem.items.item.map((item) => {
+          fcstTime.push(item.fcstTime)
+
           if (item.category === 'LGT') {
             lightening.push(item.fcstValue)
           }
@@ -121,54 +129,46 @@ export default {
           } else if (item.category === 'PTY' && item.fcstValue === '7') {
             precipitation.push('눈날림')
           }
-          if (item.category === 'RN1' && item.fcstValue === '강수없음') {
-            rainfall.push(item.fcstValue)
-          } else if (item.category === 'RN1' && item.fcstValue < 1) {
-            rainfall.push(item.fcstValue)
-          } else if (item.category === 'RN1' && 1 < item.fcstValue < 30) {
-            rainfall.push(item.fcstValue)
-          } else if (item.category === 'RN1' && 30 < item.fcstValue < 50) {
-            rainfall.push(item.fcstValue)
-          } else if (item.category === 'RN1' && 50 < item.fcstValue) {
+          if (item.category === 'RN1') {
             rainfall.push(item.fcstValue)
           }
           if (item.category === 'SKY' && item.fcstValue <= 5) {
             cloudStatus.push('맑음')
-          } else if (item.category === 'SKY' && 6 <= item.fcstValue <= 8) {
+          } else if (item.category === 'SKY' && item.fcstValue >= 6 && item.fcstValue <= 8) {
             cloudStatus.push('구름많음')
-          } else if (item.category === 'SKY' && 9 <= item.fcstValue <= 10) {
+          } else if (item.category === 'SKY' && item.fcstValue >= 9 && item.fcstValue <= 10) {
             cloudStatus.push('흐림')
           }
           if (item.category === 'T1H') {
             temperature.push(item.fcstValue)
-            fcstTime.push(item.fcstTime)
           }
           if (item.category === 'REH') {
             humidity.push(item.fcstValue)
           }
-          if (item.category === 'VEC' && 0 < item.fcstValue < 45) {
+          if (item.category === 'VEC' && item.fcstValue > 0 && item.fcstValue < 45) {
             windDirection.push('북북동')
-          } else if (item.category === 'VEC' && 45 < item.fcstValue < 90) {
+          } else if (item.category === 'VEC' && item.fcstValue > 45 && item.fcstValue < 90) {
             windDirection.push('북동동')
-          } else if (item.category === 'VEC' && 90 < item.fcstValue < 135) {
+          } else if (item.category === 'VEC' && item.fcstValue > 90 && item.fcstValue < 135) {
             windDirection.push('동남동')
-          } else if (item.category === 'VEC' && 135 < item.fcstValue < 180) {
+          } else if (item.category === 'VEC' && item.fcstValue > 135 && item.fcstValue < 180) {
             windDirection.push('남동남')
-          } else if (item.category === 'VEC' && 180 < item.fcstValue < 225) {
+          } else if (item.category === 'VEC' && item.fcstValue > 180 && item.fcstValue < 225) {
             windDirection.push('남남서')
-          } else if (item.category === 'VEC' && 225 < item.fcstValue < 270) {
+          } else if (item.category === 'VEC' && item.fcstValue > 225 && item.fcstValue < 270) {
             windDirection.push('남서서')
-          } else if (item.category === 'VEC' && 270 < item.fcstValue < 315) {
+          } else if (item.category === 'VEC' && item.fcstValue > 270 && item.fcstValue < 315) {
             windDirection.push('서북서')
-          } else if (item.category === 'VEC' && 315 < item.fcstValue < 360) {
+          } else if (item.category === 'VEC' && item.fcstValue > 315 && item.fcstValue < 360) {
             windDirection.push('북서북')
           }
 
+          // 풍속
           if (item.category === 'WSD' && item.fcstValue < 4) {
             windPower.push(`약한 바람(${item.fcstValue}m/s)`)
-          } else if (item.category === 'WSD' && 4 < item.fcstValue < 9) {
+          } else if (item.category === 'WSD' && item.fcstValue > 4 && item.fcstValue < 9) {
             windPower.push(`약한 강한 바람(${item.fcstValue}m/s)`)
-          } else if (item.category === 'WSD' && 9 < item.fcstValue < 14) {
+          } else if (item.category === 'WSD' && item.fcstValue > 9 && item.fcstValue < 14) {
             windPower.push(`강한 바람(${item.fcstValue}m/s)`)
           } else if (item.category === 'WSD' && 14 < item.fcstValue) {
             windPower.push(`매우 강한 바람(${item.fcstValue}m/s)`)
@@ -199,18 +199,208 @@ export default {
       temperature,
       humidity,
       windDirection,
-      windPower
+      windPower,
+      YEAR,
+      MONTH,
+      DATE
     }
   }
 }
 </script>
 
 <template>
-  <div>
-    <h1>날씨 : {{ precipitation }}</h1>
-    <h1>습도 : {{ humidity }}%</h1>
-    <h1>기온 : {{ temperature }}℃</h1>
-    <h1>풍향 : {{ windDirection }} {{ windPower }}</h1>
-    <p v-for="time in fcstTime" :key="time">{{ time }}</p>
-  </div>
+  <v-container class="today-weather d-flex flex-column overflow-auto">
+    <v-container class="">
+      <h2>Today</h2>
+      <h3>{{ `${YEAR}년 ${MONTH}월 ${DATE}일` }}</h3>
+    </v-container>
+    <v-container class="d-flex">
+      <v-card
+        v-for="(time, index) in fcstTime.slice(0, 6)"
+        :key="time"
+        class="mr-0"
+        min-width="400"
+      >
+        <v-list class="" no-gutters>
+          <v-list-item>
+            <v-card-title class="time-text">
+              <h2>{{ time.substring(0, 2) + ':00' }}</h2>
+            </v-card-title>
+
+            <v-card-text>
+              <p class="temp">
+                <v-icon v-if="temperature[index] > 28" color="red" icon> mdi-thermometer </v-icon>
+                <v-icon
+                  v-else-if="temperature[index] < 28 || temperature[index] >= 21"
+                  color="green"
+                  icon
+                >
+                  mdi-thermometer
+                </v-icon>
+                <v-icon v-else-if="temperature[index] > 21" color="blue" icon>
+                  mdi-thermometer
+                </v-icon>
+                {{ temperature[index] }}℃
+              </p>
+            </v-card-text>
+
+            <v-card-text>
+              <p class="weather">
+                <v-icon
+                  v-if="precipitation[index] === '대체로 맑음'"
+                  color="red"
+                  icon="mdi:mdi-weather-sunny"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '비'"
+                  color="blue-lighten-2"
+                  icon="mdi:mdi-weather-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '비/눈'"
+                  color="blue-darken-2"
+                  icon="mdi:mdi-weather-partly-snowy-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '눈'"
+                  color="blue-grey-darken-1"
+                  icon="mdi:mdi-weather-snowy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '소나기'"
+                  color="blue-grey-lighten-1"
+                  icon="mdi:mdi-weather-pouring"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '빗방울'"
+                  color="cyan-lighten-1"
+                  icon="mdi:mdi-weather-partly-rainy"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '빗방울 눈날림'"
+                  color="cyan-accent-3"
+                  icon="mdi:mdi-weather-snowy-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '눈날림'"
+                  color="cyan-darken-1"
+                  icon="mdi:mdi-weather-hail"
+                  class="weather-icon"
+                ></v-icon>
+                {{ precipitation[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="cloud">
+                구름량
+                <v-icon
+                  v-if="cloudStatus[index] === '맑음'"
+                  color="red"
+                  icon="mdi:mdi-weather-sunny"
+                ></v-icon>
+                <v-icon
+                  v-else-if="cloudStatus[index] === '구름많음'"
+                  color="grey-darken-1"
+                  icon="mdi:mdi-weather-cloudy"
+                ></v-icon>
+                <v-icon
+                  v-else-if="cloudStatus[index] === '흐림'"
+                  color="grey-darken-4"
+                  icon="mdi:mdi-cloudStatus[index]"
+                ></v-icon>
+                {{ cloudStatus[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="rain">
+                <v-icon
+                  color="blue-lighten-2"
+                  icon="mdi:mdi-weather-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                {{ rainfall[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="humidity">
+                <v-icon
+                  v-if="humidity[index] > 65"
+                  color="blue"
+                  icon="mdi:mdi-water-alert"
+                ></v-icon>
+                <v-icon
+                  v-else-if="humidity[index] < 65 || humidity[index] > 40"
+                  color="green"
+                  icon="mdi:mdi-water-check"
+                ></v-icon>
+                <v-icon
+                  v-else-if="humidity[index] < 40"
+                  color="red"
+                  icon="mdi:mdi-water-minus"
+                ></v-icon
+                >습도 : {{ humidity[index] }}%
+              </p>
+            </v-card-text>
+
+            <v-card-text>
+              <p class="wind">
+                <v-icon color="orange" icon="mdi:mdi-windsock"></v-icon>
+                {{ windDirection[index] }}
+                <br />
+                <v-icon color="blue-darken-3" icon="mdi:mdi-weather-windy"></v-icon>
+                {{ windPower[index] }}
+              </p>
+            </v-card-text>
+
+            <v-card-text>
+              <p class="thunder">
+                <v-icon color="yellow-darken-2" icon="mdi:mdi-weather-lightning"></v-icon>
+                {{ lightening[index] }} kA(킬로암페어)/㎢
+              </p>
+            </v-card-text>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-container>
+  </v-container>
 </template>
+
+<style lang="scss" scoped>
+.today-weather {
+  * > p {
+    display: flex;
+    align-items: center;
+  }
+  .time-text {
+    font-size: 18px;
+  }
+  .temp {
+    font-size: 35px;
+    font-weight: 600;
+  }
+  .weather {
+    font-size: 25px;
+  }
+  .cloud {
+    font-size: 19px;
+  }
+  .rain {
+    font-size: 19px;
+  }
+  .humidity {
+    font-size: 19px;
+  }
+  .wind {
+    font-size: 19px;
+  }
+  .thunder {
+    font-size: 19px;
+  }
+}
+</style>

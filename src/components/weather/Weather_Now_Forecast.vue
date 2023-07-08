@@ -1,6 +1,14 @@
 <script>
 import { ref, onMounted } from 'vue'
+import KakaoMap from '../Kakao_Map_page.vue'
+import WeatherToday from '../weather/Weather_Today_Forecast.vue'
+import WeatherTomorrow from '../weather/Weather_Tomorrow_Forcast.vue'
 export default {
+  components: {
+    KakaoMap,
+    WeatherToday,
+    WeatherTomorrow
+  },
   setup() {
     const RE = 6371.00877 // 지구 반경(km)
     const GRID = 5.0 // 격자 간격(km)
@@ -15,10 +23,16 @@ export default {
     const MONTH =
       new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
     const DATE = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()
-    const HOUR = new Date().getMinutes() < '29' ? new Date().getHours() - 1 : new Date().getHours()
+    const HOUR =
+      new Date().getHours() < '10'
+        ? '0' + new Date().getHours()
+        : new Date().getHours() || new Date().getMinutes() < '29'
+        ? new Date().getHours() - 1
+        : new Date().getHours()
+
     const MINUTES = new Date().getMinutes() < '29' ? '40' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
-    const DATE_TIME = YEAR + MONTH + DATE
+    const DDAY = YEAR + MONTH + DATE
 
     const precipitation = ref('') //강수형태
     const humidity = ref('') //습도
@@ -26,7 +40,8 @@ export default {
     const temperature = ref('') //기온
     const windDirection = ref('') // 풍향
     const windPower = ref('') // 풍속
-
+    const expand = ref(false)
+    const expand2 = ref(false)
     function dfs_xy_conv(code, v1, v2) {
       const DEGRAD = Math.PI / 180.0
       const RADDEG = 180.0 / Math.PI
@@ -94,7 +109,7 @@ export default {
       //초단기 예보 조회
       const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
       const URL = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/${NCST}?serviceKey=`
-      const URL_TYPE = `&numOfRows=1000&dataType=json&pageNo=1&base_date=${DATE_TIME}&base_time=${DAYTIME}&nx=${nx.value}&ny=${ny.value}`
+      const URL_TYPE = `&numOfRows=1000&dataType=json&pageNo=1&base_date=${DDAY}&base_time=${DAYTIME}&nx=${nx.value}&ny=${ny.value}`
       try {
         const response = await fetch(URL + API_KEY.value + URL_TYPE)
         const data = await response.json()
@@ -117,7 +132,6 @@ export default {
           } else if (item.category === 'PTY' && item.obsrValue === '7') {
             precipitation.value = '눈날림'
           }
-
           if (item.category === 'REH') {
             humidity.value = item.obsrValue
           }
@@ -125,39 +139,38 @@ export default {
             rainfall.value = '강수없음'
           } else if (item.category === 'RN1' && item.obsrValue < 1) {
             rainfall.value = '1.0mm 미만'
-          } else if (item.category === 'RN1' && 1 < item.obsrValue < 30) {
+          } else if (item.category === 'RN1' && item.obsrValue > 1 && item.obsrValue < 30) {
             rainfall.value = '1.0mm ~ 29.9mm'
-          } else if (item.category === 'RN1' && 30 < item.obsrValue < 50) {
+          } else if (item.category === 'RN1' && item.obsrValue > 30 && item.obsrValue < 50) {
             rainfall.value = '30.0mm ~ 50.0mm'
           } else if (item.category === 'RN1' && 50 < item.obsrValue) {
             rainfall.value = '50.0mm 이상'
           }
-
           if (item.category === 'T1H') {
             temperature.value = item.obsrValue
           }
-          if (item.category === 'VEC' && 0 < item.obsrValue < 45) {
+          if (item.category === 'VEC' && item.obsrValue > 0 && item.obsrValue < 45) {
             windDirection.value = '북북동'
-          } else if (item.category === 'VEC' && 45 < item.obsrValue < 90) {
+          } else if (item.category === 'VEC' && item.obsrValue > 45 && item.obsrValue < 90) {
             windDirection.value = '북동동'
-          } else if (item.category === 'VEC' && 90 < item.obsrValue < 135) {
+          } else if (item.category === 'VEC' && item.obsrValue > 90 && item.obsrValue < 135) {
             windDirection.value = '동남동'
-          } else if (item.category === 'VEC' && 135 < item.obsrValue < 180) {
+          } else if (item.category === 'VEC' && item.obsrValue > 135 && item.obsrValue < 180) {
             windDirection.value = '남동남'
-          } else if (item.category === 'VEC' && 180 < item.obsrValue < 225) {
+          } else if (item.category === 'VEC' && item.obsrValue > 180 && item.obsrValue < 225) {
             windDirection.value = '남남서'
-          } else if (item.category === 'VEC' && 225 < item.obsrValue < 270) {
+          } else if (item.category === 'VEC' && item.obsrValue > 225 && item.obsrValue < 270) {
             windDirection.value = '남서서'
-          } else if (item.category === 'VEC' && 270 < item.obsrValue < 315) {
+          } else if (item.category === 'VEC' && item.obsrValue > 270 && item.obsrValue < 315) {
             windDirection.value = '서북서'
-          } else if (item.category === 'VEC' && 315 < item.obsrValue < 360) {
+          } else if (item.category === 'VEC' && item.obsrValue > 315 && item.obsrValue < 360) {
             windDirection.value = '북서북'
           }
           if (item.category === 'WSD' && item.obsrValue < 4) {
             windPower.value = `약한 바람(${item.obsrValue}m/s)`
-          } else if (item.category === 'WSD' && 4 < item.obsrValue < 9) {
+          } else if (item.category === 'WSD' && item.obsrValue > 4 && item.obsrValue < 9) {
             windPower.value = `약한 강한 바람(${item.obsrValue}m/s)`
-          } else if (item.category === 'WSD' && 9 < item.obsrValue < 14) {
+          } else if (item.category === 'WSD' && item.obsrValue > 9 && item.obsrValue < 14) {
             windPower.value = `강한 바람(${item.obsrValue}m/s)`
           } else if (item.category === 'WSD' && 14 < item.obsrValue) {
             windPower.value = `매우 강한 바람(${item.obsrValue}m/s)`
@@ -185,55 +198,173 @@ export default {
       rainfall,
       temperature,
       windDirection,
-      windPower
+      windPower,
+      expand,
+      expand2
     }
   }
 }
 </script>
-<!-- <script>
-import { ref, onMounted } from 'vue'
-
-export default {
-  setup() {
-    const fetchWeather = async (lat, lon) => {
-      //초단기 예보 조회
-      const API_KEY = ref(import.meta.env.VITE_WEATHER_KEY)
-      const URL = `https://api.openweathermap.org/data/2.5/weather?&lat=${lat}&lon=${lon}&lang=kr&appid=`
-      const URL_TYPE = `&units=metric`
-      try {
-        const response = await fetch(URL + API_KEY.value + URL_TYPE)
-        const data = await response.json()
-        console.log(data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    onMounted(() => {
-      function whichWhere(position) {
-        const LAT = position.coords.latitude
-        const LON = position.coords.longitude
-        console.log(LAT)
-        console.log(LON)
-        fetchWeather(LAT, LON)
-      }
-      function failureWhere() {
-        alert('위치 요청을 거부하셨거나 위치를 불러오는데 실패하였습니다.')
-        fetchWeather(37.5518911, 126.9917937)
-      }
-      navigator.geolocation.getCurrentPosition(whichWhere, failureWhere)
-    })
-  }
-}
-</script> -->
 
 <template>
-  <div>
-    <h1>
-      날씨 : {{ precipitation }} <small> 강수량 : {{ rainfall }}</small>
-    </h1>
-    <h1>습도 : {{ humidity }}%</h1>
-    <h1>기온 : {{ temperature }}℃</h1>
-    <h1>풍향 : {{ windDirection }} {{ windPower }}</h1>
-  </div>
+  <v-card class="mx-auto mt-10 mb-10 pa-5" max-width="1000">
+    <v-container class="now-weather pt-0 pb-10">
+      <div class="weather-info">
+        <div>
+          <div class="weather-like_cont">
+            <v-icon
+              v-if="precipitation === '대체로 맑음'"
+              color="red"
+              icon="mdi:mdi-weather-sunny"
+              class="weather-icon"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '비'"
+              color="blue-lighten-2"
+              icon="mdi:mdi-weather-rainy"
+              class="weather-icon"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '비/눈'"
+              color="blue-darken-2"
+              icon="mdi:mdi-weather-partly-snowy-rainy"
+              class="weather-icon"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '눈'"
+              color="blue-grey-darken-1"
+              icon="mdi:mdi-weather-snowy"
+              class="weather-icon"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '소나기'"
+              color="blue-grey-lighten-1"
+              icon="mdi:mdi-weather-pouring"
+              class="weather-icon"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '빗방울'"
+              color="cyan-lighten-1"
+              icon="mdi:mdi-weather-partly-rainy"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '빗방울 눈날림'"
+              color="cyan-accent-3"
+              icon="mdi:mdi-weather-snowy-rainy"
+              class="weather-icon"
+            ></v-icon>
+            <v-icon
+              v-else-if="precipitation === '눈날림'"
+              color="cyan-darken-1"
+              icon="mdi:mdi-weather-hail"
+              class="weather-icon"
+            ></v-icon>
+            <p>
+              {{ precipitation }}<br />
+              <small> 강수량 : {{ rainfall }}</small>
+            </p>
+          </div>
+
+          <div class="temp_cont">
+            <v-icon v-if="temperature > 28" color="red" icon> mdi-thermometer </v-icon>
+            <v-icon v-else-if="temperature < 28 || temperature >= 21" color="green" icon>
+              mdi-thermometer
+            </v-icon>
+            <v-icon v-else-if="temperature > 21" color="blue" icon> mdi-thermometer </v-icon>
+            <p class="temp my-0">{{ temperature }}℃</p>
+          </div>
+
+          <div class="humidity_cont">
+            <v-icon v-if="humidity > 65" color="blue" icon="mdi:mdi-water-alert"></v-icon>
+            <v-icon
+              v-else-if="humidity < 65 || humidity > 40"
+              color="green"
+              icon="mdi:mdi-water-check"
+            ></v-icon>
+            <v-icon v-else-if="humidity < 40" color="red" icon="mdi:mdi-water-minus"></v-icon>
+            <p class="my-0">습도 : {{ humidity }}%</p>
+          </div>
+          <div class="wind_cont">
+            <p>
+              <v-icon icon="mdi:mdi-windsock"></v-icon> : {{ windDirection }}
+              <v-icon icon="mdi:mdi-weather-windy"></v-icon> : {{ windPower }}
+            </p>
+          </div>
+        </div>
+        <KakaoMap />
+      </div>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn @click="expand = !expand">
+          {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
+        </v-btn>
+      </v-card-actions>
+
+      <v-expand-transition>
+        <div v-if="!expand">
+          <WeatherToday />
+        </div>
+      </v-expand-transition>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn @click="expand2 = !expand2">
+          {{ !expand2 ? '2일간 날씨 보기' : '2일간 날씨 숨기기' }}
+        </v-btn>
+      </v-card-actions>
+      <v-expand-transition>
+        <div v-if="!expand2">
+          <WeatherTomorrow />
+        </div>
+      </v-expand-transition>
+    </v-container>
+  </v-card>
 </template>
+<style lang="scss" scoped>
+.now-weather {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .weather-info {
+    display: flex;
+    justify-content: center;
+    .weather-like_cont {
+      display: flex;
+      align-items: center;
+      .weather-icon {
+        font-size: 50px;
+      }
+      p {
+        margin-left: 10px;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: right;
+        small {
+          font-size: 13px;
+        }
+      }
+    }
+    .temp_cont {
+      display: flex;
+      align-items: center;
+      font-size: 25px;
+      .temp {
+        font-size: 50px;
+        font-weight: 500;
+        margin-left: 10px;
+      }
+    }
+    .humidity_cont {
+      display: flex;
+      align-items: center;
+      p {
+        margin-left: 10px;
+      }
+    }
+    .wind_cont {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+    }
+  }
+}
+</style>
