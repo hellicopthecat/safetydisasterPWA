@@ -10,7 +10,6 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01002&serviceKey=`
     const headTitle = ref('홍수 예보시 국민행동요령')
-    const pageTitle = ref('')
     const beforeFlood = reactive([])
     const whenWorryFlood = reactive([])
     const afterFlood = reactive([])
@@ -30,9 +29,6 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -93,7 +89,6 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
       beforeFlood,
       whenWorryFlood,
       afterFlood,
@@ -105,77 +100,53 @@ export default {
 </script>
 
 <template>
-  <section class="flood">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>
-            {{ beforeFlood[0] }}
-          </h3>
-          <ul>
-            <li v-for="whenBefore in beforeFlood[1]" :key="whenBefore">
-              {{ whenBefore.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whenWorryFlood[0] }}</h3>
-          <ul>
-            <li v-for="whenWorry in whenWorryFlood[1]" :key="whenWorry">
-              {{ whenWorry.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ afterFlood[0] }}</h3>
-          <ul>
-            <li v-for="whenAfter in afterFlood[1]" :key="whenAfter">
-              {{ whenAfter.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whenDrawn[0] }}</h3>
-          <ul>
-            <li v-for="drawn in whenDrawn[1]" :key="drawn">
-              {{ drawn.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </section>
-  <section>
-    <ul>
-      <li v-for="img in imgUrl" :key="img">
-        <img :src="img" />
-      </li>
-    </ul>
-  </section>
-</template>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-container class="d-flex justify-center">
+      <v-container v-for="img in imgUrl" :key="img">
+        <v-img :src="img" alt="홍수 예보시 행동요령" max-width="400" />
+      </v-container>
+    </v-container>
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>
+          {{ beforeFlood[0] }}
+        </h3>
+      </v-card-title>
 
-<style lang="scss">
-.typoon {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  div {
-    h3 {
-      font-size: 30px;
-    }
-  }
-}
-</style>
+      <v-card-text v-for="whenBefore in beforeFlood[1]" :key="whenBefore">
+        {{ whenBefore.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whenWorryFlood[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenWorry in whenWorryFlood[1]" :key="whenWorry">
+        {{ whenWorry.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ afterFlood[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenAfter in afterFlood[1]" :key="whenAfter">
+        {{ whenAfter.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whenDrawn[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="drawn in whenDrawn[1]" :key="drawn">
+        {{ drawn.textContent }}
+      </v-card-text>
+    </v-card>
+  </v-container>
+</template>

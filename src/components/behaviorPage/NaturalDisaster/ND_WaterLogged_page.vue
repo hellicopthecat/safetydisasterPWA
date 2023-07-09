@@ -10,7 +10,6 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01016&serviceKey=`
     const headTitle = ref('침수 시 국민행동요령')
-    const pageTitle = ref('')
     const forCastWaterLogged = reactive([])
     const cityWaterLogged = reactive([])
     const shoreLineWaterLogged = reactive([])
@@ -30,9 +29,6 @@ export default {
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
 
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -96,7 +92,7 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
+
       forCastWaterLogged,
       cityWaterLogged,
       shoreLineWaterLogged,
@@ -108,42 +104,63 @@ export default {
 </script>
 
 <template>
-  <section class="tidalwave">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ forCastWaterLogged[0] }}</h3>
-          <p v-for="forCast in forCastWaterLogged[1]" :key="forCast">
-            {{ forCast.textContent }}
-          </p>
-        </li>
-        <li>
-          <h3>{{ cityWaterLogged[0] }}</h3>
-          <p v-for="city in cityWaterLogged[1]" :key="city">{{ city.textContent }}</p>
-        </li>
-        <li>
-          <h3>{{ shoreLineWaterLogged[0] }}</h3>
-          <p v-for="shoreLineHappen in shoreLineWaterLogged[1]" :key="shoreLineHappen">
-            {{ shoreLineHappen.textContent }}
-          </p>
-        </li>
-        <li>
-          <h3>{{ farmWaterLogged[0] }}</h3>
-          <p v-for="farmHappen in farmWaterLogged[1]" :key="farmHappen">
-            {{ farmHappen.textContent }}
-          </p>
-        </li>
-        <li>
-          <h3>{{ mountainWaterLogged[0] }}</h3>
-          <p v-for="mountainHappen in mountainWaterLogged[1]" :key="mountainHappen">
-            {{ mountainHappen.textContent }}
-          </p>
-        </li>
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ forCastWaterLogged[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="forCast in forCastWaterLogged[1]" :key="forCast">
+        <p>
+          {{ forCast.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ cityWaterLogged[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="city in cityWaterLogged[1]" :key="city">
+        <p>
+          {{ city.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ shoreLineWaterLogged[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="shoreLineHappen in shoreLineWaterLogged[1]" :key="shoreLineHappen">
+        <p>
+          {{ shoreLineHappen.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ farmWaterLogged[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="farmHappen in farmWaterLogged[1]" :key="farmHappen">
+        <p>
+          {{ farmHappen.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ mountainWaterLogged[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="mountainHappen in mountainWaterLogged[1]" :key="mountainHappen">
+        <p>
+          {{ mountainHappen.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <style lang="scss"></style>

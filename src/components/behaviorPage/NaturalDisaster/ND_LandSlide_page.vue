@@ -10,7 +10,6 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01014&serviceKey=`
     const headTitle = ref('산사태 시 국민행동요령')
-    const pageTitle = ref('')
     const watchVulnerable = reactive([])
     const warnVulnerable = reactive([])
     const watchNormal = reactive([])
@@ -28,9 +27,6 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -83,7 +79,6 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
       watchVulnerable,
       warnVulnerable,
       watchNormal,
@@ -94,36 +89,50 @@ export default {
 </script>
 
 <template>
-  <section class="tidalwave">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ watchVulnerable[0] }}</h3>
-          <p v-for="watchArea in watchVulnerable[1]" :key="watchArea">
-            {{ watchArea.textContent }}
-          </p>
-        </li>
-        <li>
-          <h3>{{ warnVulnerable[0] }}</h3>
-          <p v-for="warnArea in warnVulnerable[1]" :key="warnArea">{{ warnArea.textContent }}</p>
-        </li>
-        <li>
-          <h3>{{ watchNormal[0] }}</h3>
-          <p v-for="watchNormalArea in watchNormal[1]" :key="watchNormalArea">
-            {{ watchNormalArea.textContent }}
-          </p>
-        </li>
-        <li>
-          <h3>{{ warnNormal[0] }}</h3>
-          <p v-for="warnNormalArea in warnNormal[1]" :key="warnNormalArea">
-            {{ warnNormalArea.textContent }}
-          </p>
-        </li>
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ watchVulnerable[0] }}</h3>
+      </v-card-title>
+      <v-card-text>
+        <p v-for="watchArea in watchVulnerable[1]" :key="watchArea">
+          {{ watchArea.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ warnVulnerable[0] }}</h3>
+      </v-card-title>
+      <v-card-text>
+        <p v-for="warnArea in warnVulnerable[1]" :key="warnArea">{{ warnArea.textContent }}</p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ watchNormal[0] }}</h3>
+      </v-card-title>
+      <v-card-text>
+        <p v-for="watchNormalArea in watchNormal[1]" :key="watchNormalArea">
+          {{ watchNormalArea.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ warnNormal[0] }}</h3>
+      </v-card-title>
+      <v-card-text>
+        <p v-for="warnNormalArea in warnNormal[1]" :key="warnNormalArea">
+          {{ warnNormalArea.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <style lang="scss"></style>

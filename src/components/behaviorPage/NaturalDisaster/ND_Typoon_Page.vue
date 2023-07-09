@@ -10,12 +10,10 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01001&serviceKey=`
     const headTitle = ref('태풍 예보시 국민행동요령')
-    const pageTitle = ref('')
+
     const beforeTypoon = reactive([])
     const whileTypoon = reactive([])
     const afterTypoon = reactive([])
-    const actionTwenty = reactive([])
-    const actionFourty = reactive([])
 
     onMounted(() => {
       fetchData()
@@ -32,9 +30,6 @@ export default {
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
 
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -68,108 +63,61 @@ export default {
         beforeTypoon.push(oneSubTitle[0], beforeAction)
         whileTypoon.push(oneSubTitle[1], whileAction)
         afterTypoon.push(oneSubTitle[2], afterAction)
-        // 행동요령 비디오
-        const videoTitle = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).nodeName === 'contentsUrl')
-                return element.children.item(0).textContent
-            })
-            .filter((item) => item !== undefined)
-        )
-
-        const videoUrl = xmlDoc.querySelectorAll('contentsUrl')
-        const typoonVideoUrl = reactive(Array.from(videoUrl).map((element) => element.textContent))
-        actionTwenty.push(videoTitle[0], typoonVideoUrl[0])
-        actionFourty.push(videoTitle[1], typoonVideoUrl[1])
       } catch (error) {
         console.error(error)
       }
     }
     return {
       headTitle,
-      pageTitle,
       beforeTypoon,
       whileTypoon,
-      afterTypoon,
-      actionTwenty,
-      actionFourty
+      afterTypoon
     }
   }
 }
 </script>
 
 <template>
-  <section class="typoon">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>
-            {{ beforeTypoon[0] }}
-          </h3>
-          <ul>
-            <li v-for="whenBefore in beforeTypoon[1]" :key="whenBefore">
-              {{ whenBefore.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whileTypoon[0] }}</h3>
-          <ul>
-            <li v-for="whenWhile in whileTypoon[1]" :key="whenWhile">
-              {{ whenWhile.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ afterTypoon[0] }}</h3>
-          <ul>
-            <li v-for="whenAfter in afterTypoon[1]" :key="whenAfter">
-              {{ whenAfter.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </section>
-  <section>
-    <ul>
-      <li>
-        <a :href="actionTwenty[1]">
-          <p>
-            {{ actionTwenty[0] }}
-          </p>
-        </a>
-      </li>
-      <li>
-        <a :href="actionFourty[1]">
-          <p>
-            {{ actionFourty[0] }}
-          </p>
-        </a>
-      </li>
-    </ul>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>
+          {{ beforeTypoon[0] }}
+        </h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenBefore in beforeTypoon[1]" :key="whenBefore">
+        <p>
+          {{ whenBefore.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whileTypoon[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenWhile in whileTypoon[1]" :key="whenWhile">
+        <p>
+          {{ whenWhile.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ afterTypoon[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenAfter in afterTypoon[1]" :key="whenAfter">
+        <p>
+          {{ whenAfter.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
-<style lang="scss">
-.typoon {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  div {
-    h3 {
-      font-size: 30px;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

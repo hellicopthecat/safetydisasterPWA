@@ -3,7 +3,7 @@ import BehaviorNav from '../../components/behaviorPage/BehaviorNav.vue'
 </script>
 
 <template>
-  <div>
+  <v-container>
     <BehaviorNav />
-  </div>
+  </v-container>
 </template>

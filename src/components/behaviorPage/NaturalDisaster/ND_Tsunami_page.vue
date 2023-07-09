@@ -10,13 +10,11 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01012&serviceKey=`
     const headTitle = ref('지진해일 예보시 국민행동요령')
-    const pageTitle = ref('')
     const onShipTsunami = reactive([])
     const escapeTsunami = reactive([])
     onMounted(() => {
       fetchData()
     })
-
     async function fetchData() {
       try {
         const response = await fetch(URL + API_KEY.value)
@@ -26,9 +24,6 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -74,7 +69,7 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
+
       onShipTsunami,
       escapeTsunami
     }
@@ -83,29 +78,26 @@ export default {
 </script>
 
 <template>
-  <section class="tsunami">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ onShipTsunami[0] }}</h3>
-          <p v-for="onShip in onShipTsunami[1]" :key="onShip">{{ onShip.textContent }}</p>
-        </li>
-        <li>
-          <h3>{{ escapeTsunami[0] }}</h3>
-          <img :src="escapeTsunami[2]" alt="" />
-          <p v-for="escape in escapeTsunami[1]" :key="escape">{{ escape.textContent }}</p>
-        </li>
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ onShipTsunami[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="onShip in onShipTsunami[1]" :key="onShip">
+        <p>
+          {{ onShip.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+    <v-card max-width="900" class="pa-2 mb-15 d-flex flex-column" :elevation="5">
+      <v-card-title>
+        <h3>{{ escapeTsunami[0] }}</h3>
+      </v-card-title>
+      <img :src="escapeTsunami[2]" alt="지진해일 대피 이미지" />
+      <v-card-text v-for="escape in escapeTsunami[1]" :key="escape">
+        <p class="my-0">{{ escape.textContent }}</p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
-
-<style lang="scss">
-.earthquake {
-  img {
-    width: 300px;
-  }
-}
-</style>

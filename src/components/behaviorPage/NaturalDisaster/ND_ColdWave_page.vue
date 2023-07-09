@@ -10,7 +10,6 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01002&serviceKey=`
     const headTitle = ref('한파 예보시 국민행동요령')
-    const pageTitle = ref('')
     const beforeColdWave = reactive([])
     const whenColdWave = reactive([])
 
@@ -27,9 +26,6 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -61,7 +57,6 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
       beforeColdWave,
       whenColdWave
     }
@@ -70,46 +65,26 @@ export default {
 </script>
 
 <template>
-  <section class="coldwave">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>
-            {{ beforeColdWave[0] }}
-          </h3>
-          <ul>
-            <li v-for="whenBefore in beforeColdWave[1]" :key="whenBefore">
-              {{ whenBefore.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whenColdWave[0] }}</h3>
-          <ul>
-            <li v-for="when in whenColdWave[1]" :key="when">
-              {{ when.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </section>
-</template>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ beforeColdWave[0] }}</h3>
+      </v-card-title>
 
-<style lang="scss">
-.typoon {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  div {
-    h3 {
-      font-size: 30px;
-    }
-  }
-}
-</style>
+      <v-card-text v-for="whenBefore in beforeColdWave[1]" :key="whenBefore">
+        {{ whenBefore.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whenColdWave[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="when in whenColdWave[1]" :key="when">
+        {{ when.textContent }}
+      </v-card-text>
+    </v-card>
+  </v-container>
+</template>

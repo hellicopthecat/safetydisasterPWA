@@ -19,15 +19,11 @@ export default {
 <template>
   <v-app>
     <HeaderComp />
-    <v-main class="mt-20">
+
+    <v-main>
       <RouterView />
     </v-main>
+
     <FooterComp />
   </v-app>
 </template>
-
-<style>
-p {
-  margin: 0;
-}
-</style>

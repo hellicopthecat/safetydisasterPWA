@@ -9,8 +9,7 @@ export default {
     const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01005&serviceKey=`
-    const headTitle = ref('대설 예보시 국민행동요령')
-    const pageTitle = ref('')
+    const headTitle = ref('대설(폭설) 예보시 국민행동요령')
     const beforeHeavySnow = reactive([])
     const whenForecastHeavySnow = reactive([])
     const whileHeavySnow = reactive([])
@@ -29,9 +28,7 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
+
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -86,7 +83,6 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
       beforeHeavySnow,
       whenForecastHeavySnow,
       whileHeavySnow,
@@ -97,60 +93,50 @@ export default {
 </script>
 
 <template>
-  <section class="heavySnow">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>
-            {{ beforeHeavySnow[0] }}
-          </h3>
-          <ul>
-            <li v-for="whenBefore in beforeHeavySnow[1]" :key="whenBefore">
-              {{ whenBefore.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whenForecastHeavySnow[0] }}</h3>
-          <ul>
-            <li v-for="whenForecast in whenForecastHeavySnow[1]" :key="whenForecast">
-              {{ whenForecast.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whileHeavySnow[0] }}</h3>
-          <ul>
-            <li v-for="whenwhile in whileHeavySnow[1]" :key="whenwhile">
-              {{ whenwhile.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ afterHeavySnow[0] }}</h3>
-          <ul>
-            <li v-for="drawn in afterHeavySnow[1]" :key="drawn">
-              {{ drawn.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>
+          {{ beforeHeavySnow[0] }}
+        </h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenBefore in beforeHeavySnow[1]" :key="whenBefore">
+        {{ whenBefore.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whenForecastHeavySnow[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenForecast in whenForecastHeavySnow[1]" :key="whenForecast">
+        {{ whenForecast.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whileHeavySnow[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="whenwhile in whileHeavySnow[1]" :key="whenwhile">
+        {{ whenwhile.textContent }}
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ afterHeavySnow[0] }}</h3>
+      </v-card-title>
+
+      <v-card-text v-for="drawn in afterHeavySnow[1]" :key="drawn">
+        {{ drawn.textContent }}
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <style lang="scss">

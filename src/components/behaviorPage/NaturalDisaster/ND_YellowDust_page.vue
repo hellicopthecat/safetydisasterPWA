@@ -9,8 +9,7 @@ export default {
     const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01008&serviceKey=`
-    const headTitle = ref('호우 예보시 국민행동요령')
-    const pageTitle = ref('')
+    const headTitle = ref('황사 예보시 국민행동요령')
     const beforeYellowDust = reactive([])
     const whileYellowDust = reactive([])
     const afterYellowDust = reactive([])
@@ -29,9 +28,7 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
+
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -86,7 +83,6 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
       beforeYellowDust,
       whileYellowDust,
       afterYellowDust,
@@ -97,70 +93,54 @@ export default {
 </script>
 
 <template>
-  <section class="YellowDust">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>
-            {{ beforeYellowDust[0] }}
-          </h3>
-          <ul>
-            <li v-for="whenBefore in beforeYellowDust[1]" :key="whenBefore">
-              {{ whenBefore.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ whileYellowDust[0] }}</h3>
-          <ul>
-            <li v-for="whileYellowDust in whileYellowDust[1]" :key="whileYellowDust">
-              {{ whileYellowDust.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ afterYellowDust[0] }}</h3>
-          <ul>
-            <li v-for="whenwhile in afterYellowDust[1]" :key="whenwhile">
-              {{ whenwhile.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ knowledgeYellowDust[0] }}</h3>
-          <ul>
-            <li v-for="drawn in knowledgeYellowDust[1]" :key="drawn">
-              {{ drawn.textContent }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>
+          {{ beforeYellowDust[0] }}
+        </h3>
+      </v-card-title>
+      <v-card-text v-for="whenBefore in beforeYellowDust[1]" :key="whenBefore">
+        <p>
+          {{ whenBefore.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ whileYellowDust[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="whileYellowDust in whileYellowDust[1]" :key="whileYellowDust">
+        <p>
+          {{ whileYellowDust.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ afterYellowDust[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="whenwhile in afterYellowDust[1]" :key="whenwhile">
+        <p>
+          {{ whenwhile.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ knowledgeYellowDust[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="drawn in knowledgeYellowDust[1]" :key="drawn">
+        <p>
+          {{ drawn.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
-<style lang="scss">
-.typoon {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  div {
-    h3 {
-      font-size: 30px;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

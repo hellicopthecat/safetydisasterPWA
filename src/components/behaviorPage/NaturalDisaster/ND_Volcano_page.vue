@@ -10,7 +10,6 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01015&serviceKey=`
     const headTitle = ref('산사태 시 국민행동요령')
-    const pageTitle = ref('')
     const prepareVolcanoAsh = reactive([])
     const fallenVolcanoAsh = reactive([])
     const removeVolcanoAsh = reactive([])
@@ -27,10 +26,6 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -89,7 +84,6 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
       prepareVolcanoAsh,
       fallenVolcanoAsh,
       removeVolcanoAsh
@@ -99,31 +93,40 @@ export default {
 </script>
 
 <template>
-  <section class="tidalwave">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ prepareVolcanoAsh[0] }}</h3>
-          <p v-for="prepare in prepareVolcanoAsh[1]" :key="prepare">
-            {{ prepare.textContent }}
-          </p>
-          <img :src="prepareVolcanoAsh[2]" alt="" />
-        </li>
-        <li>
-          <h3>{{ fallenVolcanoAsh[0] }}</h3>
-          <p v-for="fallen in fallenVolcanoAsh[1]" :key="fallen">{{ fallen.textContent }}</p>
-        </li>
-        <li>
-          <h3>{{ removeVolcanoAsh[0] }}</h3>
-          <p v-for="remove in removeVolcanoAsh[1]" :key="remove">
-            {{ remove.textContent }}
-          </p>
-        </li>
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ prepareVolcanoAsh[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="prepare in prepareVolcanoAsh[1]" :key="prepare">
+        <p>
+          {{ prepare.textContent }}
+        </p>
+      </v-card-text>
+      <v-img :src="prepareVolcanoAsh[2]" alt="이미지자료" max-width="300" class="mx-auto" />
+    </v-card>
+    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ fallenVolcanoAsh[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="fallen in fallenVolcanoAsh[1]" :key="fallen">
+        <p>
+          {{ fallen.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ removeVolcanoAsh[0] }}</h3>
+      </v-card-title>
+      <v-card-text v-for="remove in removeVolcanoAsh[1]" :key="remove">
+        <p>
+          {{ remove.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <style lang="scss"></style>

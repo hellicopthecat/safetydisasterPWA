@@ -10,7 +10,7 @@ export default {
     const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
     const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01013&serviceKey=`
     const headTitle = ref('해일 예보시 국민행동요령')
-    const pageTitle = ref('')
+
     const prepareTidal = reactive([])
     const whenTidal = reactive([])
     const whileTidal = reactive([])
@@ -31,10 +31,6 @@ export default {
         let parseXml = new DOMParser()
         let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
         const xmlItem = xmlDoc.querySelectorAll('item')
-
-        // 헤드 타이틀
-        const pageTitleElement = xmlDoc.querySelector('safetyCateNm2')
-        pageTitle.value = pageTitleElement.textContent
         // 서브 타이틀
         const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
         const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
@@ -152,7 +148,7 @@ export default {
     }
     return {
       headTitle,
-      pageTitle,
+
       prepareTidal,
       whenTidal,
       whileTidal,
@@ -165,50 +161,64 @@ export default {
 </script>
 
 <template>
-  <section class="tidalwave">
-    <NaturalNav :title="headTitle" />
-    <h2>{{ pageTitle }}</h2>
-    <div>
-      <ul>
-        <li>
-          <h3>{{ prepareTidal[0] }}</h3>
-          <p v-for="prepare in prepareTidal[1]" :key="prepare">
-            {{ prepare.textContent }}
-          </p>
-          <img :src="prepareTidal[2]" alt="" />
-        </li>
-        <li>
-          <h3>{{ whenTidal[0] }}</h3>
-          <p v-for="when in whenTidal[1]" :key="when">{{ when.textContent }}</p>
-          <img :src="whenTidal[2]" alt="" />
-        </li>
-        <li>
-          <h3>{{ whileTidal[0] }}</h3>
-          <p v-for="happen in whileTidal[1]" :key="happen">{{ happen.textContent }}</p>
-          <img
-            v-for="tidalHappen in whileTidal[2]"
-            :src="tidalHappen.textContent"
-            alt=""
-            :key="tidalHappen"
-          />
-        </li>
-        <li>
-          <h3>{{ failEscapeTidal[0] }}</h3>
-          <p v-for="failEscape in failEscapeTidal[1]" :key="failEscape">
-            {{ failEscape.textContent }}
-          </p>
-        </li>
-        <li>
-          <h3>{{ stormSurge[0] }}</h3>
-          <p v-for="whenStorm in stormSurge[1]" :key="whenStorm">{{ whenStorm.textContent }}</p>
-        </li>
-        <!-- <li>
-            <h3 v-for="srcTitle in tidalSrc[0]" :key="srcTitle">{{ srcTitle.textContent }}</h3>
-            <video v-for="srcSrc in tidalSrc[1]" :key="srcSrc" :src="srcSrc.textContent"></video>
-          </li> -->
-      </ul>
-    </div>
-  </section>
+  <NaturalNav :title="headTitle" />
+  <v-container class="d-flex flex-column align-center justify-space-around">
+    <v-card max-width="900" class="pa-2 mb-15 d-flex flex-column" :elevation="5">
+      <v-card-title>
+        <h3>{{ prepareTidal[0] }}</h3>
+      </v-card-title>
+      <img :src="prepareTidal[2]" alt="해일특보시 대비요령" class="mx-auto my-10" />
+      <v-card-text>
+        <p v-for="prepare in prepareTidal[1]" :key="prepare">
+          {{ prepare.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+    <v-card min-width="900" class="pa-2 mb-15 d-flex flex-column" :elevation="5">
+      <v-card-title>
+        <h3>{{ whenTidal[0] }}</h3>
+      </v-card-title>
+      <img :src="whenTidal[2]" alt="지진해일 일때" class="mx-auto my-10" />
+      <v-card-text v-for="when in whenTidal[1]" :key="when" class="py-0 my-3">
+        <p class="my-0">{{ when.textContent }}</p>
+      </v-card-text>
+    </v-card>
+    <v-card min-width="900" class="pa-2 mb-15 d-flex flex-column" :elevation="5">
+      <v-card-title>
+        <h3>{{ whileTidal[0] }}</h3>
+      </v-card-title>
+      <v-container class="d-flex justify-center my-10">
+        <img
+          v-for="tidalHappen in whileTidal[2]"
+          :src="tidalHappen.textContent"
+          alt=""
+          :key="tidalHappen"
+        />
+      </v-container>
+
+      <v-card-text>
+        <p v-for="happen in whileTidal[1]" :key="happen">{{ happen.textContent }}</p>
+      </v-card-text>
+    </v-card>
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ failEscapeTidal[0] }}</h3>
+      </v-card-title>
+      <v-card-text>
+        <p v-for="failEscape in failEscapeTidal[1]" :key="failEscape">
+          {{ failEscape.textContent }}
+        </p>
+      </v-card-text>
+    </v-card>
+    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+      <v-card-title>
+        <h3>{{ stormSurge[0] }}</h3>
+      </v-card-title>
+      <v-card-text>
+        <p v-for="whenStorm in stormSurge[1]" :key="whenStorm">{{ whenStorm.textContent }}</p>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 
 <style lang="scss"></style>
