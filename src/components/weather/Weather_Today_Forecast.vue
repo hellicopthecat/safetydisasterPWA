@@ -16,16 +16,18 @@ export default {
       new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
     const DATE = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()
     const HOUR =
-      new Date().getHours() < '10'
-        ? '0' + new Date().getHours()
-        : new Date().getHours() && new Date().getMinutes() < '29'
+      new Date().getMinutes() < '29' && new Date().getHours() < '10'
+        ? '0' + (new Date().getHours() - 1)
+        : new Date().getHours() < '10'
+        ? '0' + (new Date().getHours() - 1)
+        : new Date().getHours() >= '10'
         ? new Date().getHours() - 1
         : new Date().getHours()
 
     const MINUTES = new Date().getMinutes() < '29' ? '45' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
     const DDAY = YEAR + MONTH + DATE
-
+    console.log(DAYTIME)
     const fcstTime = reactive([]) //예보시간
     const lightening = reactive([]) //낙뢰
     const precipitation = reactive([]) //강수형태

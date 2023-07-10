@@ -21,9 +21,11 @@ export default {
       new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
     const DATE = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()
     const HOUR =
-      new Date().getHours() < 10
-        ? '0' + new Date().getHours()
-        : new Date().getHours() && new Date().getMinutes() < '29'
+      new Date().getMinutes() < '29' && new Date().getHours() < '10'
+        ? '0' + (new Date().getHours() - 1)
+        : new Date().getHours() < '10'
+        ? '0' + (new Date().getHours() - 1)
+        : new Date().getHours() >= '10'
         ? new Date().getHours() - 1
         : new Date().getHours()
 

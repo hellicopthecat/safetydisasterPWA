@@ -1,5 +1,5 @@
 <template>
-  <v-bottom name="footer" class="bg-grey-lighten-1">
+  <v-bottom class="bg-grey-lighten-1">
     <v-container class="d-flex justify-center">
       <v-row no-gutter>
         <v-btn
@@ -13,7 +13,9 @@
           {{ link }}
         </v-btn>
 
-        <v-col cols="12"> {{ new Date().getFullYear() }} — <strong>Vuetify</strong> </v-col>
+        <v-col cols="12">
+          <h4>{{ new Date().getFullYear() }}</h4>
+        </v-col>
       </v-row>
     </v-container>
   </v-bottom>
@@ -21,9 +23,11 @@
 
 <script>
 export default {
-  data: () => ({
-    links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us']
-  })
+  data() {
+    return {
+      links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us']
+    }
+  }
 }
 </script>
 

@@ -6,20 +6,19 @@ const drawer = ref(false)
 </script>
 
 <template>
-  <v-app-bar class="pa-0" :elevation="5">
+  <v-app-bar class="pa-0 d-flex align-center" :elevation="5">
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-app-bar-title class="text-left">
       <Router-link to="/"> WHEN YOU EMERGENCY </Router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
-      <v-icon> mdi-heart </v-icon>
+    <v-btn class="mr-15" icon router to="/login">
+      <v-icon>mdi-login</v-icon>
+      LOG IN
     </v-btn>
-    <v-btn icon>
-      <v-icon> mdi-magnify </v-icon>
-    </v-btn>
-    <v-btn icon>
-      <v-icon> mdi-dots-vertical </v-icon>
+    <v-btn class="mr-15" icon router to="/join">
+      <v-icon>mdi-account</v-icon>
+      JOIN
     </v-btn>
   </v-app-bar>
   <v-card flat>
@@ -29,4 +28,9 @@ const drawer = ref(false)
   </v-card>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+.v-icon {
+  border: none;
+  padding: 0;
+}
+</style>
