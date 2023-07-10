@@ -1,16 +1,17 @@
-import 'vuetify/styles'
 import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+//vuetify
+import 'vuetify/styles'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import { vueFire, vueFireAuth } from 'vuefire'
+
+import App from './App.vue'
+import router from './router'
+// vue pinia
+import pinia from './stores/index'
 import { firebaseApp } from './firebase/firebase'
+
+const app = createApp(App)
 
 loadFonts()
 
-createApp(App)
-  .use(router)
-  .use(vuetify)
-  .use(vueFire, { firebaseApp, modules: [vueFireAuth()] })
-  .mount('#app')
+app.use(router).use(vuetify).use(pinia).mount('#app')

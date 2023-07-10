@@ -24,7 +24,7 @@ export default {
       new Date().getMinutes() < '29' && new Date().getHours() < '10'
         ? '0' + (new Date().getHours() - 1)
         : new Date().getHours() < '10'
-        ? '0' + (new Date().getHours() - 1)
+        ? '0' + new Date().getHours()
         : new Date().getHours() >= '10'
         ? new Date().getHours() - 1
         : new Date().getHours()
@@ -33,6 +33,7 @@ export default {
     const DAYTIME = `${HOUR}${MINUTES}`
     const DDAY = YEAR + MONTH + DATE
     console.log(DAYTIME)
+
     const precipitation = ref('') //강수형태
     const humidity = ref('') //습도
     const rainfall = ref('') //강수량
