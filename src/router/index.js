@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LogInPage from '../views/LogInView.vue'
 import JoinView from '../views/JoinView.vue'
+import SafeMap from '../views/SafeMap.vue'
 import ErrorPage from '../views/ErrorPage.vue'
 import behaviorDisaster from '../views/behaviorView/BehaviorView.vue'
 import naturalDisasterRouter from './naturalDisasterRouter'
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/join',
       name: 'join',
       component: JoinView
+    },
+    {
+      path: '/safemap',
+      name: 'SafeMap',
+      component: SafeMap
     },
     {
       path: '/*',

@@ -4,7 +4,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  setPersistence,
+  browserSessionPersistence
 } from 'firebase/auth'
 import { useAuthStore } from '../stores/userAuth'
 import router from '@/router'
@@ -22,21 +24,25 @@ export default {
 
     const fnLogin = async () => {
       try {
-        const userLogin = await signInWithEmailAndPassword(auth, id.value, password.value)
-        const user = userLogin.user
-        userAuth.setUser(user)
-        router.push('/')
+        await setPersistence(auth, browserSessionPersistence).then(() => {
+          const userLogin = signInWithEmailAndPassword(auth, id.value, password.value)
+          const user = userLogin.user
+          userAuth.setUser(user)
+          router.push('/')
+        })
       } catch (err) {
         console.log(err)
       }
     }
     const fnGoogleLogin = async () => {
       try {
-        const provider = new GoogleAuthProvider()
-        const userGoogleLogin = await signInWithPopup(auth, provider)
-        const user = userGoogleLogin.user
-        userAuth.setUser(user)
-        router.push('/')
+        await setPersistence(auth, browserSessionPersistence).then(() => {
+          const provider = new GoogleAuthProvider()
+          const userGoogleLogin = signInWithPopup(auth, provider)
+          const user = userGoogleLogin.user
+          userAuth.setUser(user)
+          router.push('/')
+        })
       } catch (err) {
         console.log(err)
       }

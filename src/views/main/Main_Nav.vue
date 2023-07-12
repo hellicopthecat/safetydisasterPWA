@@ -9,11 +9,17 @@
         <v-list-item-title>HOME</v-list-item-title>
       </v-list-item>
 
+      <v-list-item color="primary" rounded="shaped" router to="/safemap">
+        <template v-slot:prepend>
+          <v-icon icon>mdi-near-me</v-icon>
+        </template>
+        <v-list-item-title>대피시설</v-list-item-title>
+      </v-list-item>
       <v-list-item color="primary" rounded="shaped" router to="/behaviordisaster">
         <template v-slot:prepend>
           <v-icon icon>mdi-alert</v-icon>
         </template>
-        <v-list-item-title> 위급시 행동요령</v-list-item-title>
+        <v-list-item-title>위급시 행동요령</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-layout>

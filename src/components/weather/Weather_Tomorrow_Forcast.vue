@@ -81,12 +81,13 @@ export default {
     const MINUTES = new Date().getMinutes() < '10' ? '00' : '10'
     let DAYTIME = `${HOUR}${MINUTES}`
 
-    const nowHour = currentDate.getHours()
+    const nowHour =
+      currentDate.getHours() < 10 ? '0' + currentDate.getHours() : currentDate.getHours()
     const nowMinutes =
       currentDate.getMinutes() < 10 ? '0' + currentDate.getMinutes() : currentDate.getMinutes()
 
     //00시부터 00시10분까지 전날 날짜로..
-    if ('0000' <= `${nowHour}${nowMinutes}` || `${nowHour}${nowMinutes}` >= '0010') {
+    if (`${nowHour}${nowMinutes}` >= '0000' && `${nowHour}${nowMinutes}` <= '0010') {
       const theDayBeforeDate = new Date(currentDate.getTime())
       theDayBeforeDate.setDate(theDayBeforeDate.getDate() - 1)
       const theDayBefore =
@@ -95,12 +96,9 @@ export default {
         (theDayBeforeDate.getMonth() + 1).toString().padStart(2, '0') +
         '' +
         theDayBeforeDate.getDate().toString().padStart(2, '0')
-
       DDAY = theDayBefore
-      console.log(DDAY)
     } else {
       DDAY
-      console.log(DDAY)
     }
 
     const fcstTime = ref([]) //예보시간

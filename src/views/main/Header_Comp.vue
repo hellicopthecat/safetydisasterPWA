@@ -1,8 +1,46 @@
-<script setup>
+<script>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
+import { useAuthStore } from '../../stores/userAuth'
+import router from '@/router'
 import MainNav from '../main/Main_Nav.vue'
-const drawer = ref(false)
+export default {
+  components: {
+    RouterLink,
+    MainNav
+  },
+  setup() {
+    const drawer = ref(false)
+    const userAuth = useAuthStore()
+    const loggedIn = ref(false)
+    const auth = getAuth()
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loggedIn.value = true
+      } else {
+        loggedIn.value = false
+      }
+    })
+
+    const fnLogOut = async () => {
+      try {
+        await signOut(auth)
+        userAuth.clearUser()
+        router.push('/')
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    return {
+      drawer,
+      loggedIn,
+      fnLogOut
+    }
+  }
+}
 </script>
 
 <template>
@@ -12,14 +50,20 @@ const drawer = ref(false)
       <Router-link to="/"> WHEN YOU EMERGENCY </Router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
-    <v-btn class="mr-15" icon router to="/login">
-      <v-icon>mdi-login</v-icon>
-      LOG IN
-    </v-btn>
-    <v-btn class="mr-15" icon router to="/join">
-      <v-icon>mdi-account</v-icon>
-      JOIN
-    </v-btn>
+    <v-toolbar-item>
+      <v-btn class="mr-15" icon router to="/login">
+        <v-icon>mdi-login</v-icon>
+        LOG IN
+      </v-btn>
+      <v-btn class="mr-15" icon router to="/join">
+        <v-icon>mdi-account</v-icon>
+        JOIN
+      </v-btn>
+      <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="blue" class="mr-15" icon>
+        <v-icon>mdi-logout</v-icon>
+        LOG OUT
+      </v-btn>
+    </v-toolbar-item>
   </v-app-bar>
   <v-card flat>
     <v-navigation-drawer v-model="drawer" location="left" permanent>

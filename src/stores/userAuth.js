@@ -13,5 +13,13 @@ export const useAuthStore = defineStore('auth', {
     clearUser() {
       this.user = null
     }
+  },
+  getters: {
+    fnGetUser(state) {
+      return state.user
+    },
+    getAuthStatus(state) {
+      return state.user != null
+    }
   }
 })
