@@ -10,10 +10,10 @@ export default {
     const jAlert = ref(false)
     const errMsg = ref('')
     const useAuth = useAuthStore()
+    const title = ref('회원가입')
 
     const emailRegExp =
       /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
-    const title = ref('회원가입')
     const id = ref('')
     const idRules = {
       required: (value) => {
