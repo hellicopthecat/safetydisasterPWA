@@ -5,6 +5,8 @@ import JoinView from '../views/JoinView.vue'
 import SafeMap from '../views/SafeMap.vue'
 import ErrorPage from '../views/ErrorPage.vue'
 import behaviorDisaster from '../views/behaviorView/BehaviorView.vue'
+import RealTimeChat from '../components/socketChat/RealTimeChat.vue'
+import DisasterNow from '../components/disasterMsg/Disaster_Msg_info.vue'
 import naturalDisasterRouter from './naturalDisasterRouter'
 import socialDisasterRouter from './socialDisasterRouter'
 
@@ -27,9 +29,19 @@ const router = createRouter({
       component: JoinView
     },
     {
+      path: '/chat',
+      name: 'chat',
+      component: RealTimeChat
+    },
+    {
       path: '/safemap',
       name: 'SafeMap',
       component: SafeMap
+    },
+    {
+      path: '/disasternow',
+      name: 'DisasterNow',
+      component: DisasterNow
     },
     {
       path: '/*',

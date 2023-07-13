@@ -50,20 +50,18 @@ export default {
       <Router-link to="/"> WHEN YOU EMERGENCY </Router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
-    <v-toolbar-item>
-      <v-btn class="mr-15" icon router to="/login">
-        <v-icon>mdi-login</v-icon>
-        LOG IN
-      </v-btn>
-      <v-btn class="mr-15" icon router to="/join">
-        <v-icon>mdi-account</v-icon>
-        JOIN
-      </v-btn>
-      <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="blue" class="mr-15" icon>
-        <v-icon>mdi-logout</v-icon>
-        LOG OUT
-      </v-btn>
-    </v-toolbar-item>
+    <v-btn v-if="!loggedIn" class="mr-15" icon router to="/login">
+      <v-icon>mdi-login</v-icon>
+      LOG IN
+    </v-btn>
+    <v-btn v-if="!loggedIn" class="mr-15" icon router to="/join">
+      <v-icon>mdi-account</v-icon>
+      JOIN
+    </v-btn>
+    <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="blue" class="mr-15" icon>
+      <v-icon>mdi-logout</v-icon>
+      LOG OUT
+    </v-btn>
   </v-app-bar>
   <v-card flat>
     <v-navigation-drawer v-model="drawer" location="left" permanent>

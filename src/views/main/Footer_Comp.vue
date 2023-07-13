@@ -1,7 +1,7 @@
 <template>
-  <v-bottom class="bg-grey-lighten-1">
-    <v-container class="d-flex justify-center">
-      <v-row no-gutter>
+  <v-footer class="bg-grey-lighten-1">
+    <v-container class="">
+      <v-row class="ma-0" justify="center" no-gutter>
         <v-btn
           v-for="link in links"
           :key="link"
@@ -13,12 +13,12 @@
           {{ link }}
         </v-btn>
 
-        <v-col cols="12">
+        <v-col class="text-center pb-0" cols="12">
           <h4>{{ new Date().getFullYear() }}</h4>
         </v-col>
       </v-row>
     </v-container>
-  </v-bottom>
+  </v-footer>
 </template>
 
 <script>

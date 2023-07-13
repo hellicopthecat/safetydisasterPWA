@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
 //vuetify
 import 'vuetify/styles'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-
-import App from './App.vue'
-import router from './router'
 // vue pinia
 import pinia from './stores/index'
+//firebase
 import { firebaseApp } from './firebase/firebase'
 
 const app = createApp(App)

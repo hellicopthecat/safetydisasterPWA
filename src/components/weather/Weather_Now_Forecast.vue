@@ -32,7 +32,6 @@ export default {
     const MINUTES = new Date().getMinutes() < '29' ? '40' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
     const DDAY = YEAR + MONTH + DATE
-    console.log(DAYTIME)
 
     const precipitation = ref('') //강수형태
     const humidity = ref('') //습도

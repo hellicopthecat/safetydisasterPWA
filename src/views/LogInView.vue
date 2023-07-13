@@ -31,6 +31,7 @@ export default {
           router.push('/')
         })
       } catch (err) {
+        alert('로그인 실패')
         console.log(err)
       }
     }
@@ -44,6 +45,7 @@ export default {
           router.push('/')
         })
       } catch (err) {
+        alert('로그인 실패')
         console.log(err)
       }
     }

@@ -35,7 +35,7 @@ export default {
     }
 
     const nameRegExp = /[a-zA-z]/g
-    const name = ref('')
+    const userName = ref('')
     const nameRules = {
       required: (value) => {
         if (!nameRegExp.test(value)) {
@@ -58,8 +58,8 @@ export default {
         jAlert.value = true
         return
       }
-      if (nameRules.required(name.value)) {
-        errMsg.value = nameRules.required(name.value)
+      if (nameRules.required(userName.value)) {
+        errMsg.value = nameRules.required(userName.value)
         jAlert.value = true
         return
       }
@@ -69,7 +69,7 @@ export default {
           auth,
           id.value,
           password.value,
-          name.value
+          userName.value
         )
         const user = createUser.user
         useAuth.setUser(user)
@@ -93,7 +93,7 @@ export default {
       id,
       password,
       confirmPass,
-      name,
+      userName,
       fnRegisterUser,
       syncPass,
       idRules,
@@ -132,7 +132,7 @@ export default {
           clearable
         ></v-text-field>
         <v-text-field
-          v-model="name"
+          v-model="userName"
           label="NAME"
           type="text"
           :rules="[nameRules.required]"
