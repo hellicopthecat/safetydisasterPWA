@@ -47,7 +47,7 @@ export default {
   <v-app-bar class="pa-0 d-flex align-center" :elevation="5">
     <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-app-bar-title class="text-left">
-      <Router-link to="/"> WHEN YOU EMERGENCY </Router-link>
+      <Router-link to="/"> Escape from Dangerous </Router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
     <v-btn v-if="!loggedIn" class="mr-15" icon router to="/login">
