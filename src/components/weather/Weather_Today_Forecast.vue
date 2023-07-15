@@ -27,7 +27,6 @@ export default {
     const MINUTES = new Date().getMinutes() < '29' ? '45' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
     const DDAY = YEAR + MONTH + DATE
-    console.log(DAYTIME)
     const fcstTime = reactive([]) //예보시간
     const lightening = reactive([]) //낙뢰
     const precipitation = reactive([]) //강수형태

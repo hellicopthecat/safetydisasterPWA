@@ -25,18 +25,17 @@ export default {
       })
       newMessage.value = ''
     }
-    const scrollToBottom = () => {
-      const scrollBtm = scrollBottom.value
-      console.log(scrollBtm)
-      scrollBtm.scrollTop = scrollBtm.scrollHeight
-    }
-    console.log(scrollToBottom())
+    // const scrollToBottom = () => {
+    //   const scrollBtm = scrollBottom.value
+    //   console.log(scrollBtm)
+    //   scrollBtm.scrollTop = scrollBtm.scrollHeight
+    // }
 
     onMounted(() => {
       const auth = getAuth()
       chatDB.on('value', (snapshot) => {
         chats.value = snapshot.val()
-        scrollToBottom()
+        // scrollToBottom()
       })
       onAuthStateChanged(auth, (user) => {
         if (user.displayName === null) {
@@ -45,8 +44,7 @@ export default {
           userName.value = user.displayName
         }
       })
-      scrollToBottom()
-      console.log(scrollToBottom())
+      // scrollToBottom()
     })
 
     return {
@@ -54,8 +52,8 @@ export default {
       newMessage,
       userName,
       fnSendMessage,
-      scrollBottom,
-      scrollToBottom
+      scrollBottom
+      // scrollToBottom
     }
   }
 }

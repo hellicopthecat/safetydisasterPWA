@@ -71,17 +71,6 @@ export default {
       }
     }
     const fnGoogleLogin = async () => {
-      if (idRules.required(id.value)) {
-        errMsg.value = idRules.required(id.value)
-        jAlert.value = true
-        return
-      }
-      if (pwRules.required(password.value)) {
-        errMsg.value = pwRules.required(password.value)
-        jAlert.value = true
-        return
-      }
-
       try {
         await setPersistence(auth, browserSessionPersistence)
         const provider = new GoogleAuthProvider()
