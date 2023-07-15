@@ -1,14 +1,12 @@
 <script>
 import { ref, onMounted, reactive } from 'vue'
 import NaturalNav from '../NaturalNav.vue'
+import heavyWind from '../../../behaviordata/natural/heavywind'
 export default {
   components: {
     NaturalNav
   },
   setup() {
-    const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
-    const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
-    const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01004&serviceKey=`
     const headTitle = ref('강풍 예보시 국민행동요령')
     const beforeStrongWind = reactive([])
     const whenStrongWind = reactive([])
@@ -21,49 +19,27 @@ export default {
 
     async function fetchData() {
       try {
-        const response = await fetch(URL + API_KEY.value)
-        const xmlText = await response.text()
-        // XML 데이터 처리
-        API_URL.value = xmlText
-        let parseXml = new DOMParser()
-        let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
-        const xmlItem = xmlDoc.querySelectorAll('item')
-        // 서브 타이틀
-        const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
-        const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
-        const oneSubTitle = Array.from(new Set(subTitle))
+        const data = heavyWind.response.body.items.item
+
+        //제목
+        const subTitleCont = data
+          .map((item) => (item.safetyCate2 === 1004 ? item.safetyCateNm3 : null))
+          .filter((item) => item != undefined)
+        const subTitle = new Set(subTitleCont)
+
         // 경보 별 행동사항
-        const beforeStrongWindAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '10') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
-
-        const whenAction = reactive(
-          Array.from(xmlItem).map((element) => {
-            if (element.children.item(2).textContent === '20') {
-              return element.children.item(0)
-            }
-          })
-        ).filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-
-        const whileStrongWindAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '30') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
-
-        beforeStrongWind.push(oneSubTitle[0], beforeStrongWindAction)
-        whenStrongWind.push(oneSubTitle[1], whenAction)
-        whileStrongWind.push(oneSubTitle[2], whileStrongWindAction)
+        const beforeStrongWindAction = data
+          .map((item) => (item.safetyCate3 === 1004001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const whenAction = data
+          .map((item) => (item.safetyCate3 === 1004001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const whileStrongWindAction = data
+          .map((item) => (item.safetyCate3 === 1004001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        beforeStrongWind.push([...subTitle][0], beforeStrongWindAction)
+        whenStrongWind.push([...subTitle][1], whenAction)
+        whileStrongWind.push([...subTitle][2], whileStrongWindAction)
       } catch (error) {
         console.error(error)
       }
@@ -90,7 +66,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenBefore in beforeStrongWind[1]" :key="whenBefore">
-        {{ whenBefore.textContent }}
+        {{ whenBefore }}
       </v-card-text>
     </v-card>
 
@@ -100,7 +76,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="when in whenStrongWind[1]" :key="when">
-        {{ when.textContent }}
+        {{ when }}
       </v-card-text>
     </v-card>
 
@@ -110,7 +86,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenwhile in whileStrongWind[1]" :key="whenwhile">
-        {{ whenwhile.textContent }}
+        {{ whenwhile }}
       </v-card-text>
     </v-card>
   </v-container>

@@ -1,14 +1,12 @@
 <script>
 import { ref, onMounted, reactive } from 'vue'
 import NaturalNav from '../NaturalNav.vue'
+import heavySnow from '../../../behaviordata/natural/heavysnow'
 export default {
   components: {
     NaturalNav
   },
   setup() {
-    const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
-    const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
-    const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01005&serviceKey=`
     const headTitle = ref('대설(폭설) 예보시 국민행동요령')
     const beforeHeavySnow = reactive([])
     const whenForecastHeavySnow = reactive([])
@@ -21,62 +19,35 @@ export default {
 
     async function fetchData() {
       try {
-        const response = await fetch(URL + API_KEY.value)
-        const xmlText = await response.text()
-        // XML 데이터 처리
-        API_URL.value = xmlText
-        let parseXml = new DOMParser()
-        let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
-        const xmlItem = xmlDoc.querySelectorAll('item')
+        const data = heavySnow.response.body.items.item
 
-        // 서브 타이틀
-        const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
-        const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
-        const oneSubTitle = Array.from(new Set(subTitle))
+        //제목
+        const subTitleCont = data
+          .map((item) => (item.safetyCate2 === 1005 ? item.safetyCateNm3 : null))
+          .filter((item) => item != undefined)
+        const subTitle = new Set(subTitleCont)
+
         // 경보 별 행동사항
-        const beforeHeavySnowAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '10') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
+        const beforeHeavySnowAction = data
+          .map((item) => (item.safetyCate3 === 1005001 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        const whenForecastAction = reactive(
-          Array.from(xmlItem).map((element) => {
-            if (element.children.item(2).textContent === '20') {
-              return element.children.item(0)
-            }
-          })
-        ).filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
+        const whenForecastAction = data
+          .map((item) => (item.safetyCate3 === 1005002 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        const whileHeavySnowAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '30') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
+        const whileHeavySnowAction = data
+          .map((item) => (item.safetyCate3 === 1005003 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        const afterHeavySnowAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '40') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined)
-        )
-        afterHeavySnowAction.pop()
+        const afterHeavySnowAction = data
+          .map((item) => (item.safetyCate3 === 1005004 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        beforeHeavySnow.push(oneSubTitle[0], beforeHeavySnowAction)
-        whenForecastHeavySnow.push(oneSubTitle[1], whenForecastAction)
-        whileHeavySnow.push(oneSubTitle[2], whileHeavySnowAction)
-        afterHeavySnow.push(oneSubTitle[3], afterHeavySnowAction)
+        beforeHeavySnow.push([...subTitle][0], beforeHeavySnowAction)
+        whenForecastHeavySnow.push([...subTitle][1], whenForecastAction)
+        whileHeavySnow.push([...subTitle][2], whileHeavySnowAction)
+        afterHeavySnow.push([...subTitle][3], afterHeavySnowAction)
       } catch (error) {
         console.error(error)
       }
@@ -103,7 +74,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenBefore in beforeHeavySnow[1]" :key="whenBefore">
-        {{ whenBefore.textContent }}
+        {{ whenBefore }}
       </v-card-text>
     </v-card>
 
@@ -113,7 +84,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenForecast in whenForecastHeavySnow[1]" :key="whenForecast">
-        {{ whenForecast.textContent }}
+        {{ whenForecast }}
       </v-card-text>
     </v-card>
 
@@ -123,7 +94,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenwhile in whileHeavySnow[1]" :key="whenwhile">
-        {{ whenwhile.textContent }}
+        {{ whenwhile }}
       </v-card-text>
     </v-card>
 
@@ -133,7 +104,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="drawn in afterHeavySnow[1]" :key="drawn">
-        {{ drawn.textContent }}
+        {{ drawn }}
       </v-card-text>
     </v-card>
   </v-container>

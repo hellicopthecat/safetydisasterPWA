@@ -1,14 +1,12 @@
 <script>
 import { ref, onMounted, reactive } from 'vue'
 import NaturalNav from '../NaturalNav.vue'
+import yellowDust from '../../../behaviordata/natural/yellowdust'
 export default {
   components: {
     NaturalNav
   },
   setup() {
-    const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
-    const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
-    const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01008&serviceKey=`
     const headTitle = ref('황사 예보시 국민행동요령')
     const beforeYellowDust = reactive([])
     const whileYellowDust = reactive([])
@@ -21,62 +19,32 @@ export default {
 
     async function fetchData() {
       try {
-        const response = await fetch(URL + API_KEY.value)
-        const xmlText = await response.text()
-        // XML 데이터 처리
-        API_URL.value = xmlText
-        let parseXml = new DOMParser()
-        let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
-        const xmlItem = xmlDoc.querySelectorAll('item')
+        const data = yellowDust.response.body.items.item
+        console.log(data)
+        //제목
+        const subTitleCont = data
+          .map((item) => (item.safetyCate2 === 1008 ? item.safetyCateNm3 : null))
+          .filter((item) => item != undefined)
+        const subTitle = new Set(subTitleCont)
 
-        // 서브 타이틀
-        const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
-        const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
-        const oneSubTitle = Array.from(new Set(subTitle))
         // 경보 별 행동사항
-        const beforeYellowDustAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '10') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
+        const beforeYellowDustAction = data
+          .map((item) => (item.safetyCate3 === 1008001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const whileYellowDustAction = data
+          .map((item) => (item.safetyCate3 === 1008002 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const afterYellowDustAction = data
+          .map((item) => (item.safetyCate3 === 1008003 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const knowledgeYellowDustAction = data
+          .map((item) => (item.safetyCate3 === 1008004 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        const whileYellowDustAction = reactive(
-          Array.from(xmlItem).map((element) => {
-            if (element.children.item(2).textContent === '20') {
-              return element.children.item(0)
-            }
-          })
-        ).filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-
-        const afterYellowDustAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '30') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
-
-        const knowledgeYellowDustAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '40') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined)
-        )
-        knowledgeYellowDustAction.pop()
-
-        beforeYellowDust.push(oneSubTitle[0], beforeYellowDustAction)
-        whileYellowDust.push(oneSubTitle[1], whileYellowDustAction)
-        afterYellowDust.push(oneSubTitle[2], afterYellowDustAction)
-        knowledgeYellowDust.push(oneSubTitle[3], knowledgeYellowDustAction)
+        beforeYellowDust.push([...subTitle][0], beforeYellowDustAction)
+        whileYellowDust.push([...subTitle][1], whileYellowDustAction)
+        afterYellowDust.push([...subTitle][2], afterYellowDustAction)
+        knowledgeYellowDust.push([...subTitle][3], knowledgeYellowDustAction)
       } catch (error) {
         console.error(error)
       }
@@ -103,7 +71,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="whenBefore in beforeYellowDust[1]" :key="whenBefore">
         <p>
-          {{ whenBefore.textContent }}
+          {{ whenBefore }}
         </p>
       </v-card-text>
     </v-card>
@@ -114,7 +82,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="whileYellowDust in whileYellowDust[1]" :key="whileYellowDust">
         <p>
-          {{ whileYellowDust.textContent }}
+          {{ whileYellowDust }}
         </p>
       </v-card-text>
     </v-card>
@@ -125,7 +93,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="whenwhile in afterYellowDust[1]" :key="whenwhile">
         <p>
-          {{ whenwhile.textContent }}
+          {{ whenwhile }}
         </p>
       </v-card-text>
     </v-card>
@@ -136,7 +104,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="drawn in knowledgeYellowDust[1]" :key="drawn">
         <p>
-          {{ drawn.textContent }}
+          {{ drawn }}
         </p>
       </v-card-text>
     </v-card>

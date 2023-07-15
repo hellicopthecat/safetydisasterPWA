@@ -1,14 +1,12 @@
 <script>
 import { ref, onMounted, reactive } from 'vue'
 import NaturalNav from '../NaturalNav.vue'
+import coldWave from '../../../behaviordata/natural/coldwave'
 export default {
   components: {
     NaturalNav
   },
   setup() {
-    const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
-    const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
-    const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01002&serviceKey=`
     const headTitle = ref('한파 예보시 국민행동요령')
     const beforeColdWave = reactive([])
     const whenColdWave = reactive([])
@@ -19,38 +17,23 @@ export default {
 
     async function fetchData() {
       try {
-        const response = await fetch(URL + API_KEY.value)
-        const xmlText = await response.text()
-        // XML 데이터 처리
-        API_URL.value = xmlText
-        let parseXml = new DOMParser()
-        let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
-        const xmlItem = xmlDoc.querySelectorAll('item')
-        // 서브 타이틀
-        const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
-        const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
-        const oneSubTitle = Array.from(new Set(subTitle))
+        const data = coldWave.response.body.items.item
+        //제목
+        const subTitleCont = data
+          .map((item) => (item.safetyCate2 === 1002 ? item.safetyCateNm3 : null))
+          .filter((item) => item != undefined)
+        const subTitle = new Set(subTitleCont)
         // 경보 별 행동사항
-        const beforeAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(2).textContent === '10') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
-        )
+        const beforeAction = data
+          .map((item) => (item.safetyCate3 === 1002001 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        const whenColdWaveAction = reactive(
-          Array.from(xmlItem).map((element) => {
-            if (element.children.item(2).textContent === '20') {
-              return element.children.item(0)
-            }
-          })
-        ).filter((item) => item !== undefined && item.nodeName.includes('actRmks'))
+        const whenColdWaveAction = data
+          .map((item) => (item.safetyCate3 === 1002002 ? item.actRmks : null))
+          .filter((item) => item != null)
 
-        beforeColdWave.push(oneSubTitle[0], beforeAction)
-        whenColdWave.push(oneSubTitle[1], whenColdWaveAction)
+        beforeColdWave.push([...subTitle][0], beforeAction)
+        whenColdWave.push([...subTitle][1], whenColdWaveAction)
       } catch (error) {
         console.error(error)
       }
@@ -73,7 +56,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenBefore in beforeColdWave[1]" :key="whenBefore">
-        {{ whenBefore.textContent }}
+        {{ whenBefore }}
       </v-card-text>
     </v-card>
 
@@ -83,7 +66,7 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="when in whenColdWave[1]" :key="when">
-        {{ when.textContent }}
+        {{ when }}
       </v-card-text>
     </v-card>
   </v-container>

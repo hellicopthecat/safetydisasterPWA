@@ -1,14 +1,12 @@
 <script>
 import { ref, onMounted, reactive } from 'vue'
 import NaturalNav from '../NaturalNav.vue'
+import volcano from '../../../behaviordata/natural/volcano'
 export default {
   components: {
     NaturalNav
   },
   setup() {
-    const API_URL = ref(import.meta.env.VITE_DISASTER_BEHAV_API_URL)
-    const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
-    const URL = `/behaviorApi/behaviorconductKnowHow/naturaldisaster/list?safety_cate=01015&serviceKey=`
     const headTitle = ref('산사태 시 국민행동요령')
     const prepareVolcanoAsh = reactive([])
     const fallenVolcanoAsh = reactive([])
@@ -19,65 +17,34 @@ export default {
 
     async function fetchData() {
       try {
-        const response = await fetch(URL + API_KEY.value)
-        const xmlText = await response.text()
-        // XML 데이터 처리
-        API_URL.value = xmlText
-        let parseXml = new DOMParser()
-        let xmlDoc = parseXml.parseFromString(API_URL.value, 'text/xml')
-        const xmlItem = xmlDoc.querySelectorAll('item')
-        // 서브 타이틀
-        const pageSubTitleElement = xmlDoc.querySelectorAll('safetyCateNm3')
-        const subTitle = Array.from(pageSubTitleElement).map((element) => element.textContent)
-        const oneSubTitle = Array.from(new Set(subTitle))
-
+        const data = volcano.response.body.items.item
+        console.log(data)
+        //제목
+        const subTitleCont = data
+          .map((item) => (item.safetyCate2 === 1015 ? item.safetyCateNm3 : null))
+          .filter((item) => item != undefined)
+        const subTitle = new Set(subTitleCont)
         // 경보 별 행동사항
-        const prepareVolcanoAshAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(5).textContent == '01015001') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.tagName.indexOf('contentsType'))
-        )
-        const prepareVolcanoAshImg = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (
-                element.children.item(5).textContent == '01015001' &&
-                element.tagName.indexOf('contentUrl')
-              ) {
-                return element.children.item(1)
-              }
-            })
-            .filter((item) => item !== undefined && item.tagName.indexOf('contentsType'))
-        )
-        const fallenVolcanoAshAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(5).textContent == '01015002') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.tagName.indexOf('contentsType'))
-        )
-        const removeVolcanoAshAction = reactive(
-          Array.from(xmlItem)
-            .map((element) => {
-              if (element.children.item(5).textContent == '01015003') {
-                return element.children.item(0)
-              }
-            })
-            .filter((item) => item !== undefined && item.tagName.indexOf('contentsType'))
-        )
+        const prepareVolcanoAshAction = data
+          .map((item) => (item.safetyCate3 === 1015001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const prepareVolcanoAshImg = data
+          .map((item) => (item.safetyCate3 === 1015001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const fallenVolcanoAshAction = data
+          .map((item) => (item.safetyCate3 === 1015001 ? item.actRmks : null))
+          .filter((item) => item != null)
+        const removeVolcanoAshAction = data
+          .map((item) => (item.safetyCate3 === 1015001 ? item.actRmks : null))
+          .filter((item) => item != null)
+
         prepareVolcanoAsh.push(
-          oneSubTitle[0],
+          [...subTitle][0],
           prepareVolcanoAshAction,
           prepareVolcanoAshImg[0].textContent
         )
-        fallenVolcanoAsh.push(oneSubTitle[1], fallenVolcanoAshAction)
-        removeVolcanoAsh.push(oneSubTitle[2], removeVolcanoAshAction)
+        fallenVolcanoAsh.push([...subTitle][1], fallenVolcanoAshAction)
+        removeVolcanoAsh.push([...subTitle][2], removeVolcanoAshAction)
       } catch (error) {
         console.error(error)
       }
@@ -101,7 +68,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="prepare in prepareVolcanoAsh[1]" :key="prepare">
         <p>
-          {{ prepare.textContent }}
+          {{ prepare }}
         </p>
       </v-card-text>
       <v-img :src="prepareVolcanoAsh[2]" alt="이미지자료" max-width="300" class="mx-auto" />
@@ -112,7 +79,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="fallen in fallenVolcanoAsh[1]" :key="fallen">
         <p>
-          {{ fallen.textContent }}
+          {{ fallen }}
         </p>
       </v-card-text>
     </v-card>
@@ -122,7 +89,7 @@ export default {
       </v-card-title>
       <v-card-text v-for="remove in removeVolcanoAsh[1]" :key="remove">
         <p>
-          {{ remove.textContent }}
+          {{ remove }}
         </p>
       </v-card-text>
     </v-card>
