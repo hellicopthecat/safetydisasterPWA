@@ -23,9 +23,10 @@ export default {
 
         //제목
         const subTitleCont = data
-          .map((item) => (item.safetyCate2 === 1005 ? item.safetyCateNm3 : null))
+          .map((item) => (item.safetyCate2 === 1003 ? item.safetyCateNm3 : null))
           .filter((item) => item != undefined)
         const subTitle = new Set(subTitleCont)
+
         // 경보 별 행동사항
         const beforeHeavyRainAction = data
           .map((item) => (item.safetyCate3 === 1003001 ? item.actRmks : null))
