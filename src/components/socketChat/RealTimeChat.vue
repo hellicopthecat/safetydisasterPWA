@@ -65,8 +65,8 @@ export default {
 </script>
 <template>
   <v-container>
-    <h1>Chat</h1>
-    <v-container class="d-flex flex-column align-center">
+    <h1>채팅방</h1>
+    <v-container class="d-flex flex-column align-center" rounded>
       <v-row>
         <v-col cols="12">
           <v-container class="pb-0">
@@ -79,9 +79,13 @@ export default {
               ref="scrollNum"
             >
               <v-list v-for="item in chats" :key="item.key" :class="[messasgeClass(item)]">
-                <v-list-item>
-                  <p class="my-0 py-0">{{ item.user }} : {{ item.my_message }}</p>
-                  <small>{{ item.happen }}</small>
+                <v-list-item rounded>
+                  <v-contianer class="bg-red-lighten-5">
+                    <p class="my-0 py-0 bg-red-lighten-5">
+                      {{ item.user }} : {{ item.my_message }}
+                    </p>
+                    <small>{{ item.happen }}</small>
+                  </v-contianer>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -90,7 +94,7 @@ export default {
       </v-row>
 
       <v-row>
-        <v-sheet min-width="600" class="mt-0" elevation="7">
+        <v-sheet min-width="600" class="mt-0" elevation="7" rounded>
           <v-form @submit.prevent="fnSendMessage()" class="d-flex align-center px-10 py-0">
             <v-col class="d-flex align-center" cols="12">
               <v-text-field

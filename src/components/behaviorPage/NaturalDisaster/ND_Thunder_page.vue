@@ -54,7 +54,7 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-2 mb-15" :elevation="5">
       <v-card-title>
         <h3>{{ prepareThunder[0] }}</h3>
       </v-card-title>
@@ -65,7 +65,7 @@ export default {
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-2 mb-15" :elevation="5">
       <v-card-title>
         <h3>{{ whenThunder[0] }}</h3>
       </v-card-title>
@@ -74,7 +74,7 @@ export default {
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-2 mb-15" :elevation="5">
       <v-card-title>
         <h3>{{ hitByThunder[0] }}</h3>
       </v-card-title>

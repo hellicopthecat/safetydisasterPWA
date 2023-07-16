@@ -1,6 +1,5 @@
 <script>
 import { ref, onMounted, reactive } from 'vue'
-
 export default {
   setup() {
     const RE = 6371.00877 // 지구 반경(km)
@@ -338,8 +337,8 @@ export default {
 </script>
 
 <template>
-  <v-container class="overflow-auto">
-    <v-card>
+  <v-container class="dayafter overflow-auto pt-0">
+    <v-card elevation="5">
       <v-list>
         <v-card-title>
           <h2>{{ tomorrow }}</h2>
@@ -349,7 +348,7 @@ export default {
             <v-row no-gutters>
               <v-col class="" cols="12">
                 <div class="graph-cont" :class="applyClass()" ref="graphCont">
-                  <div>
+                  <div class="temp-cont">
                     <p class="tempNum">{{ temperature[index].slice(0, 24) }}</p>
                     <span>{{ `&#8451;` }}</span>
                   </div>
@@ -362,7 +361,7 @@ export default {
           </v-card>
         </v-container>
         <v-container class="d-flex">
-          <v-card v-for="(time, index) in fcstTime" :key="time" min-width="250">
+          <v-card v-for="(time, index) in fcstTime" :key="time" min-width="250" elevation="3">
             <v-list>
               <v-list-item>
                 <v-card-title>
@@ -532,9 +531,8 @@ export default {
             <v-row no-gutters>
               <v-col class="" cols="12">
                 <div class="graph-cont" :class="applyClass()" ref="graphCont">
-                  <div>
+                  <div class="temp-cont">
                     <p class="tempNum">{{ temperature.slice(24, 48)[index] }}</p>
-
                     <span>{{ `&#8451;` }}</span>
                   </div>
                   <p>
@@ -546,7 +544,7 @@ export default {
           </v-card>
         </v-container>
         <v-container class="d-flex">
-          <v-card v-for="(time, index) in fcstTime" :key="time" min-width="250">
+          <v-card v-for="(time, index) in fcstTime" :key="time" min-width="250" elevation="3">
             <v-list>
               <v-list-item>
                 <v-card-title>
@@ -712,26 +710,32 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.graph-cont {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
-  font-size: 13px;
-  & > div {
+.dayafter {
+  .graph-cont {
     display: flex;
-    margin-top: 20px;
-    & > span {
-      margin-left: 2px;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 13px;
+    & > div {
+      display: flex;
+      margin-top: 20px;
+      & > span {
+        margin-left: 2px;
+      }
+    }
+    p:nth-child(2) {
+      position: absolute;
+      bottom: -5px;
     }
   }
-  p:nth-child(2) {
-    position: absolute;
-    bottom: 0;
+  .temp-cont {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

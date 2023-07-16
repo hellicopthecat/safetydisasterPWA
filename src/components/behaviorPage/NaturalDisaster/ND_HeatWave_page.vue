@@ -54,8 +54,8 @@ export default {
 
 <template>
   <NaturalNav :title="headTitle" />
-  <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+  <v-container class="heat-wave d-flex flex-column align-center justify-space-around">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>
           {{ beforeHeatWave[0] }}
@@ -63,40 +63,50 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenBefore in beforeHeatWave[1]" :key="whenBefore">
-        {{ whenBefore }}
+        <p>
+          {{ whenBefore }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ whileHeatWave[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="whileHeatWave in whileHeatWave[1]" :key="whileHeatWave">
-        {{ whileHeatWave }}
+        <p>
+          {{ whileHeatWave }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ knowledgeHeatWave[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="whenwhile in knowledgeHeatWave[1]" :key="whenwhile">
-        {{ whenwhile }}
+        <p>
+          {{ whenwhile }}
+        </p>
       </v-card-text>
     </v-card>
   </v-container>
 </template>
 
-<style lang="scss">
-.typoon {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  div {
-    h3 {
-      font-size: 30px;
-    }
+<style lang="scss" scoped>
+.heat-wave {
+  h3 {
+    color: #393a40;
+  }
+  p {
+    margin: 0px;
+    padding-bottom: 0px;
+    color: #393a40;
+  }
+  .v-card-text {
+    padding: 5px;
   }
 }
 </style>

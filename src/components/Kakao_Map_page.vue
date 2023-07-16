@@ -97,10 +97,12 @@ export default {
 
 <template>
   <div class="map-cont">
+    <h2 id="centerAddr"></h2>
     <div id="map"></div>
     <div class="map-info">
-      <h2 id="centerAddr"></h2>
-      <button class="px-3 py-2" @click="panTo">현위치로</button>
+      <button class="px-3 py-2" @click="panTo">
+        <v-icon color="#ffdc17" icon="mdi:mdi-crosshairs-gps"></v-icon>
+      </button>
     </div>
   </div>
 </template>
@@ -111,16 +113,24 @@ export default {
   justify-content: center;
   align-items: center;
   margin-left: 30px;
+  position: relative;
+  h2 {
+    position: absolute;
+    z-index: 99;
+    top: -30px;
+    right: 10px;
+    width: 220px;
+    text-align: right;
+    font-size: 16px;
+  }
   .map-info {
     position: relative;
-    h2 {
-      text-align: right;
-      font-size: 18px;
-    }
     button {
       position: absolute;
-      right: 0;
-      background-color: cornflowerblue;
+      left: 50px;
+      bottom: 0px;
+      z-index: 99;
+      background-color: #393a40;
       color: white;
       font-size: 13px;
     }

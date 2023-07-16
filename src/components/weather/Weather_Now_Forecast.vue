@@ -203,10 +203,10 @@ export default {
 </script>
 
 <template>
-  <v-card class="mx-auto mt-10 mb-10 pa-5" min-width="500">
-    <v-container class="now-weather pt-0 pb-10">
-      <div class="weather-info">
-        <div>
+  <v-card class="mx-auto mt-5 mb-5 pa-5" min-width="500" elevation="4">
+    <v-container class="now-weather">
+      <div class="weather-info mt-5">
+        <div class="d-flex flex-column align-end mt-5">
           <div class="weather-like_cont">
             <v-icon
               v-if="precipitation === '대체로 맑음'"
@@ -255,10 +255,10 @@ export default {
               icon="mdi:mdi-weather-hail"
               class="weather-icon"
             ></v-icon>
-            <p>
-              {{ precipitation }}<br />
+            <div>
+              <p>{{ precipitation }}<br /></p>
               <small> 강수량 : {{ rainfall }}</small>
-            </p>
+            </div>
           </div>
 
           <div class="temp_cont">
@@ -297,22 +297,32 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   .weather-info {
     display: flex;
     justify-content: center;
+    margin-top: 30px;
     .weather-like_cont {
       display: flex;
+      justify-content: space-between;
       align-items: center;
       .weather-icon {
+        margin-left: 20px;
         font-size: 50px;
       }
-      p {
-        margin-left: 10px;
-        font-size: 20px;
-        font-weight: 600;
-        text-align: right;
+      & > div {
+        display: flex;
+        flex-direction: column;
+        p {
+          width: 120px;
+          font-size: 25px;
+          font-weight: 600;
+          text-align: right;
+          margin: 0;
+        }
         small {
           font-size: 13px;
+          text-align: right;
         }
       }
     }

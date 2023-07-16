@@ -210,8 +210,8 @@ export default {
 </script>
 
 <template>
-  <v-container class="today-weather d-flex flex-column overflow-auto">
-    <v-container class="">
+  <v-container class="today-weather d-flex flex-column overflow-auto py-0">
+    <v-container class="py-0">
       <h2>Today</h2>
       <h3>{{ `${YEAR}년 ${MONTH}월 ${DATE}일` }}</h3>
     </v-container>
@@ -220,16 +220,16 @@ export default {
         v-for="(time, index) in fcstTime.slice(0, 6)"
         :key="time"
         class="mr-0"
-        min-width="400"
+        min-width="250"
+        elevation="4"
       >
-        <v-list class="" no-gutters>
+        <v-list class="" no-gutters elevation="8">
           <v-list-item>
-            <v-card-title class="time-text">
+            <v-card-title class="time-text px-0">
               <h2>{{ time.substring(0, 2) + ':00' }}</h2>
             </v-card-title>
-
             <v-card-text>
-              <p class="temp">
+              <p class="temp mt-0">
                 <v-icon v-if="temperature[index] > 28" color="red" icon> mdi-thermometer </v-icon>
                 <v-icon
                   v-else-if="temperature[index] < 28 || temperature[index] >= 21"
@@ -244,7 +244,6 @@ export default {
                 {{ temperature[index] }}℃
               </p>
             </v-card-text>
-
             <v-card-text>
               <p class="weather">
                 <v-icon
@@ -348,7 +347,6 @@ export default {
                 >습도 : {{ humidity[index] }}%
               </p>
             </v-card-text>
-
             <v-card-text>
               <p class="wind">
                 <v-icon color="orange" icon="mdi:mdi-windsock"></v-icon>
@@ -358,7 +356,6 @@ export default {
                 {{ windPower[index] }}
               </p>
             </v-card-text>
-
             <v-card-text>
               <p class="thunder">
                 <v-icon color="yellow-darken-2" icon="mdi:mdi-weather-lightning"></v-icon>
@@ -374,6 +371,11 @@ export default {
 
 <style lang="scss" scoped>
 .today-weather {
+  position: relative;
+  top: -70px;
+  .v-card-text {
+    padding: 0;
+  }
   * > p {
     display: flex;
     align-items: center;
@@ -382,26 +384,27 @@ export default {
     font-size: 18px;
   }
   .temp {
+    margin-left: -10px;
     font-size: 35px;
     font-weight: 600;
   }
   .weather {
-    font-size: 25px;
+    font-size: 20px;
   }
   .cloud {
-    font-size: 19px;
+    font-size: 15px;
   }
   .rain {
-    font-size: 19px;
+    font-size: 15px;
   }
   .humidity {
-    font-size: 19px;
+    font-size: 15px;
   }
   .wind {
-    font-size: 19px;
+    font-size: 15px;
   }
   .thunder {
-    font-size: 19px;
+    font-size: 15px;
   }
 }
 </style>

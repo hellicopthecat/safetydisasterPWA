@@ -44,27 +44,38 @@ export default {
 </script>
 
 <template>
-  <v-app-bar class="pa-0 d-flex align-center" :elevation="5">
-    <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+  <v-app-bar color="#393A40" class="pa-0 d-flex align-center" :elevation="5">
+    <v-app-bar-nav-icon
+      color="#ffdc17"
+      variant="text"
+      @click.stop="drawer = !drawer"
+    ></v-app-bar-nav-icon>
     <v-app-bar-title class="text-left">
-      <Router-link to="/"> Escape from Dangerous </Router-link>
+      <Router-link style="color: white; text-decoration: none" to="/">
+        <h3>Escape from Dangerous</h3>
+      </Router-link>
     </v-app-bar-title>
     <v-spacer></v-spacer>
-    <v-btn v-if="!loggedIn" class="mr-15" icon router to="/login">
-      <v-icon>mdi-login</v-icon>
-      LOG IN
+    <v-btn v-if="!loggedIn" color="white" class="mr-5" router to="/login">
+      <v-icon color="#ffdc17">mdi-login</v-icon>
+      로그인
     </v-btn>
-    <v-btn v-if="!loggedIn" class="mr-15" icon router to="/join">
-      <v-icon>mdi-account</v-icon>
-      JOIN
+    <v-btn v-if="!loggedIn" color="white" class="mr-5" router to="/join">
+      <v-icon color="#ffdc17">mdi-account</v-icon>
+      회원가입
     </v-btn>
-    <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="blue" class="mr-15" icon>
-      <v-icon>mdi-logout</v-icon>
-      LOG OUT
+    <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="white" class="mr-5">
+      <v-icon color="#ffdc17">mdi-logout</v-icon>
+      로그아웃
     </v-btn>
   </v-app-bar>
   <v-card flat>
-    <v-navigation-drawer v-model="drawer" location="left" permanent>
+    <v-navigation-drawer
+      v-model="drawer"
+      style="background-color: #393a40"
+      location="left"
+      permanent
+    >
       <MainNav />
     </v-navigation-drawer>
   </v-card>
@@ -74,5 +85,8 @@ export default {
 .v-icon {
   border: none;
   padding: 0;
+}
+.v-btn {
+  text-decoration: none;
 }
 </style>

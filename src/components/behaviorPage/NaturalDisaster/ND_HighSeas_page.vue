@@ -44,16 +44,34 @@ export default {
 
 <template>
   <NaturalNav :title="headTitle" />
-  <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+  <v-container class="high-sea d-flex flex-column align-center justify-space-around">
+    <v-card width="900" class="pa-5 mb-55" :elevation="5">
       <v-card-title>
         <h3>
           {{ whenForeCastHighSeas[0] }}
         </h3>
       </v-card-title>
       <v-card-text v-for="whenBefore in whenForeCastHighSeas[1]" :key="whenBefore">
-        {{ whenBefore }}
+        <p>
+          {{ whenBefore }}
+        </p>
       </v-card-text>
     </v-card>
   </v-container>
 </template>
+
+<style lang="scss" scoped>
+.high-sea {
+  h3 {
+    color: #393a40;
+  }
+  p {
+    margin: 0px;
+    padding-bottom: 0px;
+    color: #393a40;
+  }
+  .v-card-text {
+    padding: 5px;
+  }
+}
+</style>

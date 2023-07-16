@@ -1,39 +1,3 @@
-<template>
-  <v-container class="d-flex">
-    <v-container class="mx-auto mt-5 mb-10 pa-5">
-      <v-card max-width="600" min-height="600">
-        <v-container>
-          <NowForecast />
-          <v-divider class="my-0"></v-divider>
-          <v-card-actions>
-            <v-btn @click="expand = !expand">
-              {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-if="expand">
-              <WeatherToday />
-            </div>
-          </v-expand-transition>
-          <v-divider class="my-0"></v-divider>
-          <v-card-actions>
-            <v-btn @click="expand2 = !expand2">
-              {{ !expand2 ? '2일간 날씨 보기' : '2일간 날씨 숨기기' }}
-            </v-btn>
-          </v-card-actions>
-          <v-expand-transition>
-            <div v-if="expand2">
-              <WeatherTomorrow />
-            </div>
-          </v-expand-transition>
-        </v-container>
-      </v-card>
-    </v-container>
-    <DisaterMsg />
-  </v-container>
-</template>
-
 <script>
 import { defineComponent, ref } from 'vue'
 import DisaterMsg from '../components/disasterMsg/Disaster_Msg.vue'
@@ -62,3 +26,49 @@ export default defineComponent({
   }
 })
 </script>
+
+<template>
+  <v-container class="d-flex">
+    <v-container class="mx-auto mt-5 mb-10 pa-5">
+      <v-card max-width="600" min-height="600" elevation="8">
+        <v-container>
+          <NowForecast />
+          <v-divider class="my-0"></v-divider>
+          <v-card-actions class="d-flex justify-end">
+            <v-btn @click="expand = !expand">
+              {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
+            </v-btn>
+          </v-card-actions>
+
+          <v-expand-transition>
+            <div v-if="expand">
+              <WeatherToday />
+            </div>
+          </v-expand-transition>
+          <v-divider class="my-0"></v-divider>
+          <v-card-actions class="d-flex justify-end">
+            <v-btn @click="expand2 = !expand2">
+              {{ !expand2 ? '2일간 날씨 보기' : '2일간 날씨 숨기기' }}
+            </v-btn>
+          </v-card-actions>
+          <v-expand-transition>
+            <div v-if="expand2">
+              <WeatherTomorrow />
+            </div>
+          </v-expand-transition>
+        </v-container>
+      </v-card>
+    </v-container>
+    <DisaterMsg />
+  </v-container>
+</template>
+
+<style lang="scss" scoped>
+.v-btn {
+  position: relative;
+  z-index: 99;
+  background-color: #393a40;
+  color: #ffdc17;
+  margin-bottom: 20px;
+}
+</style>

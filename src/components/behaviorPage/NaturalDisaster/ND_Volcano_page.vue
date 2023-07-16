@@ -18,7 +18,6 @@ export default {
     async function fetchData() {
       try {
         const data = volcano.response.body.items.item
-        console.log(data)
         //제목
         const subTitleCont = data
           .map((item) => (item.safetyCate2 === 1015 ? item.safetyCateNm3 : null))
@@ -61,8 +60,8 @@ export default {
 
 <template>
   <NaturalNav :title="headTitle" />
-  <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+  <v-container class="volcano d-flex flex-column align-center justify-space-around">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ prepareVolcanoAsh[0] }}</h3>
       </v-card-title>
@@ -73,7 +72,7 @@ export default {
       </v-card-text>
       <v-img :src="prepareVolcanoAsh[2]" alt="이미지자료" max-width="300" class="mx-auto" />
     </v-card>
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ fallenVolcanoAsh[0] }}</h3>
       </v-card-title>
@@ -83,7 +82,7 @@ export default {
         </p>
       </v-card-text>
     </v-card>
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ removeVolcanoAsh[0] }}</h3>
       </v-card-title>
@@ -96,4 +95,18 @@ export default {
   </v-container>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.volcano {
+  h3 {
+    color: #393a40;
+  }
+  p {
+    margin: 0px;
+    padding-bottom: 0px;
+    color: #393a40;
+  }
+  .v-card-text {
+    padding: 5px;
+  }
+}
+</style>

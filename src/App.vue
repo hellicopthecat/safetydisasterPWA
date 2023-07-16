@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <v-app>
+  <v-app style="background-color: #ffdc17">
     <HeaderComp />
 
     <v-main>
@@ -27,3 +27,5 @@ export default {
     <FooterComp />
   </v-app>
 </template>
+
+<style></style>

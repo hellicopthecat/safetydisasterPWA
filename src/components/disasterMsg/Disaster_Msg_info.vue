@@ -31,7 +31,7 @@ export default {
   <v-container>
     <h2>현 재난상황전파문</h2>
     <v-container v-for="title in dMsgTitle" :key="title">
-      <v-card class="pa-5" :title="title">
+      <v-card class="pa-5" :title="title" elevation="7">
         <v-card-text v-html="msgTextCont"> </v-card-text>
       </v-card>
     </v-container>

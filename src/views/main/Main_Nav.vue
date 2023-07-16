@@ -1,6 +1,5 @@
 <script>
 import { ref } from 'vue'
-import { useAuthStore } from '../../stores/userAuth'
 import { onAuthStateChanged, getAuth } from 'firebase/auth'
 export default {
   setup() {
@@ -23,37 +22,37 @@ export default {
 <template>
   <v-layout>
     <v-list>
-      <v-list-item color="primary" rounded="shaped" router to="/">
+      <v-list-item color="#ffdc17" rounded="shaped" router to="/">
         <template v-slot:prepend>
-          <v-icon icon>mdi-home</v-icon>
+          <v-icon color="#ffdc17" icon>mdi-home</v-icon>
         </template>
         <v-list-item-title>HOME</v-list-item-title>
       </v-list-item>
 
-      <v-list-item color="primary" rounded="shaped" router to="/disasternow">
+      <v-list-item color="#ffdc17" rounded="shaped" router to="/disasternow">
         <template v-slot:prepend>
-          <v-icon icon>mdi-alert</v-icon>
+          <v-icon color="#ffdc17" icon>mdi-alert</v-icon>
         </template>
         <v-list-item-title>현 재난상황전파</v-list-item-title>
       </v-list-item>
 
-      <v-list-item color="primary" rounded="shaped" router to="/safemap">
+      <v-list-item color="#ffdc17" rounded="shaped" router to="/safemap">
         <template v-slot:prepend>
-          <v-icon icon>mdi-near-me</v-icon>
+          <v-icon color="#ffdc17" icon>mdi-near-me</v-icon>
         </template>
         <v-list-item-title>대피시설</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-if="loggedIn" color="primary" rounded="shaped" router to="/chat">
+      <v-list-item v-if="loggedIn" color="#ffdc17" rounded="shaped" router to="/chat">
         <template v-slot:prepend>
-          <v-icon icon="mdi:mdi-chat"></v-icon>
+          <v-icon color="#ffdc17" icon="mdi:mdi-chat"></v-icon>
         </template>
         <v-list-item-title>채팅방</v-list-item-title>
       </v-list-item>
 
-      <v-list-item color="primary" rounded="shaped" router to="/behaviordisaster">
+      <v-list-item color="#ffdc17" rounded="shaped" router to="/behaviordisaster">
         <template v-slot:prepend>
-          <v-icon icon="mdi:mdi-exit-run"></v-icon>
+          <v-icon color="#ffdc17" icon="mdi:mdi-exit-run"></v-icon>
         </template>
         <v-list-item-title>위급시 행동요령</v-list-item-title>
       </v-list-item>
@@ -64,9 +63,8 @@ export default {
 <style lang="scss" scoped>
 .v-list-item,
 .v-icon {
-  color: gray;
-}
-.v-icon {
+  text-decoration: none;
+  color: white;
   border: none;
 }
 </style>

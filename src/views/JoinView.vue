@@ -18,9 +18,9 @@ export default {
     const idRules = {
       required: (value) => {
         if (!value.includes('@')) {
-          return 'Email Full Domain and @ required'
+          return '@가 빠졌습니다. 이메일 형식으로 작성하세요.'
         } else if (!value.match(emailRegExp) || !value.includes('.')) {
-          return 'Domain is required'
+          return '도메인 주소가 필요합니다. '
         }
       }
     }
@@ -29,7 +29,7 @@ export default {
     const pwRules = {
       required: (value) => {
         if (!value.match(pwRegExp)) {
-          return 'More than 6 Letters and also combinate with number and "!,@,#,$"'
+          return '숫자와 영어 특수문자 "!,@,#,$"를 이용해 6자리 이상 문자를 조합해서 작성하세요.'
         }
       }
     }
@@ -39,7 +39,7 @@ export default {
     const nameRules = {
       required: (value) => {
         if (!nameRegExp.test(value)) {
-          return 'You Can Only Write English'
+          return '영문 이름을 작성해주세요'
         }
       }
     }
@@ -108,7 +108,7 @@ export default {
 <template>
   <v-container class="my-5">
     <h2>{{ title }}</h2>
-    <v-sheet width="700" class="mt-2">
+    <v-sheet width="600" class="mt-2" rounded elevation="7">
       <v-form class="pa-10" @submit.prevent="fnRegisterUser">
         <v-text-field
           v-model="id"
@@ -140,12 +140,22 @@ export default {
         ></v-text-field>
 
         <v-alert type="error" dismissible v-model="jAlert"> {{ errMsg }}</v-alert>
-
-        <v-btn type="submit">SUBMIT</v-btn>
-        <v-btn router to="/">CANCEL</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" router to="/login">I already have Account</v-btn>
+        <v-container class="d-flex flex-column align-center pa-0">
+          <v-container class="d-flex flex-column">
+            <v-btn color="#393a40" class="text-white mb-2" type="submit">SUBMIT</v-btn>
+            <v-btn router to="/">CANCEL</v-btn>
+          </v-container>
+          <v-spacer></v-spacer>
+          <v-btn color="#2d539a" class="text-white" router to="/login">
+            I already have Account
+          </v-btn>
+        </v-container>
       </v-form>
     </v-sheet>
   </v-container>
 </template>
+<style lang="scss" scoped>
+.v-btn {
+  text-decoration: none;
+}
+</style>

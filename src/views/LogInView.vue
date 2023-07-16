@@ -11,11 +11,6 @@ import {
 import { useAuthStore } from '../stores/userAuth'
 import router from '@/router'
 export default {
-  data() {
-    return {
-      title: 'Log In'
-    }
-  },
   setup() {
     const auth = getAuth()
     const userAuth = useAuthStore()
@@ -29,9 +24,9 @@ export default {
     const idRules = {
       required: (value) => {
         if (!value.includes('@')) {
-          return 'Email Full Domain and @ required'
+          return '이메일 형식의 아이디를 입력하세요'
         } else if (!value.match(emailRegExp) || !value.includes('.')) {
-          return 'Domain is required'
+          return '.과 도메인주소를 입력하세요'
         }
       }
     }
@@ -40,7 +35,7 @@ export default {
     const pwRules = {
       required: (value) => {
         if (!value.match(pwRegExp)) {
-          return 'More than 6 Letters and also combinate with number and "!,@,#,$"'
+          return '숫자와 영어 특수문자 "!,@,#,$"를 이용해 6자리 이상 문자를 조합해서 작성하세요'
         }
       }
     }
@@ -100,10 +95,10 @@ export default {
 </script>
 
 <template>
-  <v-container>
-    <h2>{{ title }}</h2>
-    <v-sheet width="700">
-      <v-form class="pa-10" @submit.prevent="fnLogin">
+  <v-container class="mt-10">
+    <h2>로 그 인</h2>
+    <v-sheet width="600" rounded elevation="10">
+      <v-form class="pa-10 mt-5" @submit.prevent="fnLogin">
         <v-text-field
           v-model="id"
           label="ID"
@@ -118,16 +113,27 @@ export default {
           :rules="[pwRules.required]"
           clearable
         ></v-text-field>
-        <v-btn color="primary" type="submit">LOG IN</v-btn>
-        <v-btn :loading="loading" router to="/">CANCEL</v-btn>
+        <v-container class="d-flex justify-end align-center pb-0">
+          <v-btn :loading="loading" color="#393a40" class="text-white mr-1" type="submit">
+            LOG IN
+          </v-btn>
+          <v-btn router to="/">CANCEL</v-btn>
+        </v-container>
+
+        <v-container class="d-flex justify-end align-center pt-0 mt-0">
+          <v-btn :loading="loading" @click="fnGoogleLogin" color="#393a40">
+            <v-icon color="#ffdc17" icon="mdi:mdi-google"></v-icon>
+          </v-btn>
+          <v-btn color="#2d539a" class="ml-1 text-white" router to="/join">Create Account</v-btn>
+        </v-container>
       </v-form>
       <v-spacer></v-spacer>
       <v-alert type="error" dismissible v-model="jAlert"> {{ errMsg }}</v-alert>
-      <v-spacer></v-spacer>
-      <v-btn @click="fnGoogleLogin">
-        <v-icon icon="mdi:mdi-google"></v-icon>
-      </v-btn>
-      <v-btn router to="/join">Create Account</v-btn>
     </v-sheet>
   </v-container>
 </template>
+<style lang="scss" scoped>
+.v-btn {
+  text-decoration: none;
+}
+</style>

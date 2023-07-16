@@ -18,7 +18,6 @@ export default {
     async function fetchData() {
       try {
         const data = drought.response.body.items.item
-
         //제목
         const subTitleCont = data
           .map((item) => (item.safetyCate2 === 1010 ? item.safetyCateNm3 : null))
@@ -56,8 +55,8 @@ export default {
 
 <template>
   <NaturalNav :title="headTitle" />
-  <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+  <v-container class="drought d-flex flex-column align-center justify-space-around">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>
           {{ whenDrought[0] }}
@@ -69,7 +68,7 @@ export default {
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ whileDrought[0] }}</h3>
       </v-card-title>
@@ -79,7 +78,7 @@ export default {
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-container>
         <v-list v-for="farmer in droughtFarmer" :key="farmer">
           <v-card-title>
@@ -106,3 +105,18 @@ export default {
     </v-card>
   </v-container>
 </template>
+<style lang="scss" scoped>
+.drought {
+  h3 {
+    color: #393a40;
+  }
+  p {
+    margin: 0px;
+    padding-bottom: 0px;
+    color: #393a40;
+  }
+  .v-card-text {
+    padding: 5px;
+  }
+}
+</style>

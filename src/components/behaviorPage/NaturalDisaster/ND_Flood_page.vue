@@ -62,13 +62,8 @@ export default {
 
 <template>
   <NaturalNav :title="headTitle" />
-  <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-container class="d-flex justify-center">
-      <v-container v-for="img in imgUrl" :key="img">
-        <v-img :src="img" alt="홍수 예보시 행동요령" max-width="400" />
-      </v-container>
-    </v-container>
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+  <v-container class="flood d-flex flex-column align-center justify-space-around">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>
           {{ beforeFlood[0] }}
@@ -76,38 +71,62 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenBefore in beforeFlood[1]" :key="whenBefore">
-        {{ whenBefore }}
+        <p>
+          {{ whenBefore }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ whenWorryFlood[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="whenWorry in whenWorryFlood[1]" :key="whenWorry">
-        {{ whenWorry }}
+        <p>
+          {{ whenWorry }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ afterFlood[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="whenAfter in afterFlood[1]" :key="whenAfter">
-        {{ whenAfter }}
+        <p>
+          {{ whenAfter }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ whenDrawn[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="drawn in whenDrawn[1]" :key="drawn">
-        {{ drawn }}
+        <p>
+          {{ drawn }}
+        </p>
       </v-card-text>
     </v-card>
   </v-container>
 </template>
+
+<style lang="scss" scoped>
+.flood {
+  h3 {
+    color: #393a40;
+  }
+  p {
+    margin: 0px;
+    padding-bottom: 0px;
+    color: #393a40;
+  }
+  .v-card-text {
+    padding: 5px;
+  }
+}
+</style>

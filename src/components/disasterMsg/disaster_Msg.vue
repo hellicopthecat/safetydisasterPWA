@@ -41,21 +41,23 @@ export default {
   <v-container class="mt-6">
     <v-row class="d-flex justify-center">
       <v-col cols="auto">
-        <v-card max-width="600" class="d-flex justify-center">
+        <v-card max-width="450" class="d-flex justify-center" elevation="8">
           <v-container class="d-flex flex-column align-center">
             <v-card-title>
               <h2>전국 긴급재난문자 현황</h2>
             </v-card-title>
-            <v-card max-width="500" max-height="505" class="overflow-y-auto">
+            <v-card max-width="500" max-height="505" class="overflow-y-auto" elevation="2">
               <v-list>
                 <v-list-item v-for="(data, index) in msgData[0]" :key="data">
                   <v-container>
-                    <v-card>
+                    <v-card elevation="8">
                       <v-card-title>
                         <h6>{{ msgData[0][index] }}</h6>
                       </v-card-title>
                       <v-card-text>
-                        <p class="text-lg-h6">{{ msgData[1][index] }}</p>
+                        <p class="text-lg-h5 font-weight-bold">
+                          {{ msgData[1][index] }}
+                        </p>
                         <p>{{ msgData[2][index] }}</p>
                       </v-card-text>
                     </v-card>
@@ -69,3 +71,10 @@ export default {
     </v-row>
   </v-container>
 </template>
+
+<style lang="scss" scoped>
+.v-container,
+.v-card {
+  color: #393a40;
+}
+</style>

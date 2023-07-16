@@ -1,23 +1,20 @@
 <template>
-  <v-footer class="bg-grey-lighten-1">
-    <v-container class="">
-      <v-row class="ma-0" justify="center" no-gutter>
-        <v-btn
-          v-for="link in links"
-          :key="link"
-          color="white mx-auto"
-          variant="text"
-          class="mx-2"
-          rounded="xl"
-        >
-          {{ link }}
-        </v-btn>
+  <v-footer color="#393a40" class="">
+    <div>
+      <v-btn
+        v-for="(link, index) in links"
+        :key="link"
+        color="#ffdc17"
+        variant="text"
+        class="mx-2"
+        rounded="xl"
+        :to="router[index]"
+      >
+        {{ link }}
+      </v-btn>
 
-        <v-col class="text-center pb-0" cols="12">
-          <h4>{{ new Date().getFullYear() }}</h4>
-        </v-col>
-      </v-row>
-    </v-container>
+      <h4 class="text-white">&copy; {{ new Date().getFullYear() }}</h4>
+    </div>
   </v-footer>
 </template>
 
@@ -25,10 +22,24 @@
 export default {
   data() {
     return {
-      links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us']
+      links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us'],
+      router: ['/', '/', '/', '/', '/', '/', '/']
     }
   }
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+footer {
+  background-color: #393a40;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

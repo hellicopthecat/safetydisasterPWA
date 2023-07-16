@@ -121,21 +121,12 @@ export default {
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
         ;(function (marker, title) {
-          kakao.maps.event.addListener(marker, 'mouseover', function () {
-            this.displayInfowindow(marker, title)
-          })
-
-          kakao.maps.event.addListener(marker, 'mouseout', function () {
-            this.infowindow.close()
-          })
-
-          itemEl.onmouseover = function () {
-            this.displayInfowindow(marker, title)
-          }
-
-          itemEl.onmouseout = function () {
-            this.infowindow.close()
-          }
+          // itemEl.onmouseover = function () {
+          //   this.displayInfowindow(marker, title)
+          // }
+          // itemEl.onmouseout = function () {
+          //   this.infowindow.close()
+          // }
         })(marker, places[i].place_name)
 
         fragment.appendChild(itemEl)
@@ -158,22 +149,23 @@ export default {
           '</span>' +
           '<v-container class="info d-flex flex-column mb-3">' +
           '<v-card >' +
-          '<h5>' +
+          '<h4>' +
           (index + 1) +
           '. ' +
           places.place_name +
-          '</h5>'
+          '</h4>'
 
       if (places.road_address_name) {
         itemStr +=
-          '<span>' +
+          '<span class="font-weight-regular text-body-1">' +
           places.road_address_name +
           '</span>' +
-          '<span class="jibun gray">' +
+          '<span class="jibun gray font-weight-regular text-body-1">' +
           places.address_name +
           '</span>'
       } else {
-        itemStr += '<span>' + places.address_name + '</span>'
+        itemStr +=
+          '<span class="font-weight-regular text-body-1">' + places.address_name + '</span>'
       }
 
       itemStr +=
@@ -304,15 +296,15 @@ export default {
 }
 </script>
 <template>
-  <v-contanier>
-    <v-container class="mt-2">
-      <h1>주변 대피소 현황</h1>
+  <v-container>
+    <v-container class="mt-2 mb-0 pb-0">
+      <h1 color="#393a40">주변 대피소 현황</h1>
     </v-container>
-    <v-container class="d-flex align-center">
-      <v-container id="map" class="mr-10"></v-container>
-      <v-card id="menu_wrap" class="bg-white" max-width="400">
+    <v-container class="d-flex align-center pt-0 mt-0">
+      <v-container id="map" class="mr-10 elevation-10"></v-container>
+      <v-card id="menu_wrap" class="bg-white" max-width="400" elevation="8">
         <v-container class="option">
-          <v-sheet>
+          <v-sheet elevation="2">
             <v-form @submit.prevent="searchPlaces()">
               <v-text-field
                 id="keyword"
@@ -321,13 +313,15 @@ export default {
                 label="키워드"
                 :value="keyword"
                 :model-value="keyword"
+                disabled
               ></v-text-field>
-
-              <v-btn class="bg-blue px-3 py-2 rounded">새로고침</v-btn>
+              <v-btn type="submit" color="#2d539a" class="text-white px-3 py-2 rounded">
+                새로고침
+              </v-btn>
             </v-form>
           </v-sheet>
         </v-container>
-        <v-card>
+        <v-card elevation="8">
           <v-container>
             <v-card class="pa-2">
               <v-list id="placesList" max-height="300"></v-list>
@@ -337,7 +331,7 @@ export default {
         </v-card>
       </v-card>
     </v-container>
-  </v-contanier>
+  </v-container>
 </template>
 
 <style lang="scss" scoped>

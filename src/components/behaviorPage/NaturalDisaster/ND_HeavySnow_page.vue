@@ -65,8 +65,8 @@ export default {
 
 <template>
   <NaturalNav :title="headTitle" />
-  <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+  <v-container class="heavy-snow d-flex flex-column align-center justify-space-around">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>
           {{ beforeHeavySnow[0] }}
@@ -74,50 +74,62 @@ export default {
       </v-card-title>
 
       <v-card-text v-for="whenBefore in beforeHeavySnow[1]" :key="whenBefore">
-        {{ whenBefore }}
+        <p>
+          {{ whenBefore }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ whenForecastHeavySnow[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="whenForecast in whenForecastHeavySnow[1]" :key="whenForecast">
-        {{ whenForecast }}
+        <p>
+          {{ whenForecast }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card max-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ whileHeavySnow[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="whenwhile in whileHeavySnow[1]" :key="whenwhile">
-        {{ whenwhile }}
+        <p>
+          {{ whenwhile }}
+        </p>
       </v-card-text>
     </v-card>
 
-    <v-card min-width="900" class="pa-2 mb-15" :elevation="5">
+    <v-card width="900" class="pa-5 mb-5" :elevation="5">
       <v-card-title>
         <h3>{{ afterHeavySnow[0] }}</h3>
       </v-card-title>
 
       <v-card-text v-for="drawn in afterHeavySnow[1]" :key="drawn">
-        {{ drawn }}
+        <p>
+          {{ drawn }}
+        </p>
       </v-card-text>
     </v-card>
   </v-container>
 </template>
 
 <style lang="scss">
-.typoon {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  div {
-    h3 {
-      font-size: 30px;
-    }
+.heavy-snow {
+  h3 {
+    color: #393a40;
+  }
+  p {
+    margin: 0px;
+    padding-bottom: 0px;
+    color: #393a40;
+  }
+  .v-card-text {
+    padding: 5px;
   }
 }
 </style>
