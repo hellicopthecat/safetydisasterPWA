@@ -1,10 +1,11 @@
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { chatDB } from '../../firebase/firebase'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 export default {
   setup() {
-    const scrollBottom = ref(null)
+    const scrollNum = ref(null)
+    const auth = getAuth()
     const chats = ref([])
     const newMessage = ref('')
     const userName = ref('')
@@ -25,26 +26,30 @@ export default {
       })
       newMessage.value = ''
     }
-    // const scrollToBottom = () => {
-    //   const scrollBtm = scrollBottom.value
-    //   console.log(scrollBtm)
-    //   scrollBtm.scrollTop = scrollBtm.scrollHeight
-    // }
+    const messasgeClass = (user) => {
+      const cUser = auth.currentUser
+      if (cUser.email !== user.user) {
+        return 'text-start'
+      } else {
+        return 'text-end'
+      }
+    }
 
     onMounted(() => {
-      const auth = getAuth()
       chatDB.on('value', (snapshot) => {
         chats.value = snapshot.val()
-        // scrollToBottom()
+        nextTick(() => {
+          const scrollTaget = document.getElementById('scroll-target')
+          scrollTaget.scrollTop = scrollTaget.scrollHeight
+        })
       })
       onAuthStateChanged(auth, (user) => {
         if (user.displayName === null) {
           userName.value = user.email
         } else {
-          userName.value = user.displayName
+          userName.value = user.email
         }
       })
-      // scrollToBottom()
     })
 
     return {
@@ -52,8 +57,8 @@ export default {
       newMessage,
       userName,
       fnSendMessage,
-      scrollBottom
-      // scrollToBottom
+      messasgeClass,
+      scrollNum
     }
   }
 }
@@ -66,13 +71,14 @@ export default {
         <v-col cols="12">
           <v-container class="pb-0">
             <v-card
+              id="scroll-target"
               min-width="600"
               height="300"
               class="overflow-y-auto"
               elevation="4"
-              ref="scrollBottom"
+              ref="scrollNum"
             >
-              <v-list v-for="item in chats" :key="item.key">
+              <v-list v-for="item in chats" :key="item.key" :class="[messasgeClass(item)]">
                 <v-list-item>
                   <p class="my-0 py-0">{{ item.user }} : {{ item.my_message }}</p>
                   <small>{{ item.happen }}</small>
