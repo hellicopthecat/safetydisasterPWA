@@ -51,7 +51,7 @@ export default {
       @click.stop="drawer = !drawer"
     ></v-app-bar-nav-icon>
     <v-app-bar-title class="text-left">
-      <Router-link style="color: white; text-decoration: none" to="/">
+      <Router-link style="color: #ffdc17; text-decoration: none" to="/">
         <h3>Escape from Dangerous</h3>
       </Router-link>
     </v-app-bar-title>

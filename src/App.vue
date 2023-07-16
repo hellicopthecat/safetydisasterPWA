@@ -28,4 +28,4 @@ export default {
   </v-app>
 </template>
 
-<style></style>
+<style lang="scss"></style>

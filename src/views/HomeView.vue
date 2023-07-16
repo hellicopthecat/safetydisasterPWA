@@ -30,7 +30,7 @@ export default defineComponent({
 <template>
   <v-container class="d-flex">
     <v-container class="mx-auto mt-5 mb-10 pa-5">
-      <v-card max-width="600" min-height="600" elevation="8">
+      <v-card max-width="600" min-height="580" elevation="8">
         <v-container>
           <NowForecast />
           <v-divider class="my-0"></v-divider>

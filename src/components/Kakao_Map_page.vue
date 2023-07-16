@@ -133,6 +133,7 @@ export default {
       background-color: #393a40;
       color: white;
       font-size: 13px;
+      border-radius: 10px;
     }
   }
 }
