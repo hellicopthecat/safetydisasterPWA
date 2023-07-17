@@ -95,9 +95,9 @@ export default {
 </script>
 
 <template>
-  <v-container class="mt-10">
-    <h2>로 그 인</h2>
-    <v-sheet width="600" rounded elevation="10">
+  <v-container class="mx-auto mt-10">
+    <h2 class="text-center">로 그 인</h2>
+    <v-sheet class="mx-auto" width="600" rounded elevation="10">
       <v-form class="pa-10 mt-5" @submit.prevent="fnLogin">
         <v-text-field
           v-model="id"
@@ -113,7 +113,7 @@ export default {
           :rules="[pwRules.required]"
           clearable
         ></v-text-field>
-        <v-container class="d-flex justify-end align-center pb-0">
+        <v-container class="d-flex justify-end align-center pb-0 mb-3">
           <v-btn :loading="loading" color="#393a40" class="text-white mr-1" type="submit">
             LOG IN
           </v-btn>

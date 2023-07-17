@@ -35,13 +35,17 @@ export default {
       msgData
     }
   }
+  // ,
+  // props() {
+
+  // }
 }
 </script>
 <template>
-  <v-container class="mt-6">
-    <v-row class="d-flex justify-center">
+  <v-container>
+    <v-row class="d-flex">
       <v-col cols="auto">
-        <v-card max-width="450" max-height="580" class="d-flex justify-center" elevation="8">
+        <v-card min-width="620" min-height="580" class="d-flex justify-center" elevation="8">
           <v-container class="d-flex flex-column align-center">
             <v-card-title>
               <h2>전국 긴급재난문자 현황</h2>

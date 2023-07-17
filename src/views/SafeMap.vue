@@ -228,9 +228,11 @@ export default {
         el.href = '#'
         el.innerHTML = i
         el.className = 'pa-1'
+        el.style.textDecoration = 'none'
+        el.style.color = '#2d539a'
 
         if (i === pagination.current) {
-          el.className = 'on'
+          el.className = 'on pa-1'
         } else {
           el.onclick = (function (i) {
             return function () {
@@ -291,18 +293,34 @@ export default {
       // 지도 중심좌표를 접속위치로 변경합니다
       this.map.panTo(locPosition)
       marker.setMap(this.map)
+    },
+    panTo() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const lat = position.coords.latitude
+          const lon = position.coords.longitude
+          const nowPosition = new kakao.maps.LatLng(lat, lon)
+          this.map.panTo(nowPosition)
+        })
+      }
     }
   }
 }
 </script>
 <template>
-  <v-container>
-    <v-container class="mt-2 mb-0 pb-0">
+  <v-container class="d-flex flex-column align-center">
+    <v-container class="text-center mt-2 mb-5 pb-0">
       <h1 color="#393a40">주변 대피소 현황</h1>
     </v-container>
-    <v-container class="d-flex align-center pt-0 mt-0">
-      <v-container id="map" class="mr-10 elevation-10"></v-container>
-      <v-card id="menu_wrap" class="bg-white" max-width="400" elevation="8">
+    <v-container class="d-flex justify-center align-center pt-0 mt-0">
+      <v-container id="map" class="elevation-10 mx-0 mr-10"></v-container>
+      <v-card
+        id="menu_wrap"
+        class="bg-white d-flex flex-column justify-space-between"
+        max-width="400"
+        height="550"
+        elevation="8"
+      >
         <v-container class="option">
           <v-sheet elevation="2">
             <v-form @submit.prevent="searchPlaces()">
@@ -315,13 +333,22 @@ export default {
                 :model-value="keyword"
                 disabled
               ></v-text-field>
-              <v-btn type="submit" color="#2d539a" class="text-white px-3 py-2 rounded">
-                새로고침
-              </v-btn>
+              <v-container class="d-flex justify-end">
+                <v-btn type="submit" color="#2d539a" class="refresh-btn px-3 py-2 mr-2 rounded">
+                  새로고침
+                </v-btn>
+                <v-btn
+                  @click.prevent="panTo()"
+                  color="#ffdc17"
+                  class="location-btn px-3 py-2 rounded"
+                >
+                  현위치
+                </v-btn>
+              </v-container>
             </v-form>
           </v-sheet>
         </v-container>
-        <v-card elevation="8">
+        <v-card class="" elevation="8">
           <v-container>
             <v-card class="pa-2">
               <v-list id="placesList" max-height="300"></v-list>
@@ -343,11 +370,12 @@ export default {
     .v-text-field {
       height: 60px;
     }
-    .v-btn {
-      position: absolute;
-      right: 40px;
-      bottom: 15px;
-    }
+  }
+  .refresh-btn {
+    color: #ffdc17;
+  }
+  .location-btn {
+    color: #393a40;
   }
 }
 </style>

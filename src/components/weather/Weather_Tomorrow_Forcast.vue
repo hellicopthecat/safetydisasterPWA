@@ -86,7 +86,7 @@ export default {
       currentDate.getMinutes() < 10 ? '0' + currentDate.getMinutes() : currentDate.getMinutes()
 
     //00시부터 00시10분까지 전날 날짜로..
-    if (`${nowHour}${nowMinutes}` >= '0000' && `${nowHour}${nowMinutes}` <= '0010') {
+    if (`${nowHour}${nowMinutes}` > '0000' && `${nowHour}${nowMinutes}` < '0010') {
       const theDayBeforeDate = new Date(currentDate.getTime())
       theDayBeforeDate.setDate(theDayBeforeDate.getDate() - 1)
       const theDayBefore =
@@ -99,6 +99,7 @@ export default {
     } else {
       DDAY
     }
+    console.log(DDAY)
 
     const fcstTime = ref([]) //예보시간
     const temperature = reactive([]) //기온
@@ -176,6 +177,7 @@ export default {
       const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
       const URL = `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/${VFCST}?serviceKey=`
       const URL_TYPE = `&numOfRows=1000&dataType=json&pageNo=1&base_date=${DDAY}&base_time=${DAYTIME}&nx=${nx.value}&ny=${ny.value}`
+      console.log(DDAY)
       try {
         const response = await fetch(URL + API_KEY.value + URL_TYPE)
         const data = await response.json()
@@ -730,7 +732,7 @@ export default {
     }
     p:nth-child(2) {
       position: absolute;
-      bottom: -5px;
+      bottom: 5px;
     }
   }
   .temp-cont {

@@ -25,13 +25,16 @@ export default {
         ? '0' + (new Date().getHours() - 1)
         : new Date().getHours() < '10'
         ? '0' + new Date().getHours()
-        : new Date().getHours() > '10'
+        : new Date().getHours() <= '10'
+        ? '0' + (new Date().getHours() - 1)
+        : new Date().getHours() > 10
         ? new Date().getHours() - 1
-        : new Date().getHours()
+        : null
 
     const MINUTES = new Date().getMinutes() < '29' ? '40' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
     const DDAY = YEAR + MONTH + DATE
+    console.log(DAYTIME)
 
     const precipitation = ref('') //강수형태
     const humidity = ref('') //습도
@@ -203,7 +206,7 @@ export default {
 </script>
 
 <template>
-  <v-card class="mx-auto mt-5 mb-5 pa-5" min-width="500" elevation="4">
+  <v-card class="mx-auto pa-5" elevation="4">
     <v-container class="now-weather">
       <div class="weather-info mt-5">
         <div class="d-flex flex-column align-end mt-5">
@@ -314,7 +317,7 @@ export default {
         display: flex;
         flex-direction: column;
         p {
-          width: 120px;
+          width: 150px;
           font-size: 25px;
           font-weight: 600;
           text-align: right;

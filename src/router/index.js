@@ -4,6 +4,8 @@ import LogInPage from '../views/LogInView.vue'
 import JoinView from '../views/JoinView.vue'
 import SafeMap from '../views/SafeMap.vue'
 import ErrorPage from '../views/ErrorPage.vue'
+import SiteMap from '../components/footer/Site_Map.vue'
+import AboutContact from '../components/footer/About_Contact.vue'
 import behaviorDisaster from '../components/behaviorPage/BehaviorNav.vue'
 import RealTimeChat from '../components/socketChat/RealTimeChat.vue'
 import DisasterNow from '../components/disasterMsg/Disaster_Msg_info.vue'
@@ -47,6 +49,16 @@ const router = createRouter({
       path: '/*',
       name: 'ErrorPage',
       component: ErrorPage
+    },
+    {
+      path: '/sitemap',
+      name: 'SiteMap',
+      component: SiteMap
+    },
+    {
+      path: '/about&contact',
+      name: 'AboutContact',
+      component: AboutContact
     },
     {
       path: '/behaviordisaster',

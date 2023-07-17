@@ -65,7 +65,7 @@ export default {
 </script>
 <template>
   <v-container>
-    <h1>채팅방</h1>
+    <h1 class="text-center">채팅방</h1>
     <v-container class="d-flex flex-column align-center" rounded>
       <v-row>
         <v-col cols="12">

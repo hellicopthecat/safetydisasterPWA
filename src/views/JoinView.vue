@@ -107,8 +107,8 @@ export default {
 </script>
 <template>
   <v-container class="my-5">
-    <h2>{{ title }}</h2>
-    <v-sheet width="600" class="mt-2" rounded elevation="7">
+    <h2 class="text-center">{{ title }}</h2>
+    <v-sheet class="mx-auto mt-2" width="600" rounded elevation="7">
       <v-form class="pa-10" @submit.prevent="fnRegisterUser">
         <v-text-field
           v-model="id"
@@ -142,12 +142,12 @@ export default {
         <v-alert type="error" dismissible v-model="jAlert"> {{ errMsg }}</v-alert>
         <v-container class="d-flex flex-column align-center pa-0">
           <v-container class="d-flex flex-column">
-            <v-btn color="#393a40" class="text-white mb-2" type="submit">SUBMIT</v-btn>
-            <v-btn router to="/">CANCEL</v-btn>
+            <v-btn color="#393a40" class="text-white mb-2" type="submit">가 입</v-btn>
+            <v-btn router to="/">취 소</v-btn>
           </v-container>
           <v-spacer></v-spacer>
           <v-btn color="#2d539a" class="text-white" router to="/login">
-            I already have Account
+            이미 계정을 가지고 있습니다
           </v-btn>
         </v-container>
       </v-form>
@@ -156,6 +156,7 @@ export default {
 </template>
 <style lang="scss" scoped>
 .v-btn {
+  font-size: 15px;
   text-decoration: none;
 }
 </style>

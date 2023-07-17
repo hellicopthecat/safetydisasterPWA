@@ -22,8 +22,8 @@
 export default {
   data() {
     return {
-      links: ['Home', 'About Us', 'Team', 'Services', 'Blog', 'Contact Us'],
-      router: ['/', '/', '/', '/', '/', '/', '/']
+      links: ['Home', 'Site Map', 'About & Contact'],
+      router: ['/', '/sitemap', '/about&contact']
     }
   }
 }
