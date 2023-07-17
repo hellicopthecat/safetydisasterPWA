@@ -39,6 +39,8 @@ export default {
       this.map.relayout()
       // 주소-좌표 변환 객체를 생성합니다
       this.geocoder = new kakao.maps.services.Geocoder()
+      // 지도에 교통정보를 표시하도록 지도타입을 추가합니다
+      this.map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function (position) {
