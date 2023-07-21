@@ -206,94 +206,96 @@ export default {
 </script>
 
 <template>
-  <v-card class="mx-auto pa-5" elevation="4">
-    <v-container class="now-weather">
-      <div class="weather-info mt-5">
-        <div class="d-flex flex-column align-end mt-5">
-          <div class="weather-like_cont">
-            <v-icon
-              v-if="precipitation === '대체로 맑음'"
-              color="red"
-              icon="mdi:mdi-weather-sunny"
-              class="weather-icon"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '비'"
-              color="blue-lighten-2"
-              icon="mdi:mdi-weather-rainy"
-              class="weather-icon"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '비/눈'"
-              color="blue-darken-2"
-              icon="mdi:mdi-weather-partly-snowy-rainy"
-              class="weather-icon"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '눈'"
-              color="blue-grey-darken-1"
-              icon="mdi:mdi-weather-snowy"
-              class="weather-icon"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '소나기'"
-              color="blue-grey-lighten-1"
-              icon="mdi:mdi-weather-pouring"
-              class="weather-icon"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '빗방울'"
-              color="cyan-lighten-1"
-              icon="mdi:mdi-weather-partly-rainy"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '빗방울 눈날림'"
-              color="cyan-accent-3"
-              icon="mdi:mdi-weather-snowy-rainy"
-              class="weather-icon"
-            ></v-icon>
-            <v-icon
-              v-else-if="precipitation === '눈날림'"
-              color="cyan-darken-1"
-              icon="mdi:mdi-weather-hail"
-              class="weather-icon"
-            ></v-icon>
-            <div>
-              <p>{{ precipitation }}<br /></p>
-              <small> 강수량 : {{ rainfall }}</small>
+  <v-container>
+    <v-card class="mx-auto pa-3" elevation="4">
+      <v-container class="now-weather">
+        <div class="weather-info mt-5">
+          <div class="d-flex flex-column align-end mt-5">
+            <div class="weather-like_cont">
+              <v-icon
+                v-if="precipitation === '대체로 맑음'"
+                color="red"
+                icon="mdi:mdi-weather-sunny"
+                class="weather-icon"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '비'"
+                color="blue-lighten-2"
+                icon="mdi:mdi-weather-rainy"
+                class="weather-icon"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '비/눈'"
+                color="blue-darken-2"
+                icon="mdi:mdi-weather-partly-snowy-rainy"
+                class="weather-icon"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '눈'"
+                color="blue-grey-darken-1"
+                icon="mdi:mdi-weather-snowy"
+                class="weather-icon"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '소나기'"
+                color="blue-grey-lighten-1"
+                icon="mdi:mdi-weather-pouring"
+                class="weather-icon"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '빗방울'"
+                color="cyan-lighten-1"
+                icon="mdi:mdi-weather-partly-rainy"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '빗방울 눈날림'"
+                color="cyan-accent-3"
+                icon="mdi:mdi-weather-snowy-rainy"
+                class="weather-icon"
+              ></v-icon>
+              <v-icon
+                v-else-if="precipitation === '눈날림'"
+                color="cyan-darken-1"
+                icon="mdi:mdi-weather-hail"
+                class="weather-icon"
+              ></v-icon>
+              <div>
+                <p>{{ precipitation }}<br /></p>
+                <small> 강수량 : {{ rainfall }}</small>
+              </div>
+            </div>
+
+            <div class="temp_cont">
+              <v-icon v-if="temperature > 28" color="red" icon> mdi-thermometer </v-icon>
+              <v-icon v-else-if="temperature < 28 || temperature >= 21" color="green" icon>
+                mdi-thermometer
+              </v-icon>
+              <v-icon v-else-if="temperature > 21" color="blue" icon> mdi-thermometer </v-icon>
+              <p class="temp my-0">{{ temperature }}℃</p>
+            </div>
+
+            <div class="humidity_cont">
+              <v-icon v-if="humidity > 65" color="blue" icon="mdi:mdi-water-alert"></v-icon>
+              <v-icon
+                v-else-if="humidity < 65 || humidity > 40"
+                color="green"
+                icon="mdi:mdi-water-check"
+              ></v-icon>
+              <v-icon v-else-if="humidity < 40" color="red" icon="mdi:mdi-water-minus"></v-icon>
+              <p class="my-0">습도 : {{ humidity }}%</p>
+            </div>
+            <div class="wind_cont">
+              <p>
+                <v-icon icon="mdi:mdi-windsock"></v-icon> : {{ windDirection }}
+                <v-icon icon="mdi:mdi-weather-windy"></v-icon> : {{ windPower }}
+              </p>
             </div>
           </div>
-
-          <div class="temp_cont">
-            <v-icon v-if="temperature > 28" color="red" icon> mdi-thermometer </v-icon>
-            <v-icon v-else-if="temperature < 28 || temperature >= 21" color="green" icon>
-              mdi-thermometer
-            </v-icon>
-            <v-icon v-else-if="temperature > 21" color="blue" icon> mdi-thermometer </v-icon>
-            <p class="temp my-0">{{ temperature }}℃</p>
-          </div>
-
-          <div class="humidity_cont">
-            <v-icon v-if="humidity > 65" color="blue" icon="mdi:mdi-water-alert"></v-icon>
-            <v-icon
-              v-else-if="humidity < 65 || humidity > 40"
-              color="green"
-              icon="mdi:mdi-water-check"
-            ></v-icon>
-            <v-icon v-else-if="humidity < 40" color="red" icon="mdi:mdi-water-minus"></v-icon>
-            <p class="my-0">습도 : {{ humidity }}%</p>
-          </div>
-          <div class="wind_cont">
-            <p>
-              <v-icon icon="mdi:mdi-windsock"></v-icon> : {{ windDirection }}
-              <v-icon icon="mdi:mdi-weather-windy"></v-icon> : {{ windPower }}
-            </p>
-          </div>
+          <KakaoMap />
         </div>
-        <KakaoMap />
-      </div>
-    </v-container>
-  </v-card>
+      </v-container>
+    </v-card>
+  </v-container>
 </template>
 <style lang="scss" scoped>
 .now-weather {

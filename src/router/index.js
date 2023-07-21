@@ -11,6 +11,7 @@ import RealTimeChat from '../components/socketChat/RealTimeChat.vue'
 import DisasterNow from '../components/disasterMsg/Disaster_Msg_info.vue'
 import naturalDisasterRouter from './naturalDisasterRouter'
 import socialDisasterRouter from './socialDisasterRouter'
+import lifeSafetyRouter from './lifeSafetyRouter'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,7 +67,8 @@ const router = createRouter({
       component: behaviorDisaster
     },
     ...naturalDisasterRouter,
-    ...socialDisasterRouter
+    ...socialDisasterRouter,
+    ...lifeSafetyRouter
   ]
 })
 

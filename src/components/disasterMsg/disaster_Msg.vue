@@ -34,46 +34,51 @@ export default {
     return {
       msgData
     }
+  },
+  props: {
+    msgContHeight: null
   }
-  // ,
-  // props() {
-
-  // }
 }
 </script>
 <template>
-  <v-container>
-    <v-row class="d-flex">
-      <v-col cols="auto">
-        <v-card min-width="620" min-height="580" class="d-flex justify-center" elevation="8">
-          <v-container class="d-flex flex-column align-center">
-            <v-card-title>
-              <h2>전국 긴급재난문자 현황</h2>
-            </v-card-title>
-            <v-card max-width="500" max-height="505" class="overflow-y-auto" elevation="2">
-              <v-list>
-                <v-list-item v-for="(data, index) in msgData[0]" :key="data">
-                  <v-container>
-                    <v-card elevation="8">
-                      <v-card-title>
-                        <h6>{{ msgData[0][index] }}</h6>
-                      </v-card-title>
-                      <v-card-text>
-                        <p class="text-lg-h5 font-weight-bold">
-                          {{ msgData[1][index] }}
-                        </p>
-                        <p>{{ msgData[2][index] }}</p>
-                      </v-card-text>
-                    </v-card>
-                  </v-container>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-container>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card
+    min-width="400"
+    max-width="600"
+    :min-height="msgContHeight"
+    class="d-flex justify-center w-100"
+    elevation="8"
+  >
+    <v-container class="d-flex flex-column align-center">
+      <v-card-title>
+        <h2>전국 긴급재난문자 현황</h2>
+      </v-card-title>
+      <v-card
+        max-width="500"
+        min-height="500"
+        :max-height="msgContHeight - 105"
+        class="overflow-y-auto"
+        elevation="2"
+      >
+        <v-list>
+          <v-list-item v-for="(data, index) in msgData[0]" :key="data">
+            <v-container class="pt-0">
+              <v-card elevation="8">
+                <v-card-title>
+                  <h6>{{ msgData[0][index] }}</h6>
+                </v-card-title>
+                <v-card-text>
+                  <p class="text-lg-h5 font-weight-bold">
+                    {{ msgData[1][index] }}
+                  </p>
+                  <p>{{ msgData[2][index] }}</p>
+                </v-card-text>
+              </v-card>
+            </v-container>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-container>
+  </v-card>
 </template>
 
 <style lang="scss" scoped>

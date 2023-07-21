@@ -76,7 +76,7 @@ export default {
         ? '17'
         : new Date().getHours() < '23'
         ? '20'
-        : null
+        : new Date().getHours()
     const MINUTES = new Date().getMinutes() < '10' ? '00' : '10'
     let DAYTIME = `${HOUR}${MINUTES}`
 
@@ -86,7 +86,7 @@ export default {
       currentDate.getMinutes() < 10 ? '0' + currentDate.getMinutes() : currentDate.getMinutes()
 
     //00시부터 00시10분까지 전날 날짜로..
-    if (`${nowHour}${nowMinutes}` > '0000' && `${nowHour}${nowMinutes}` < '0010') {
+    if (DDAY && `${nowHour}${nowMinutes}` > '0000' && `${nowHour}${nowMinutes}` < '0015') {
       const theDayBeforeDate = new Date(currentDate.getTime())
       theDayBeforeDate.setDate(theDayBeforeDate.getDate() - 1)
       const theDayBefore =
@@ -99,8 +99,8 @@ export default {
     } else {
       DDAY
     }
-    console.log(DDAY)
 
+    console.log(DAYTIME)
     const fcstTime = ref([]) //예보시간
     const temperature = reactive([]) //기온
     const windDirection = reactive([]) // 풍향

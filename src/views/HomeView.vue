@@ -18,14 +18,32 @@ export default defineComponent({
   },
   setup() {
     const contHeight = ref(null)
-
+    const heightProp = ref(0)
     const expand = ref(false)
     const expand2 = ref(false)
+    let resizeObserver = null
 
     const YEAR = new Date().getFullYear()
     const MONTH =
       new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
     const DATE = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()
+
+    onMounted(() => {
+      resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          heightProp.value = entry.target.clientHeight
+        }
+      })
+      resizeObserver.observe(contHeight.value?.$el)
+
+      // 컴포넌트가 언마운트될 때 리사이즈 옵저버를 해제합니다.
+      return () => {
+        if (resizeObserver) {
+          resizeObserver.disconnect()
+          resizeObserver = null
+        }
+      }
+    })
 
     return {
       expand,
@@ -33,45 +51,74 @@ export default defineComponent({
       YEAR,
       MONTH,
       DATE,
-      contHeight
+      contHeight,
+      heightProp
     }
   }
 })
 </script>
 
 <template>
-  <v-container class="mx-auto w-50">
-    <v-container class="d-flex justify-center mt-5 mb-10 pa-5">
-      <v-card class="mr-10" min-width="620" min-height="580" elevation="8" ref="contHeight">
-        <NowForecast />
+  <v-container>
+    <v-container>
+      <v-row class="d-flex justify-center align-center mt-5 pa-5 pb-0" no-gutters>
+        <v-col
+          class="d-flex justify-xl-end justify-md-center px-1"
+          xxl="6"
+          xl="6"
+          lg="6"
+          md="12"
+          sm="12"
+        >
+          <v-card id="tWeather" min-height="580" elevation="8" ref="contHeight">
+            <v-container>
+              <NowForecast />
+            </v-container>
 
-        <v-divider class="my-2"></v-divider>
+            <v-divider class="my-2"></v-divider>
 
-        <v-card-actions class="d-flex mr-5 justify-end my-5">
-          <h3 class="mr-5">{{ `${YEAR}년 ${MONTH}월 ${DATE}일` }}</h3>
-          <v-btn @click="expand = !expand">
-            {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
-          </v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-          <div v-if="expand">
-            <WeatherToday />
-          </div>
-        </v-expand-transition>
-
-        <v-divider class="my-2"></v-divider>
-        <v-card-actions class="d-flex mr-5 justify-end">
-          <v-btn @click="expand2 = !expand2">
-            {{ !expand2 ? '2일간 날씨 보기' : '2일간 날씨 숨기기' }}
-          </v-btn>
-        </v-card-actions>
-        <v-expand-transition>
-          <div v-if="expand2">
-            <WeatherTomorrow />
-          </div>
-        </v-expand-transition>
-      </v-card>
-      <DisaterMsg />
+            <v-card-actions class="d-flex mr-5 justify-end my-5">
+              <v-btn @click="expand = !expand">
+                {{ `${YEAR}년 ${MONTH}월 ${DATE}일` }}
+                {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <v-container v-if="expand">
+                <WeatherToday />
+              </v-container>
+            </v-expand-transition>
+          </v-card>
+        </v-col>
+        <v-col
+          class="d-flex justify-xl-start justify-md-center px-1 mt-lg-0 mt-md-3"
+          xxl="6"
+          xl="6"
+          lg="6"
+          md="12"
+          sm="12"
+        >
+          <DisaterMsg :msgContHeight="heightProp" />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container class="pa-0">
+      <v-row class="">
+        <v-col class="" cols="sm-12">
+          <v-card min-width="400" max-width="1100" class="mx-auto">
+            <v-card-actions @click="expand2 = !expand2" class="d-flex justify-center my-5">
+              <v-btn>
+                {{ !expand2 ? '향후 2일간 날씨 숨기기' : '향후 2일간 날씨 보기' }}
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <v-container v-if="!expand2">
+                <WeatherTomorrow />
+              </v-container>
+            </v-expand-transition>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </v-container>
 </template>

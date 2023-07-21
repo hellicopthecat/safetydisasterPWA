@@ -213,169 +213,167 @@ export default {
 </script>
 
 <template>
-  <v-container class="today-weather d-flex flex-column py-0">
-    <v-card class="my-3 overflow-auto" elevation="8">
-      <v-container class="d-flex">
-        <v-card
-          v-for="(time, index) in fcstTime.slice(0, 6)"
-          :key="time"
-          class="mr-0"
-          min-width="250"
-          elevation="4"
-        >
-          <v-list class="" no-gutters elevation="4">
-            <v-list-item>
-              <v-card-title class="time-text px-0">
-                <h2>{{ time.substring(0, 2) + ':00' }}</h2>
-              </v-card-title>
-              <v-card-text>
-                <p class="temp mt-0">
-                  <v-icon v-if="temperature[index] > 28" color="red" icon> mdi-thermometer </v-icon>
-                  <v-icon
-                    v-else-if="temperature[index] < 28 || temperature[index] >= 21"
-                    color="green"
-                    icon
-                  >
-                    mdi-thermometer
-                  </v-icon>
-                  <v-icon v-else-if="temperature[index] > 21" color="blue" icon>
-                    mdi-thermometer
-                  </v-icon>
-                  {{ temperature[index] }}℃
-                </p>
-              </v-card-text>
-              <v-card-text>
-                <p class="weather">
-                  <v-icon
-                    v-if="precipitation[index] === '대체로 맑음'"
-                    color="red"
-                    icon="mdi:mdi-weather-sunny"
-                    class="weather-icon"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '비'"
-                    color="blue-lighten-2"
-                    icon="mdi:mdi-weather-rainy"
-                    class="weather-icon"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '비/눈'"
-                    color="blue-darken-2"
-                    icon="mdi:mdi-weather-partly-snowy-rainy"
-                    class="weather-icon"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '눈'"
-                    color="blue-grey-darken-1"
-                    icon="mdi:mdi-weather-snowy"
-                    class="weather-icon"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '소나기'"
-                    color="blue-grey-lighten-1"
-                    icon="mdi:mdi-weather-pouring"
-                    class="weather-icon"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '빗방울'"
-                    color="cyan-lighten-1"
-                    icon="mdi:mdi-weather-partly-rainy"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '빗방울 눈날림'"
-                    color="cyan-accent-3"
-                    icon="mdi:mdi-weather-snowy-rainy"
-                    class="weather-icon"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="precipitation[index] === '눈날림'"
-                    color="cyan-darken-1"
-                    icon="mdi:mdi-weather-hail"
-                    class="weather-icon"
-                  ></v-icon>
-                  {{ precipitation[index] }}
-                </p>
-              </v-card-text>
-              <v-card-text>
-                <p class="cloud">
-                  구름량
-                  <v-icon
-                    v-if="cloudStatus[index] === '맑음'"
-                    color="red"
-                    icon="mdi:mdi-weather-sunny"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="cloudStatus[index] === '구름많음'"
-                    color="grey-darken-1"
-                    icon="mdi:mdi-weather-cloudy"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="cloudStatus[index] === '흐림'"
-                    color="grey-darken-4"
-                    icon="mdi:mdi-cloudStatus[index]"
-                  ></v-icon>
-                  {{ cloudStatus[index] }}
-                </p>
-              </v-card-text>
-              <v-card-text>
-                <p class="rain">
-                  <v-icon
-                    color="blue-lighten-2"
-                    icon="mdi:mdi-weather-rainy"
-                    class="weather-icon"
-                  ></v-icon>
-                  {{ rainfall[index] }}
-                </p>
-              </v-card-text>
-              <v-card-text>
-                <p class="humidity">
-                  <v-icon
-                    v-if="humidity[index] > 65"
-                    color="blue"
-                    icon="mdi:mdi-water-alert"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="humidity[index] < 65 || humidity[index] > 40"
-                    color="green"
-                    icon="mdi:mdi-water-check"
-                  ></v-icon>
-                  <v-icon
-                    v-else-if="humidity[index] < 40"
-                    color="red"
-                    icon="mdi:mdi-water-minus"
-                  ></v-icon
-                  >습도 : {{ humidity[index] }}%
-                </p>
-              </v-card-text>
-              <v-card-text>
-                <p class="wind">
-                  <v-icon color="orange" icon="mdi:mdi-windsock"></v-icon>
-                  {{ windDirection[index] }}
-                  <br />
-                  <v-icon color="blue-darken-3" icon="mdi:mdi-weather-windy"></v-icon>
-                  {{ windPower[index] }}
-                </p>
-              </v-card-text>
-              <v-card-text>
-                <p class="thunder">
-                  <v-icon color="yellow-darken-2" icon="mdi:mdi-weather-lightning"></v-icon>
-                  {{ lightening[index] }} kA(킬로암페어)/㎢
-                </p>
-              </v-card-text>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-container>
-    </v-card>
-  </v-container>
+  <v-card class="today-weather overflow-auto" elevation="8">
+    <v-container class="d-flex">
+      <v-card
+        v-for="(time, index) in fcstTime.slice(0, 6)"
+        :key="time"
+        class="mr-0"
+        min-width="250"
+        elevation="4"
+      >
+        <v-list class="" no-gutters elevation="4">
+          <v-list-item>
+            <v-card-title class="time-text px-0">
+              <h2>{{ time.substring(0, 2) + ':00' }}</h2>
+            </v-card-title>
+            <v-card-text>
+              <p class="temp mt-0">
+                <v-icon v-if="temperature[index] > 28" color="red" icon> mdi-thermometer </v-icon>
+                <v-icon
+                  v-else-if="temperature[index] < 28 || temperature[index] >= 21"
+                  color="green"
+                  icon
+                >
+                  mdi-thermometer
+                </v-icon>
+                <v-icon v-else-if="temperature[index] > 21" color="blue" icon>
+                  mdi-thermometer
+                </v-icon>
+                {{ temperature[index] }}℃
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="weather">
+                <v-icon
+                  v-if="precipitation[index] === '대체로 맑음'"
+                  color="red"
+                  icon="mdi:mdi-weather-sunny"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '비'"
+                  color="blue-lighten-2"
+                  icon="mdi:mdi-weather-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '비/눈'"
+                  color="blue-darken-2"
+                  icon="mdi:mdi-weather-partly-snowy-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '눈'"
+                  color="blue-grey-darken-1"
+                  icon="mdi:mdi-weather-snowy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '소나기'"
+                  color="blue-grey-lighten-1"
+                  icon="mdi:mdi-weather-pouring"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '빗방울'"
+                  color="cyan-lighten-1"
+                  icon="mdi:mdi-weather-partly-rainy"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '빗방울 눈날림'"
+                  color="cyan-accent-3"
+                  icon="mdi:mdi-weather-snowy-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                <v-icon
+                  v-else-if="precipitation[index] === '눈날림'"
+                  color="cyan-darken-1"
+                  icon="mdi:mdi-weather-hail"
+                  class="weather-icon"
+                ></v-icon>
+                {{ precipitation[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="cloud">
+                구름량
+                <v-icon
+                  v-if="cloudStatus[index] === '맑음'"
+                  color="red"
+                  icon="mdi:mdi-weather-sunny"
+                ></v-icon>
+                <v-icon
+                  v-else-if="cloudStatus[index] === '구름많음'"
+                  color="grey-darken-1"
+                  icon="mdi:mdi-weather-cloudy"
+                ></v-icon>
+                <v-icon
+                  v-else-if="cloudStatus[index] === '흐림'"
+                  color="grey-darken-4"
+                  icon="mdi:mdi-cloudStatus[index]"
+                ></v-icon>
+                {{ cloudStatus[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="rain">
+                <v-icon
+                  color="blue-lighten-2"
+                  icon="mdi:mdi-weather-rainy"
+                  class="weather-icon"
+                ></v-icon>
+                {{ rainfall[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="humidity">
+                <v-icon
+                  v-if="humidity[index] > 65"
+                  color="blue"
+                  icon="mdi:mdi-water-alert"
+                ></v-icon>
+                <v-icon
+                  v-else-if="humidity[index] < 65 || humidity[index] > 40"
+                  color="green"
+                  icon="mdi:mdi-water-check"
+                ></v-icon>
+                <v-icon
+                  v-else-if="humidity[index] < 40"
+                  color="red"
+                  icon="mdi:mdi-water-minus"
+                ></v-icon
+                >습도 : {{ humidity[index] }}%
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="wind">
+                <v-icon color="orange" icon="mdi:mdi-windsock"></v-icon>
+                {{ windDirection[index] }}
+                <br />
+                <v-icon color="blue-darken-3" icon="mdi:mdi-weather-windy"></v-icon>
+                {{ windPower[index] }}
+              </p>
+            </v-card-text>
+            <v-card-text>
+              <p class="thunder">
+                <v-icon color="yellow-darken-2" icon="mdi:mdi-weather-lightning"></v-icon>
+                {{ lightening[index] }} kA(킬로암페어)/㎢
+              </p>
+            </v-card-text>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-container>
+  </v-card>
 </template>
 
 <style lang="scss" scoped>
 .today-weather {
   position: relative;
-  top: -30px;
+  top: -10px;
   .v-card-text {
-    padding: 0;
+    padding: 5px;
   }
   * > p {
     display: flex;

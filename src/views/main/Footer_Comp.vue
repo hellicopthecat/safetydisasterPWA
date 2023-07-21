@@ -13,7 +13,7 @@
         {{ link }}
       </v-btn>
 
-      <h4 class="text-white">&copy; {{ new Date().getFullYear() }}</h4>
+      <h4 class="text-white">&copy; {{ new Date().getFullYear() }} E.F.D</h4>
     </div>
   </v-footer>
 </template>
