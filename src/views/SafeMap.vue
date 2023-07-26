@@ -11,10 +11,14 @@ export default {
       infowindow: null,
       markers: [],
       keyword: '대피소',
-      infoDiv: ''
+      infoDiv: '',
+      tab: null,
+      adress: null,
+      seoulMarket: []
     }
   },
   mounted() {
+    this.fetechData()
     if (window.kakao && window.kakao.maps) {
       this.init()
     } else {
@@ -26,6 +30,33 @@ export default {
     }
   },
   methods: {
+    async fetechData() {
+      const URL =
+        'https://api.odcloud.kr/api/15006074/v1/uddi:2ec408ec-25bc-4519-a51f-b6075cc9e1d5_201604250859?page=1&perPage=1000&returnType=json&serviceKey='
+      const API_KEY = ref(import.meta.env.VITE_ENCODING_KEY)
+      try {
+        const response = await fetch(URL + API_KEY.value)
+        const json = await response.json()
+        console.log(json.data)
+        const seoulMarketArray = json.data
+          .map((item) =>
+            item.주소.includes('서울특별시')
+              ? this.seoulMarket.push({
+                  tel: item.대표전화번호,
+                  storeName: item.업체명,
+                  adress: item.주소,
+                  product: item.품목명
+                })
+              : null
+          )
+          .filter((item) => item != null)
+
+        console.log(seoulMarketArray)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     init() {
       const container = document.getElementById('map') //지도를 담을 영역의 DOM 레퍼런스
       const options = {
@@ -319,23 +350,28 @@ export default {
       <v-card
         id="menu_wrap"
         class="bg-white d-flex flex-column justify-space-between"
-        max-width="400"
+        min-width="400"
         height="550"
         elevation="8"
       >
         <v-container class="option">
+          <v-tabs color="deep-purple-accent-4" align-tabs="center" v-model="tab">
+            <v-tab :value="1">대피소</v-tab>
+            <v-tab :value="2">재난구호물품취급소</v-tab>
+          </v-tabs>
           <v-sheet elevation="2">
             <v-form @submit.prevent="searchPlaces()">
               <v-text-field
                 id="keyword"
                 height="1"
                 type="text"
-                label="키워드"
+                label="키워드를 입력하세요."
                 :value="keyword"
                 :model-value="keyword"
-                disabled
+                v-if="tab === 1 ? (keyword = '대피소') : keyword"
               ></v-text-field>
-              <v-container class="d-flex justify-end">
+              {{ console.log(keyword) }}
+              <v-container class="d-flex justify-end pa-2">
                 <v-btn type="submit" color="#2d539a" class="refresh-btn px-3 py-2 mr-2 rounded">
                   새로고침
                 </v-btn>
@@ -349,23 +385,48 @@ export default {
               </v-container>
             </v-form>
           </v-sheet>
+          <v-window v-model="tab">
+            <v-window-item :value="1">
+              <v-card class="" elevation="8">
+                <v-container>
+                  <v-card class="">
+                    <v-list id="placesList" max-height="300"></v-list>
+                  </v-card>
+                  <v-container id="pagination" class="text-center"></v-container>
+                </v-container>
+              </v-card>
+            </v-window-item>
+
+            <v-window-item :value="2">
+              <v-container>
+                <v-card v-for="(seoul, i) in seoulMarket" :key="seoul" max-height="300">
+                  <v-card-title>
+                    <h4>{{ seoulMarket[i].storeName }}</h4>
+                  </v-card-title>
+                  <v-card-text class="overflow-y">
+                    <p>
+                      <a
+                        href="#none"
+                        @click.prevent="keyword = $refs.adress[i].innerText"
+                        ref="adress"
+                      >
+                        {{ seoulMarket[i].adress }}
+                      </a>
+                    </p>
+                    <p>{{ seoulMarket[i].tel }}</p>
+                    <p>{{ seoulMarket[i].product }}</p>
+                  </v-card-text>
+                </v-card>
+              </v-container>
+            </v-window-item>
+          </v-window>
         </v-container>
-        <v-card class="" elevation="8">
-          <v-container>
-            <v-card class="pa-2">
-              <v-list id="placesList" max-height="300"></v-list>
-            </v-card>
-          </v-container>
-          <v-container id="pagination" class="text-center"></v-container>
-        </v-card>
       </v-card>
     </v-container>
   </v-container>
 </template>
 
 <style lang="scss" scoped>
-#map {
-}
 #menu_wrap {
   .v-form {
     position: relative;

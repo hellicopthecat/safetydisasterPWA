@@ -48,7 +48,12 @@
         </v-card>
       </v-col>
       <v-col cols="6">
-        <v-card class="d-flex align-center" min-height="200">
+        <v-card
+          class="d-flex align-center"
+          min-height="200"
+          router
+          to="/behaviordisaster/civildefense/firstphase"
+        >
           <!-- <v-img height="200" src="src/img/civil.jpeg" cover> </v-img> -->
           <v-card-text class="d-flex justify-center align-center pa-0">
             <v-btn class="text-h6 text-white" color="#393a40" style="background-color: #2d539a">

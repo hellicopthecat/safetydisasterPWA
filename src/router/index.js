@@ -12,6 +12,7 @@ import DisasterNow from '../components/disasterMsg/Disaster_Msg_info.vue'
 import naturalDisasterRouter from './naturalDisasterRouter'
 import socialDisasterRouter from './socialDisasterRouter'
 import lifeSafetyRouter from './lifeSafetyRouter'
+import civilDefenseRouter from './civilDefenseRouter'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,7 +69,8 @@ const router = createRouter({
     },
     ...naturalDisasterRouter,
     ...socialDisasterRouter,
-    ...lifeSafetyRouter
+    ...lifeSafetyRouter,
+    ...civilDefenseRouter
   ]
 })
 
