@@ -10,11 +10,12 @@ export default {
       ps: null,
       infowindow: null,
       markers: [],
-      keyword: '대피소',
+      keyword: null,
       infoDiv: '',
       tab: null,
       adress: null,
-      seoulMarket: []
+      seoulMarket: [],
+      marketAdrr: null
     }
   },
   mounted() {
@@ -101,13 +102,14 @@ export default {
     //////////////////////////////////////////////////
     // 키워드 검색을 요청하는 함수입니다
     searchPlaces() {
-      const keyword = document.getElementById('keyword').value
-      if (!keyword.replace(/^\s+|\s+$/g, '')) {
+      // const keyword = document.getElementById('keyword').value
+      // console.log(keyword)
+      if (!this.keyword.replace(/^\s+|\s+$/g, '')) {
         alert('키워드를 입력해주세요!')
         return false
       }
       // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-      this.ps.keywordSearch(this.infoDiv + keyword, this.placesSearchCB)
+      this.ps.keywordSearch(this.infoDiv + this.keyword, this.placesSearchCB)
     },
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
     placesSearchCB(data, status, pagination) {
@@ -359,16 +361,16 @@ export default {
             <v-tab :value="1">대피소</v-tab>
             <v-tab :value="2">재난구호물품취급소</v-tab>
           </v-tabs>
+
           <v-sheet elevation="2">
-            <v-form @submit.prevent="searchPlaces()">
+            <v-form @submit.prevent="searchPlaces(keyword)">
               <v-text-field
                 id="keyword"
                 height="1"
                 type="text"
                 label="키워드를 입력하세요."
-                :value="keyword"
                 :model-value="keyword"
-                v-if="tab === 1 ? (keyword = '대피소') : keyword"
+                v-if="tab === 1 ? (keyword = '대피소') : (keyword = marketAdrr)"
               ></v-text-field>
               {{ console.log(keyword) }}
               <v-container class="d-flex justify-end pa-2">
@@ -399,23 +401,27 @@ export default {
 
             <v-window-item :value="2">
               <v-container>
-                <v-card v-for="(seoul, i) in seoulMarket" :key="seoul" max-height="300">
-                  <v-card-title>
-                    <h4>{{ seoulMarket[i].storeName }}</h4>
-                  </v-card-title>
-                  <v-card-text class="overflow-y">
-                    <p>
-                      <a
-                        href="#none"
-                        @click.prevent="keyword = $refs.adress[i].innerText"
-                        ref="adress"
-                      >
+                <v-card class="overflow-auto" height="350">
+                  <v-card v-for="(seoul, i) in seoulMarket" :key="seoul" max-height="300">
+                    <v-card-title>
+                      <h4>
+                        <a
+                          href="#none"
+                          @click.prevent="marketAdrr = $refs.adress[i].innerText"
+                          ref="adress"
+                        >
+                          {{ seoulMarket[i].storeName }}
+                        </a>
+                      </h4>
+                    </v-card-title>
+                    <v-card-text>
+                      <p>
                         {{ seoulMarket[i].adress }}
-                      </a>
-                    </p>
-                    <p>{{ seoulMarket[i].tel }}</p>
-                    <p>{{ seoulMarket[i].product }}</p>
-                  </v-card-text>
+                      </p>
+                      <p>{{ seoulMarket[i].tel }}</p>
+                      <p>{{ seoulMarket[i].product }}</p>
+                    </v-card-text>
+                  </v-card>
                 </v-card>
               </v-container>
             </v-window-item>
