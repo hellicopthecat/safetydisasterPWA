@@ -60,14 +60,14 @@ export default {
 
     init() {
       const container = document.getElementById('map') //지도를 담을 영역의 DOM 레퍼런스
+      container.classList.add('w-100')
+      container.style.height = '550px'
       const options = {
         //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
         level: 3 //지도의 레벨(확대, 축소 정도)
       }
       this.map = new kakao.maps.Map(container, options) //지도 생성 및 객체 리턴
-      container.style.width = '900px'
-      container.style.height = '550px'
       this.map.relayout()
       // 주소-좌표 변환 객체를 생성합니다
       this.geocoder = new kakao.maps.services.Geocoder()
@@ -344,11 +344,13 @@ export default {
 </script>
 <template>
   <v-container class="d-flex flex-column align-center">
-    <v-container class="text-center mt-2 mb-5 pb-0">
+    <v-container class="text-center mt-2 mb-5">
       <h1 color="#393a40">주변 대피소 현황</h1>
     </v-container>
-    <v-container class="d-flex justify-center align-center pt-0 mt-0">
-      <v-container id="map" class="elevation-10 mx-0 mr-10"></v-container>
+    <v-container
+      class="d-flex flex-md-row flex-column align-sm-center justify-center align-center pt-0 mt-0"
+    >
+      <v-container id="map" class="elevation-10 ma-10"></v-container>
       <v-card
         id="menu_wrap"
         class="bg-white d-flex flex-column justify-space-between"

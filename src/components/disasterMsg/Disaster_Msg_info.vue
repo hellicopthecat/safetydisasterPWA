@@ -38,15 +38,17 @@ export default {
 <template>
   <v-container v-if="!loading">
     <h2 class="my-3">현 재난상황전파문</h2>
-    <v-carousel show-arrows="hover">
-      <v-carousel-item v-for="(title, index) in dMsgTitle" :key="title">
-        <v-card class="pa-5" :title="title" elevation="7">
+    <v-carousel show-arrows="hover" hide-delimiter-background height="auto">
+      <v-carousel-item v-for="title in dMsgTitle" :key="title">
+        <v-card class="pa-10" :title="title" elevation="7">
           <v-card-text v-html="msgTextCont"> </v-card-text>
         </v-card>
       </v-carousel-item>
     </v-carousel>
   </v-container>
   <v-container v-else>
-    <h2>loading</h2>
+    <v-container class="ma-5 bg-white rounded">
+      <h2 class="pa-5">데이터를 불러오고 있습니다.</h2>
+    </v-container>
   </v-container>
 </template>

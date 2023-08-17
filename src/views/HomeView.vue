@@ -63,14 +63,14 @@ export default defineComponent({
     <v-container>
       <v-row class="d-flex justify-center align-center mt-5 pa-5 pb-0" no-gutters>
         <v-col
-          class="d-flex justify-xl-end justify-md-center px-1"
+          class="d-flex justify-xl-end justify-md-center justify-sm-center px-1"
           xxl="6"
           xl="6"
           lg="6"
           md="12"
           sm="12"
         >
-          <v-card id="tWeather" min-height="580" elevation="8" ref="contHeight">
+          <v-card id="tWeather" min-height="580" elevation="8" ref="contHeight" class="my-2">
             <v-container>
               <NowForecast />
             </v-container>
@@ -91,7 +91,7 @@ export default defineComponent({
           </v-card>
         </v-col>
         <v-col
-          class="d-flex justify-xl-start justify-md-center px-1 mt-lg-0 mt-md-3"
+          class="d-flex justify-xl-start justify-md-center justify-sm-center px-1 mt-lg-0 mt-md-3"
           xxl="6"
           xl="6"
           lg="6"

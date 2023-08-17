@@ -55,16 +55,16 @@ export default {
         <h3>Escape from Danger</h3>
       </Router-link>
     </v-app-bar-title>
-    <v-spacer></v-spacer>
-    <v-btn v-if="!loggedIn" color="white" class="mr-5" router to="/login">
+
+    <v-btn v-if="!loggedIn" color="white" class="mx-1 px-3" router to="/login">
       <v-icon color="#ffdc17">mdi-login</v-icon>
       로그인
     </v-btn>
-    <v-btn v-if="!loggedIn" color="white" class="mr-5" router to="/join">
+    <v-btn v-if="!loggedIn" color="white" class="mx-1 px-3" router to="/join">
       <v-icon color="#ffdc17">mdi-account</v-icon>
       회원가입
     </v-btn>
-    <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="white" class="mr-5">
+    <v-btn @click.prevent="fnLogOut" v-if="loggedIn" color="white" class="mx-1">
       <v-icon color="#ffdc17">mdi-logout</v-icon>
       로그아웃
     </v-btn>
