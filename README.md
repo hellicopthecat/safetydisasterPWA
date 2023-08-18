@@ -1,14 +1,15 @@
-# vue_pwa-project
+# Escape From Danger (돔황챠)
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+## 주요기능
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+공공 OPEN DATA API - 날씨 / 재난문자현황 / 현상황전파문 / 주위 대피소 현황 및 재난구호물품 취급소 (카카오 MAP) / 국민행동요령 / 로그인 회원가입 실시간데이터베이스 기반 채팅기능 (파이어베이스)
 
-## Customize configuration
+## Test ID
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+id: qq@qq.qq
+pw: 11qq!!
 
 ## Project Setup
 
@@ -56,6 +57,10 @@ npm run test:e2e
 npm run lint
 ```
 
-#ffdc17
-#393a40
-#2d539a
+## Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
