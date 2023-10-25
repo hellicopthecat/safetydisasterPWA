@@ -20,7 +20,7 @@ export default {
     MONTH = MONTH < 10 ? '0' + MONTH : MONTH
     DATE = DATE < 10 ? '0' + DATE : DATE
     //오늘
-    let DDAY = YEAR + MONTH + DATE
+    let DDAY = `${YEAR}${MONTH}${DATE}`
 
     //내일
     const tomorrowDate = new Date(currentDate.getTime())
@@ -99,7 +99,7 @@ export default {
     } else {
       DDAY
     }
-
+    console.log(DDAY)
     console.log(DAYTIME)
     const fcstTime = ref([]) //예보시간
     const temperature = reactive([]) //기온
