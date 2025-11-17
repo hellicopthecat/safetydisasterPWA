@@ -67,60 +67,68 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="water-logged d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ forCastWaterLogged[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="forCast in forCastWaterLogged[1]" :key="forCast">
-        <p>
-          {{ forCast }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ cityWaterLogged[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="city in cityWaterLogged[1]" :key="city">
-        <p>
-          {{ city }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ shoreLineWaterLogged[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="shoreLineHappen in shoreLineWaterLogged[1]" :key="shoreLineHappen">
-        <p>
-          {{ shoreLineHappen }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ farmWaterLogged[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="farmHappen in farmWaterLogged[1]" :key="farmHappen">
-        <p>
-          {{ farmHappen }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ mountainWaterLogged[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="mountainHappen in mountainWaterLogged[1]" :key="mountainHappen">
-        <p>
-          {{ mountainHappen }}
-        </p>
-      </v-card-text>
-    </v-card>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ forCastWaterLogged[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="forCast in forCastWaterLogged[1]" :key="forCast">
+            <p>
+              {{ forCast }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ cityWaterLogged[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="city in cityWaterLogged[1]" :key="city">
+            <p>
+              {{ city }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ shoreLineWaterLogged[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="shoreLineHappen in shoreLineWaterLogged[1]" :key="shoreLineHappen">
+            <p>
+              {{ shoreLineHappen }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ farmWaterLogged[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="farmHappen in farmWaterLogged[1]" :key="farmHappen">
+            <p>
+              {{ farmHappen }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ mountainWaterLogged[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="mountainHappen in mountainWaterLogged[1]" :key="mountainHappen">
+            <p>
+              {{ mountainHappen }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

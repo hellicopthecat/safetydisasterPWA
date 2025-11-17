@@ -11,6 +11,7 @@ export default {
       try {
         const response = await fetch(API_URL)
         const data = await response.json()
+        console.log(data)
         let i = 0
         for (; i < data.MisfortuneSituationNoticeMsg[1].row.length; i++) {
           const title = data.MisfortuneSituationNoticeMsg[1].row[i].titl

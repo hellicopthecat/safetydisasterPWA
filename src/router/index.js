@@ -48,7 +48,7 @@ const router = createRouter({
       component: DisasterNow
     },
     {
-      path: '/*',
+      path: '/:id',
       name: 'ErrorPage',
       component: ErrorPage
     },

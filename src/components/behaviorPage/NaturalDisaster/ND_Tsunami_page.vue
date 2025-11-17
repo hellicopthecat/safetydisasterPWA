@@ -47,25 +47,31 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="tsunami d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ onShipTsunami[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="onShip in onShipTsunami[1]" :key="onShip">
-        <p>
-          {{ onShip }}
-        </p>
-      </v-card-text>
-    </v-card>
-    <v-card width="900" class="pa-5 mb-5 d-flex flex-column" :elevation="5">
-      <v-card-title>
-        <h3>{{ escapeTsunami[0] }}</h3>
-      </v-card-title>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ onShipTsunami[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="onShip in onShipTsunami[1]" :key="onShip">
+            <p>
+              {{ onShip }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ escapeTsunami[0] }}</h3>
+          </v-card-title>
 
-      <v-card-text v-for="escape in escapeTsunami[1]" :key="escape">
-        <p class="my-0">{{ escape }}</p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="escape in escapeTsunami[1]" :key="escape">
+            <p class="my-0">{{ escape }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <style lang="scss" scoped>

@@ -97,10 +97,10 @@ export default {
 
 <template>
   <div class="map-cont">
-    <h2 id="centerAddr"></h2>
-    <div id="map"></div>
+    <h2 id="centerAddr" class="w-100 text-subtitle-1 font-weight-bold text-right mb-5"></h2>
+    <div id="map" class="rounded-lg"></div>
     <div class="map-info">
-      <button class="px-3 py-2" @click="panTo">
+      <button class="px-3 py-2 text-subtitle-2 rounded-lg" @click="panTo">
         <v-icon color="#ffdc17" icon="mdi:mdi-crosshairs-gps"></v-icon>
       </button>
     </div>
@@ -108,38 +108,19 @@ export default {
 </template>
 <style lang="scss" scoped>
 .map-cont {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: 30px;
-  position: relative;
-  h2 {
-    position: absolute;
-    z-index: 99;
-    top: -30px;
-    right: 10px;
-    width: 220px;
-    text-align: right;
-    font-size: 16px;
-  }
   .map-info {
     position: relative;
     button {
       position: absolute;
-      left: 50px;
-      bottom: 0px;
+      left: 155px;
+      bottom: 0;
       z-index: 99;
       background-color: #393a40;
-      color: white;
-      font-size: 13px;
-      border-radius: 10px;
     }
   }
 }
 #map {
   width: 200px;
   height: 200px;
-  border-radius: 25px;
 }
 </style>

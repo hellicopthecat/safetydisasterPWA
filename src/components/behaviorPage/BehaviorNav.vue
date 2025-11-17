@@ -1,8 +1,8 @@
 <script setup></script>
 <template>
-  <v-container class="nav-cont mt-10">
+  <v-container class="mt-10">
     <v-row no-gutter>
-      <v-col cols="6">
+      <v-col xs="12" sm="12" md="12" lg="6">
         <v-card
           class="d-flex justify-center align-center"
           min-height="200"
@@ -15,7 +15,7 @@
           </v-btn>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col xs="12" sm="12" md="12" lg="6">
         <v-card
           class="d-flex justify-center align-center"
           min-height="200"
@@ -28,7 +28,7 @@
           </v-btn>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col xs="12" sm="12" md="12" lg="6">
         <v-card
           class="d-flex justify-center align-center"
           min-height="200"
@@ -41,7 +41,7 @@
           </v-btn>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col xs="12" sm="12" md="12" lg="6">
         <v-card
           class="d-flex justify-center align-center"
           min-height="200"

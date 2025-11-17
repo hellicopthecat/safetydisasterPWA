@@ -1,7 +1,7 @@
 <script></script>
 <template>
   <v-container>
-    <h2 class="text-end my-10">About & Contact</h2>
+    <h2 class="text-end py-10">About & Contact</h2>
     <div class="text-end">
       <h2>Made By Hellicat</h2>
       <h3>Email</h3>

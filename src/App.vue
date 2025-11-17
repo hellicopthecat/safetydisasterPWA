@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <v-app style="background-color: #ffdc17">
+  <v-app style="background-color: #ffdc17; min-width: 100vw; min-height: auto">
     <HeaderComp />
 
     <v-main>

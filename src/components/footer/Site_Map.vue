@@ -27,7 +27,7 @@ export default {
 </script>
 <template>
   <v-container>
-    <h2 color="393a40" class="text-center my-10">SITE MAP</h2>
+    <h2 color="393a40" class="text-center py-10">SITE MAP</h2>
     <v-row>
       <v-col v-for="(map, index) in sitemap" :key="map" cols="3">
         <v-list rounded>

@@ -54,36 +54,42 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ prepareThunder[0] }}</h3>
-      </v-card-title>
-      <v-card-text>
-        <p v-for="prepare in prepareThunder[1]" :key="prepare">
-          {{ prepare }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whenThunder[0] }}</h3>
-      </v-card-title>
-      <v-card-text>
-        <p v-for="when in whenThunder[1]" :key="when">{{ when }}</p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ hitByThunder[0] }}</h3>
-      </v-card-title>
-      <v-card-text>
-        <p v-for="hitBy in hitByThunder[1]" :key="hitBy">
-          {{ hitBy }}
-        </p>
-      </v-card-text>
-    </v-card>
+    <v-row no-gutters>
+      <v-col class="v-col-xl-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ prepareThunder[0] }}</h3>
+          </v-card-title>
+          <v-card-text>
+            <p v-for="prepare in prepareThunder[1]" :key="prepare">
+              {{ prepare }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-xl-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whenThunder[0] }}</h3>
+          </v-card-title>
+          <v-card-text>
+            <p v-for="when in whenThunder[1]" :key="when">{{ when }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-xl-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ hitByThunder[0] }}</h3>
+          </v-card-title>
+          <v-card-text>
+            <p v-for="hitBy in hitByThunder[1]" :key="hitBy">
+              {{ hitBy }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

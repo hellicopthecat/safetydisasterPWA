@@ -36,15 +36,15 @@ export default {
     }
   },
   props: {
-    msgContHeight: null
+    msgContHeight: null,
+    msgContWidth: null
   }
 }
 </script>
 <template>
   <v-card
-    min-width="400"
-    max-width="600"
-    :min-height="msgContHeight"
+    :max-width="msgContWidth"
+    :max-height="msgContHeight"
     class="d-flex justify-center w-100"
     elevation="8"
   >
@@ -53,7 +53,6 @@ export default {
         <h2>전국 긴급재난문자 현황</h2>
       </v-card-title>
       <v-card
-        max-width="500"
         min-height="500"
         :max-height="msgContHeight - 105"
         class="overflow-y-auto"

@@ -7,7 +7,7 @@ export default {
     NaturalNav
   },
   setup() {
-    const headTitle = ref('산사태 시 국민행동요령')
+    const headTitle = ref('화산재 낙하시 국민행동요령')
     const prepareVolcanoAsh = reactive([])
     const fallenVolcanoAsh = reactive([])
     const removeVolcanoAsh = reactive([])

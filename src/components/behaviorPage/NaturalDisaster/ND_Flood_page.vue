@@ -63,55 +63,62 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="flood d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ beforeFlood[0] }}
-        </h3>
-      </v-card-title>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>
+              {{ beforeFlood[0] }}
+            </h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenBefore in beforeFlood[1]" :key="whenBefore">
-        <p>
-          {{ whenBefore }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenBefore in beforeFlood[1]" :key="whenBefore">
+            <p>
+              {{ whenBefore }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whenWorryFlood[0] }}</h3>
+          </v-card-title>
 
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whenWorryFlood[0] }}</h3>
-      </v-card-title>
+          <v-card-text v-for="whenWorry in whenWorryFlood[1]" :key="whenWorry">
+            <p>
+              {{ whenWorry }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ afterFlood[0] }}</h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenWorry in whenWorryFlood[1]" :key="whenWorry">
-        <p>
-          {{ whenWorry }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenAfter in afterFlood[1]" :key="whenAfter">
+            <p>
+              {{ whenAfter }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whenDrawn[0] }}</h3>
+          </v-card-title>
 
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ afterFlood[0] }}</h3>
-      </v-card-title>
-
-      <v-card-text v-for="whenAfter in afterFlood[1]" :key="whenAfter">
-        <p>
-          {{ whenAfter }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whenDrawn[0] }}</h3>
-      </v-card-title>
-
-      <v-card-text v-for="drawn in whenDrawn[1]" :key="drawn">
-        <p>
-          {{ drawn }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="drawn in whenDrawn[1]" :key="drawn">
+            <p>
+              {{ drawn }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

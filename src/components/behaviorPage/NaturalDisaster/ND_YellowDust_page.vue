@@ -62,51 +62,58 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="yellowdust d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ beforeYellowDust[0] }}
-        </h3>
-      </v-card-title>
-      <v-card-text v-for="whenBefore in beforeYellowDust[1]" :key="whenBefore">
-        <p>
-          {{ whenBefore }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whileYellowDust[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="whileYellowDust in whileYellowDust[1]" :key="whileYellowDust">
-        <p>
-          {{ whileYellowDust }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ afterYellowDust[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="whenwhile in afterYellowDust[1]" :key="whenwhile">
-        <p>
-          {{ whenwhile }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ knowledgeYellowDust[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="drawn in knowledgeYellowDust[1]" :key="drawn">
-        <p>
-          {{ drawn }}
-        </p>
-      </v-card-text>
-    </v-card>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>
+              {{ beforeYellowDust[0] }}
+            </h3>
+          </v-card-title>
+          <v-card-text v-for="whenBefore in beforeYellowDust[1]" :key="whenBefore">
+            <p>
+              {{ whenBefore }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whileYellowDust[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="whileYellowDust in whileYellowDust[1]" :key="whileYellowDust">
+            <p>
+              {{ whileYellowDust }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ afterYellowDust[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="whenwhile in afterYellowDust[1]" :key="whenwhile">
+            <p>
+              {{ whenwhile }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ knowledgeYellowDust[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="drawn in knowledgeYellowDust[1]" :key="drawn">
+            <p>
+              {{ drawn }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

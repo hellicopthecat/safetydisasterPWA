@@ -56,53 +56,59 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="drought d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ whenDrought[0] }}
-        </h3>
-      </v-card-title>
-
-      <v-card-text v-for="whenBefore in whenDrought[1]" :key="whenBefore">
-        {{ whenBefore }}
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whileDrought[0] }}</h3>
-      </v-card-title>
-
-      <v-card-text v-for="whenForecast in whileDrought[1]" :key="whenForecast">
-        {{ whenForecast }}
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-container>
-        <v-list v-for="farmer in droughtFarmer" :key="farmer">
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
           <v-card-title>
             <h3>
-              {{ farmer[0] }}
+              {{ whenDrought[0] }}
             </h3>
           </v-card-title>
-          <v-card-text>
-            <p>{{ farmer[1] }}</p>
-            <p>{{ farmer[2] }}</p>
+
+          <v-card-text v-for="whenBefore in whenDrought[1]" :key="whenBefore">
+            {{ whenBefore }}
           </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
           <v-card-title>
-            <h3>{{ farmer[3] }}</h3>
+            <h3>{{ whileDrought[0] }}</h3>
           </v-card-title>
-          <v-card-text>
-            <p>{{ farmer[4] }}</p>
-            <p>{{ farmer[5] }}</p>
-            <p>{{ farmer[6] }}</p>
-            <p>{{ farmer[7] }}</p>
-            <p>{{ farmer[8] }}</p>
+
+          <v-card-text v-for="whenForecast in whileDrought[1]" :key="whenForecast">
+            {{ whenForecast }}
           </v-card-text>
-        </v-list>
-      </v-container>
-    </v-card>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-container>
+            <v-list v-for="farmer in droughtFarmer" :key="farmer">
+              <v-card-title>
+                <h3>
+                  {{ farmer[0] }}
+                </h3>
+              </v-card-title>
+              <v-card-text>
+                <p>{{ farmer[1] }}</p>
+                <p>{{ farmer[2] }}</p>
+              </v-card-text>
+              <v-card-title>
+                <h3>{{ farmer[3] }}</h3>
+              </v-card-title>
+              <v-card-text>
+                <p>{{ farmer[4] }}</p>
+                <p>{{ farmer[5] }}</p>
+                <p>{{ farmer[6] }}</p>
+                <p>{{ farmer[7] }}</p>
+                <p>{{ farmer[8] }}</p>
+              </v-card-text>
+            </v-list>
+          </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <style lang="scss" scoped>

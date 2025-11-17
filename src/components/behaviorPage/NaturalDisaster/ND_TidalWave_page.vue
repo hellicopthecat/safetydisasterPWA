@@ -73,51 +73,63 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="tidal-wave d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5 d-flex flex-column" :elevation="5">
-      <v-card-title>
-        <h3>{{ prepareTidal[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="prepare in prepareTidal[1]" :key="prepare">
-        <p>
-          {{ prepare }}
-        </p>
-      </v-card-text>
-    </v-card>
-    <v-card width="900" class="pa-5 mb-5 d-flex flex-column" :elevation="5">
-      <v-card-title>
-        <h3>{{ whenTidal[0] }}</h3>
-      </v-card-title>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ prepareTidal[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="prepare in prepareTidal[1]" :key="prepare">
+            <p>
+              {{ prepare }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whenTidal[0] }}</h3>
+          </v-card-title>
 
-      <v-card-text v-for="when in whenTidal[1]" :key="when">
-        <p>{{ when }}</p>
-      </v-card-text>
-    </v-card>
-    <v-card width="900" class="pa-5 mb-5 d-flex flex-column" :elevation="5">
-      <v-card-title>
-        <h3>{{ whileTidal[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="happen in whileTidal[1]" :key="happen">
-        <p>{{ happen }}</p>
-      </v-card-text>
-    </v-card>
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ failEscapeTidal[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="failEscape in failEscapeTidal[1]" :key="failEscape">
-        <p>
-          {{ failEscape }}
-        </p>
-      </v-card-text>
-    </v-card>
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ stormSurge[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="whenStorm in stormSurge[1]" :key="whenStorm">
-        <p>{{ whenStorm }}</p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="when in whenTidal[1]" :key="when">
+            <p>{{ when }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whileTidal[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="happen in whileTidal[1]" :key="happen">
+            <p>{{ happen }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ failEscapeTidal[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="failEscape in failEscapeTidal[1]" :key="failEscape">
+            <p>
+              {{ failEscape }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ stormSurge[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="whenStorm in stormSurge[1]" :key="whenStorm">
+            <p>{{ whenStorm }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

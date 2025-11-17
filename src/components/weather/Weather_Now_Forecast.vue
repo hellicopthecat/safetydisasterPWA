@@ -1,21 +1,13 @@
 <script>
 import { ref, onMounted } from 'vue'
 import KakaoMap from '../Kakao_Map_page.vue'
+import { dfs_xy_conv } from '../../util/util'
 
 export default {
   components: {
     KakaoMap
   },
   setup() {
-    const RE = 6371.00877 // 지구 반경(km)
-    const GRID = 5.0 // 격자 간격(km)
-    const SLAT1 = 30.0 // 투영 위도1(degree)
-    const SLAT2 = 60.0 // 투영 위도2(degree)
-    const OLON = 126.0 // 기준점 경도(degree)
-    const OLAT = 38.0 // 기준점 위도(degree)
-    const XO = 43 // 기준점 X좌표(GRID)
-    const YO = 136 // 기1준점 Y좌표(GRID)
-
     const YEAR = new Date().getFullYear()
     const MONTH =
       new Date().getMonth() + 1 < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1
@@ -24,12 +16,12 @@ export default {
       new Date().getMinutes() < '29' && new Date().getHours() < '10'
         ? '0' + (new Date().getHours() - 1)
         : new Date().getHours() < '10'
-        ? '0' + new Date().getHours()
-        : new Date().getHours() <= '10'
-        ? '0' + (new Date().getHours() - 1)
-        : new Date().getHours() > 10
-        ? new Date().getHours() - 1
-        : null
+          ? '0' + new Date().getHours()
+          : new Date().getHours() <= '10'
+            ? '0' + (new Date().getHours() - 1)
+            : new Date().getHours() > 10
+              ? new Date().getHours() - 1
+              : null
 
     const MINUTES = new Date().getMinutes() < '29' ? '40' : '00'
     const DAYTIME = `${HOUR}${MINUTES}`
@@ -44,64 +36,10 @@ export default {
     const windDirection = ref('') // 풍향
     const windPower = ref('') // 풍속
 
-    function dfs_xy_conv(code, v1, v2) {
-      const DEGRAD = Math.PI / 180.0
-      const RADDEG = 180.0 / Math.PI
-
-      var re = RE / GRID
-      var slat1 = SLAT1 * DEGRAD
-      var slat2 = SLAT2 * DEGRAD
-      var olon = OLON * DEGRAD
-      var olat = OLAT * DEGRAD
-
-      var sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5)
-      sn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn)
-      var sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5)
-      sf = (Math.pow(sf, sn) * Math.cos(slat1)) / sn
-      var ro = Math.tan(Math.PI * 0.25 + olat * 0.5)
-      ro = (re * sf) / Math.pow(ro, sn)
-      var rs = {}
-
-      if (code == 'toXY') {
-        rs['lat'] = v1
-        rs['lng'] = v2
-        var ra = Math.tan(Math.PI * 0.25 + v1 * DEGRAD * 0.5)
-        ra = (re * sf) / Math.pow(ra, sn)
-        var theta = v2 * DEGRAD - olon
-        if (theta > Math.PI) theta -= 2.0 * Math.PI
-        if (theta < -Math.PI) theta += 2.0 * Math.PI
-        theta *= sn
-        rs['x'] = Math.floor(ra * Math.sin(theta) + XO + 0.5)
-        rs['y'] = Math.floor(ro - ra * Math.cos(theta) + YO + 0.5)
-      } else {
-        rs['x'] = v1
-        rs['y'] = v2
-        var xn = v1 - XO
-        var yn = ro - v2 + YO
-        ra = Math.sqrt(xn * xn + yn * yn)
-        if (sn < 0.0) -ra
-        var alat = Math.pow((re * sf) / ra, 1.0 / sn)
-        alat = 2.0 * Math.atan(alat) - Math.PI * 0.5
-
-        if (Math.abs(xn) <= 0.0) {
-          theta = 0.0
-        } else {
-          if (Math.abs(yn) <= 0.0) {
-            theta = Math.PI * 0.5
-            if (xn < 0.0) -theta
-          } else theta = Math.atan2(xn, yn)
-        }
-        var alon = theta / sn + olon
-        rs['lat'] = alat * RADDEG
-        rs['lng'] = alon * RADDEG
-      }
-      return rs
-    }
     const fetchWeather = async (lat, lon) => {
       const convertedCoords = dfs_xy_conv('toXY', lat, lon)
       const nx = ref(convertedCoords.x)
       const ny = ref(convertedCoords.y)
-
       //초단기 실황 - 정시 발표
       const NCST = 'getUltraSrtNcst'
 
@@ -207,153 +145,95 @@ export default {
 </script>
 
 <template>
-  <v-container>
-    <v-card class="mx-auto pa-3" elevation="4">
-      <v-container class="now-weather">
-        <div class="weather-info mt-5">
-          <div class="d-flex flex-column align-end mt-5">
-            <div class="weather-like_cont">
-              <v-icon
-                v-if="precipitation === '대체로 맑음'"
-                color="red"
-                icon="mdi:mdi-weather-sunny"
-                class="weather-icon"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '비'"
-                color="blue-lighten-2"
-                icon="mdi:mdi-weather-rainy"
-                class="weather-icon"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '비/눈'"
-                color="blue-darken-2"
-                icon="mdi:mdi-weather-partly-snowy-rainy"
-                class="weather-icon"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '눈'"
-                color="blue-grey-darken-1"
-                icon="mdi:mdi-weather-snowy"
-                class="weather-icon"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '소나기'"
-                color="blue-grey-lighten-1"
-                icon="mdi:mdi-weather-pouring"
-                class="weather-icon"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '빗방울'"
-                color="cyan-lighten-1"
-                icon="mdi:mdi-weather-partly-rainy"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '빗방울 눈날림'"
-                color="cyan-accent-3"
-                icon="mdi:mdi-weather-snowy-rainy"
-                class="weather-icon"
-              ></v-icon>
-              <v-icon
-                v-else-if="precipitation === '눈날림'"
-                color="cyan-darken-1"
-                icon="mdi:mdi-weather-hail"
-                class="weather-icon"
-              ></v-icon>
-              <div>
-                <p>{{ precipitation }}<br /></p>
-                <small> 강수량 : {{ rainfall }}</small>
-              </div>
-            </div>
-
-            <div class="temp_cont">
-              <v-icon v-if="temperature > 28" color="red" icon> mdi-thermometer </v-icon>
-              <v-icon v-else-if="temperature < 28 || temperature >= 21" color="green" icon>
-                mdi-thermometer
-              </v-icon>
-              <v-icon v-else-if="temperature > 21" color="blue" icon> mdi-thermometer </v-icon>
-              <p class="temp my-0">{{ temperature }}℃</p>
-            </div>
-
-            <div class="humidity_cont">
-              <v-icon v-if="humidity > 65" color="blue" icon="mdi:mdi-water-alert"></v-icon>
-              <v-icon
-                v-else-if="humidity < 65 || humidity > 40"
-                color="green"
-                icon="mdi:mdi-water-check"
-              ></v-icon>
-              <v-icon v-else-if="humidity < 40" color="red" icon="mdi:mdi-water-minus"></v-icon>
-              <p class="my-0">습도 : {{ humidity }}%</p>
-            </div>
-            <div class="wind_cont">
-              <p>
-                <v-icon icon="mdi:mdi-windsock"></v-icon> : {{ windDirection }}
-                <v-icon icon="mdi:mdi-weather-windy"></v-icon> : {{ windPower }}
-              </p>
-            </div>
-          </div>
-          <KakaoMap />
+  <v-container class="d-flex align-center flex-column flex-md-row">
+    <v-container class="d-flex flex-column align-center mt-10 mb-12 mb-md-0">
+      <div class="d-flex justify-space-between align-center">
+        <v-icon
+          v-if="precipitation === '대체로 맑음'"
+          color="red"
+          icon="mdi:mdi-weather-sunny"
+          class="weather-icon"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '비'"
+          color="blue-lighten-2"
+          icon="mdi:mdi-weather-rainy"
+          class="weather-icon"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '비/눈'"
+          color="blue-darken-2"
+          icon="mdi:mdi-weather-partly-snowy-rainy"
+          class="weather-icon"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '눈'"
+          color="blue-grey-darken-1"
+          icon="mdi:mdi-weather-snowy"
+          class="weather-icon"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '소나기'"
+          color="blue-grey-lighten-1"
+          icon="mdi:mdi-weather-pouring"
+          class="weather-icon"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '빗방울'"
+          color="cyan-lighten-1"
+          icon="mdi:mdi-weather-partly-rainy"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '빗방울 눈날림'"
+          color="cyan-accent-3"
+          icon="mdi:mdi-weather-snowy-rainy"
+          class="weather-icon"
+        ></v-icon>
+        <v-icon
+          v-else-if="precipitation === '눈날림'"
+          color="cyan-darken-1"
+          icon="mdi:mdi-weather-hail"
+          class="weather-icon"
+        ></v-icon>
+        <div class="d-flex flex-column text-right">
+          <p class="font-weight-bold text-h5 w-100">{{ precipitation }}<br /></p>
+          <small class="text-body-2"> 강수량 : {{ rainfall }}</small>
         </div>
-      </v-container>
-    </v-card>
+      </div>
+
+      <div class="d-flex align-center text-h3 font-weight-bold">
+        <v-icon v-if="temperature > 28" color="red" icon> mdi-thermometer </v-icon>
+        <v-icon v-else-if="temperature < 28 && temperature > 21" color="green" icon>
+          mdi-thermometer
+        </v-icon>
+        <v-icon v-else-if="temperature <= 21" color="blue" icon> mdi-thermometer </v-icon>
+        <p class="">{{ temperature }}℃</p>
+      </div>
+
+      <div class="d-flex align-center">
+        <v-icon v-if="humidity > 65" color="blue" icon="mdi:mdi-water-alert"></v-icon>
+        <v-icon
+          v-else-if="humidity < 65 || humidity > 40"
+          color="green"
+          icon="mdi:mdi-water-check"
+        ></v-icon>
+        <v-icon v-else-if="humidity < 40" color="red" icon="mdi:mdi-water-minus"></v-icon>
+        <p class="ml-2">습도 : {{ humidity }}%</p>
+      </div>
+
+      <div class="d-flex align-center text-caption">
+        <p><v-icon icon="mdi:mdi-windsock"></v-icon> : {{ windDirection }}</p>
+        <p><v-icon icon="mdi:mdi-weather-windy"></v-icon> : {{ windPower }}</p>
+      </div>
+    </v-container>
+    <v-container class="d-flex flex-column align-center">
+      <KakaoMap />
+    </v-container>
   </v-container>
 </template>
 <style lang="scss" scoped>
-.now-weather {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  .weather-info {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    .weather-like_cont {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .weather-icon {
-        margin-left: 20px;
-        font-size: 50px;
-      }
-      & > div {
-        display: flex;
-        flex-direction: column;
-        p {
-          width: 150px;
-          font-size: 25px;
-          font-weight: 600;
-          text-align: right;
-          margin: 0;
-        }
-        small {
-          font-size: 13px;
-          text-align: right;
-        }
-      }
-    }
-    .temp_cont {
-      display: flex;
-      align-items: center;
-      font-size: 25px;
-      .temp {
-        font-size: 50px;
-        font-weight: 500;
-        margin-left: 10px;
-      }
-    }
-    .humidity_cont {
-      display: flex;
-      align-items: center;
-      p {
-        margin-left: 10px;
-      }
-    }
-    .wind_cont {
-      display: flex;
-      align-items: center;
-      font-size: 13px;
-    }
-  }
+.weather-icon {
+  font-size: 50px;
+  margin-right: 15px;
 }
 </style>

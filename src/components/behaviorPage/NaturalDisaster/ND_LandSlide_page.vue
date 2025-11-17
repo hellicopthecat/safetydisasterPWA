@@ -61,47 +61,54 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="landslide d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ watchVulnerable[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="watchArea in watchVulnerable[1]" :key="watchArea">
-        <p>
-          {{ watchArea }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ warnVulnerable[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="warnArea in warnVulnerable[1]" :key="warnArea">
-        <p>{{ warnArea }}</p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ watchNormal[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="watchNormalArea in watchNormal[1]" :key="watchNormalArea">
-        <p>
-          {{ watchNormalArea }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ warnNormal[0] }}</h3>
-      </v-card-title>
-      <v-card-text v-for="warnNormalArea in warnNormal[1]" :key="warnNormalArea">
-        <p>
-          {{ warnNormalArea }}
-        </p>
-      </v-card-text>
-    </v-card>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ watchVulnerable[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="watchArea in watchVulnerable[1]" :key="watchArea">
+            <p>
+              {{ watchArea }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ warnVulnerable[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="warnArea in warnVulnerable[1]" :key="warnArea">
+            <p>{{ warnArea }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ watchNormal[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="watchNormalArea in watchNormal[1]" :key="watchNormalArea">
+            <p>
+              {{ watchNormalArea }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ warnNormal[0] }}</h3>
+          </v-card-title>
+          <v-card-text v-for="warnNormalArea in warnNormal[1]" :key="warnNormalArea">
+            <p>
+              {{ warnNormalArea }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

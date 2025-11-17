@@ -4,12 +4,8 @@ import DisaterMsg from '../components/disasterMsg/Disaster_Msg.vue'
 import NowForecast from '../components/weather/Weather_Now_Forecast.vue'
 import WeatherToday from '../components/weather/Weather_Today_Forecast.vue'
 import WeatherTomorrow from '../components/weather/Weather_Tomorrow_Forcast.vue'
-
-// Components
-
 export default defineComponent({
   name: 'HomeView',
-
   components: {
     NowForecast,
     DisaterMsg,
@@ -19,6 +15,7 @@ export default defineComponent({
   setup() {
     const contHeight = ref(null)
     const heightProp = ref(0)
+    const widthProp = ref(570)
     const expand = ref(false)
     const expand2 = ref(false)
     let resizeObserver = null
@@ -32,10 +29,10 @@ export default defineComponent({
       resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
           heightProp.value = entry.target.clientHeight
+          widthProp.value = entry.target.clientWidth
         }
       })
       resizeObserver.observe(contHeight.value?.$el)
-
       // 컴포넌트가 언마운트될 때 리사이즈 옵저버를 해제합니다.
       return () => {
         if (resizeObserver) {
@@ -44,7 +41,6 @@ export default defineComponent({
         }
       }
     })
-
     return {
       expand,
       expand2,
@@ -52,7 +48,8 @@ export default defineComponent({
       MONTH,
       DATE,
       contHeight,
-      heightProp
+      heightProp,
+      widthProp
     }
   }
 })
@@ -61,23 +58,21 @@ export default defineComponent({
 <template>
   <v-container>
     <v-container>
-      <v-row class="d-flex justify-center align-center mt-5 pa-5 pb-0" no-gutters>
+      <v-row class="d-flex justify-center align-center pa-5 pb-0" no-gutters>
         <v-col
-          class="d-flex justify-xl-end justify-md-center justify-sm-center px-1"
+          class="d-flex flex-column justify-sm-center px-1"
           xxl="6"
           xl="6"
           lg="6"
           md="12"
           sm="12"
         >
-          <v-card id="tWeather" min-height="580" elevation="8" ref="contHeight" class="my-2">
+          <v-card id="tWeather" elevation="8" ref="contHeight" class="my-2">
             <v-container>
               <NowForecast />
             </v-container>
-
-            <v-divider class="my-2"></v-divider>
-
-            <v-card-actions class="d-flex mr-5 justify-end my-5">
+            <v-divider></v-divider>
+            <v-card-actions class="d-flex mr-5 justify-center my-5">
               <v-btn @click="expand = !expand">
                 {{ `${YEAR}년 ${MONTH}월 ${DATE}일` }}
                 {{ !expand ? '오늘의 날씨 보기' : '오늘의 날씨 숨기기' }}
@@ -86,6 +81,17 @@ export default defineComponent({
             <v-expand-transition>
               <v-container v-if="expand">
                 <WeatherToday />
+              </v-container>
+            </v-expand-transition>
+            <v-divider></v-divider>
+            <v-card-actions @click="expand2 = !expand2" class="d-flex justify-center my-5">
+              <v-btn>
+                {{ !expand2 ? '향후 2일간 날씨 보기' : '향후 2일간 날씨 숨기기' }}
+              </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+              <v-container v-if="expand2">
+                <WeatherTomorrow />
               </v-container>
             </v-expand-transition>
           </v-card>
@@ -98,25 +104,7 @@ export default defineComponent({
           md="12"
           sm="12"
         >
-          <DisaterMsg :msgContHeight="heightProp" />
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container class="pa-0">
-      <v-row class="">
-        <v-col class="" cols="sm-12">
-          <v-card min-width="400" max-width="1100" class="mx-auto">
-            <v-card-actions @click="expand2 = !expand2" class="d-flex justify-center my-5">
-              <v-btn>
-                {{ !expand2 ? '향후 2일간 날씨 숨기기' : '향후 2일간 날씨 보기' }}
-              </v-btn>
-            </v-card-actions>
-            <v-expand-transition>
-              <v-container v-if="!expand2">
-                <WeatherTomorrow />
-              </v-container>
-            </v-expand-transition>
-          </v-card>
+          <DisaterMsg :msgContHeight="heightProp" :msgContWidth="widthProp" />
         </v-col>
       </v-row>
     </v-container>

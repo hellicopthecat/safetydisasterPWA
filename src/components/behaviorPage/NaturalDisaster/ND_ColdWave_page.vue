@@ -20,16 +20,16 @@ export default {
         const data = coldWave.response.body.items.item
         //제목
         const subTitleCont = data
-          .map((item) => (item.safetyCate2 === 1002 ? item.safetyCateNm3 : null))
+          .map((item) => (item.safetyCate2 === 1006 ? item.safetyCateNm3 : null))
           .filter((item) => item != undefined)
         const subTitle = new Set(subTitleCont)
         // 경보 별 행동사항
         const beforeAction = data
-          .map((item) => (item.safetyCate3 === 1002001 ? item.actRmks : null))
+          .map((item) => (item.safetyCate3 === 1006001 ? item.actRmks : null))
           .filter((item) => item != null)
 
         const whenColdWaveAction = data
-          .map((item) => (item.safetyCate3 === 1002002 ? item.actRmks : null))
+          .map((item) => (item.safetyCate3 === 1006002 ? item.actRmks : null))
           .filter((item) => item != null)
 
         beforeColdWave.push([...subTitle][0], beforeAction)
@@ -50,29 +50,34 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="coldwave d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ beforeColdWave[0] }}</h3>
-      </v-card-title>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ beforeColdWave[0] }}</h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenBefore in beforeColdWave[1]" :key="whenBefore">
-        <p>
-          {{ whenBefore }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenBefore in beforeColdWave[1]" :key="whenBefore">
+            <p>
+              {{ whenBefore }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whenColdWave[0] }}</h3>
+          </v-card-title>
 
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whenColdWave[0] }}</h3>
-      </v-card-title>
-
-      <v-card-text v-for="when in whenColdWave[1]" :key="when">
-        <p>
-          {{ when }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="when in whenColdWave[1]" :key="when">
+            <p>
+              {{ when }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <style lang="scss" scoped>

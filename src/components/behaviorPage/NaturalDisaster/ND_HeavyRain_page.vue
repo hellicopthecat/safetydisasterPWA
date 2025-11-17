@@ -66,59 +66,66 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="heavy-rain d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ beforeHeavyRain[0] }}
-        </h3>
-      </v-card-title>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>
+              {{ beforeHeavyRain[0] }}
+            </h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenBefore in beforeHeavyRain[1]" :key="whenBefore">
-        <p>
-          {{ whenBefore }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenBefore in beforeHeavyRain[1]" :key="whenBefore">
+            <p>
+              {{ whenBefore }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>
+              {{ whenForecastHeavyRain[0] }}
+            </h3>
+          </v-card-title>
 
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ whenForecastHeavyRain[0] }}
-        </h3>
-      </v-card-title>
+          <v-card-text v-for="whenForecast in whenForecastHeavyRain[1]" :key="whenForecast">
+            <p>
+              {{ whenForecast }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>
+              {{ whileHeavyRain[0] }}
+            </h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenForecast in whenForecastHeavyRain[1]" :key="whenForecast">
-        <p>
-          {{ whenForecast }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenwhile in whileHeavyRain[1]" :key="whenwhile">
+            <p>
+              {{ whenwhile }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ afterHeavyRain[0] }}</h3>
+          </v-card-title>
 
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ whileHeavyRain[0] }}
-        </h3>
-      </v-card-title>
-
-      <v-card-text v-for="whenwhile in whileHeavyRain[1]" :key="whenwhile">
-        <p>
-          {{ whenwhile }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ afterHeavyRain[0] }}</h3>
-      </v-card-title>
-
-      <v-card-text v-for="drawn in afterHeavyRain[1]" :key="drawn">
-        <p>
-          {{ drawn }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="drawn in afterHeavyRain[1]" :key="drawn">
+            <p>
+              {{ drawn }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

@@ -63,43 +63,49 @@ export default {
 <template>
   <NaturalNav :title="headTitle" />
   <v-container class="typhoon d-flex flex-column align-center justify-space-around">
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>
-          {{ beforeTypoon[0] }}
-        </h3>
-      </v-card-title>
+    <v-row no-gutters>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>
+              {{ beforeTypoon[0] }}
+            </h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenBefore in beforeTypoon[1]" :key="whenBefore">
-        <p>
-          {{ whenBefore }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenBefore in beforeTypoon[1]" :key="whenBefore">
+            <p>
+              {{ whenBefore }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ whileTypoon[0] }}</h3>
+          </v-card-title>
 
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ whileTypoon[0] }}</h3>
-      </v-card-title>
+          <v-card-text v-for="whenWhile in whileTypoon[1]" :key="whenWhile">
+            <p>
+              {{ whenWhile }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="v-col-12">
+        <v-card class="pa-5 mb-5 mx-auto w-75" :elevation="5">
+          <v-card-title>
+            <h3>{{ afterTypoon[0] }}</h3>
+          </v-card-title>
 
-      <v-card-text v-for="whenWhile in whileTypoon[1]" :key="whenWhile">
-        <p>
-          {{ whenWhile }}
-        </p>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="900" class="pa-5 mb-5" :elevation="5">
-      <v-card-title>
-        <h3>{{ afterTypoon[0] }}</h3>
-      </v-card-title>
-
-      <v-card-text v-for="whenAfter in afterTypoon[1]" :key="whenAfter">
-        <p>
-          {{ whenAfter }}
-        </p>
-      </v-card-text>
-    </v-card>
+          <v-card-text v-for="whenAfter in afterTypoon[1]" :key="whenAfter">
+            <p>
+              {{ whenAfter }}
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
